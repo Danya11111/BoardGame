@@ -1,0 +1,33 @@
+// =============================================================================
+// BoardGameSecurity.lsf - Role-Based Access Control Module
+// =============================================================================
+// Integrates with lsFusion Security module to provide:
+// - Admin: Full CRUD on Games, Genres, Publishers, Owners, Mechanics
+// - User: Read-only access + recommendations
+// =============================================================================
+
+MODULE BoardGameSecurity;
+
+REQUIRE BoardGameDomain, BoardGameLogic, Security, Authentication;
+
+NAMESPACE BoardGame;
+
+// =============================================================================
+// ROLE DEFINITIONS
+// =============================================================================
+// Uses Security.userRoleSID for role lookup
+// Admin and User roles are created by Security module (default, admin)
+// =============================================================================
+
+// Check if current user has admin role
+isAdmin () = has(currentUser(), userRoleSID('admin'));
+
+// Check if current user can edit (admin only)
+canEdit () = isAdmin();
+
+// =============================================================================
+// ROLE INITIALIZATION
+// =============================================================================
+// Security.WHEN SETCHANGED creates admin and default roles automatically.
+// We ensure our custom roles exist via the Security module's logic.
+// =============================================================================

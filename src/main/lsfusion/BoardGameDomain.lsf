@@ -1,0 +1,110 @@
+// =============================================================================
+// BoardGameDomain.lsf - Domain Model Module
+// =============================================================================
+// Contains all core domain entities for the Board Game Recommendation System.
+// Implements domain-driven design with proper relationships.
+// =============================================================================
+
+MODULE BoardGameDomain;
+
+REQUIRE System, Utils;
+
+NAMESPACE BoardGame;
+
+// =============================================================================
+// CONSTANTS - No magic numbers in the codebase
+// =============================================================================
+
+// Recommendation scoring weights (extensible - modify here to change algorithm)
+SCORE_GENRE_MATCH = 3;
+SCORE_PLAYER_RANGE_OVERLAP = 2;
+SCORE_AGE_DIFFERENCE_WITHIN_RANGE = 1;
+RECOMMENDATION_TOP_COUNT = 3;
+AGE_DIFFERENCE_THRESHOLD = 2;
+
+// =============================================================================
+// GENRE ENTITY
+// =============================================================================
+// Represents game genre/category (e.g., Strategy, Party, Euro)
+// One-to-Many: Genre -> BoardGame
+// =============================================================================
+
+CLASS Genre 'Genre';
+TABLE genre (Genre);
+
+name 'Name' = DATA ISTRING[50] (Genre) CHARWIDTH 15 IN id;
+
+// =============================================================================
+// PUBLISHER ENTITY
+// =============================================================================
+// Represents game publisher company
+// One-to-Many: Publisher -> BoardGame
+// =============================================================================
+
+CLASS Publisher 'Publisher';
+TABLE publisher (Publisher);
+
+name 'Name' = DATA ISTRING[100] (Publisher) CHARWIDTH 20 IN id;
+website 'Website' = DATA TEXT (Publisher) CHARWIDTH 30;
+country 'Country' = DATA ISTRING[50] (Publisher) CHARWIDTH 10;
+
+// =============================================================================
+// OWNER ENTITY
+// =============================================================================
+// Represents game owner (person or organization who owns the physical copy)
+// One-to-Many: Owner -> BoardGame
+// =============================================================================
+
+CLASS Owner 'Owner';
+TABLE owner (Owner);
+
+name 'Name' = DATA ISTRING[100] (Owner) CHARWIDTH 20 IN id;
+contacts 'Contacts' = DATA STRING[255] (Owner) CHARWIDTH 25;
+
+// =============================================================================
+// MECHANIC ENTITY (Many-to-Many with BoardGame)
+// =============================================================================
+// Represents game mechanics (e.g., Dice Rolling, Tile Placement)
+// Many-to-Many: BoardGame <-> Mechanic via boardGameMechanic link table
+// =============================================================================
+
+CLASS Mechanic 'Mechanic';
+TABLE mechanic (Mechanic);
+
+name 'Name' = DATA ISTRING[50] (Mechanic) CHARWIDTH 15 IN id;
+
+// Link table for BoardGame <-> Mechanic many-to-many relationship
+TABLE boardGameMechanic (BoardGame, Mechanic);
+hasMechanic 'Has mechanic' = DATA BOOLEAN (BoardGame, Mechanic);
+
+// =============================================================================
+// BOARD GAME ENTITY
+// =============================================================================
+// Core entity representing a board game
+// Relationships:
+//   - Many-to-One: BoardGame -> Genre
+//   - Many-to-One: BoardGame -> Publisher
+//   - Many-to-One: BoardGame -> Owner
+//   - Many-to-Many: BoardGame <-> Mechanic (via hasMechanic)
+// =============================================================================
+
+CLASS BoardGame 'Board Game';
+TABLE boardGame (BoardGame);
+
+name 'Name' = DATA ISTRING[100] (BoardGame) CHARWIDTH 25 IN id;
+description 'Description' = DATA TEXT (BoardGame) CHARWIDTH 50;
+genre 'Genre' = DATA Genre (BoardGame) CHARWIDTH 15;
+minPlayers 'Min players' = DATA INTEGER (BoardGame) CHARWIDTH 5;
+maxPlayers 'Max players' = DATA INTEGER (BoardGame) CHARWIDTH 5;
+durationMinutes 'Duration (min)' = DATA INTEGER (BoardGame) CHARWIDTH 8;
+minAge 'Min age' = DATA INTEGER (BoardGame) CHARWIDTH 5;
+publisher 'Publisher' = DATA Publisher (BoardGame) CHARWIDTH 15;
+owner 'Owner' = DATA Owner (BoardGame) CHARWIDTH 15;
+available 'Available' = DATA BOOLEAN (BoardGame) CHARWIDTH 5;
+image 'Image' = DATA IMAGEFILE (BoardGame);
+
+// Computed: player range display
+playerRange 'Players' (BoardGame g) = CONCAT '', minPlayers(g), '-', maxPlayers(g) CHARWIDTH 8;
+
+// Computed: mechanics list for display
+mechanicsList 'Mechanics' (BoardGame b) = GROUP CONCAT name(Mechanic m) IF hasMechanic(b, m), ', ' ORDER name(m) CHARWIDTH 30;

@@ -1,0 +1,117 @@
+// =============================================================================
+// BoardGameLogic.lsf - Business Logic Module
+// =============================================================================
+// Contains recommendation algorithm, filtering logic, and scoring rules.
+// Extensible architecture: modify SCORE_* constants in BoardGameDomain to
+// change recommendation behavior.
+// =============================================================================
+
+MODULE BoardGameLogic;
+
+REQUIRE BoardGameDomain, Utils;
+
+NAMESPACE BoardGame;
+
+// =============================================================================
+// RECOMMENDATION SCORING FUNCTIONS
+// =============================================================================
+// Each function returns points for a specific similarity criterion.
+// Total score = sum of all applicable criteria.
+// =============================================================================
+
+// +3 points if genre matches
+genreMatchScore (BoardGame source, BoardGame candidate) =
+    SCORE_GENRE_MATCH IF genre(source) = genre(candidate) AND source <> candidate
+    ELSE 0;
+
+// +2 points if player range overlaps
+// Overlap: source.min <= candidate.max AND candidate.min <= source.max
+playerRangeOverlapScore (BoardGame source, BoardGame candidate) =
+    SCORE_PLAYER_RANGE_OVERLAP IF
+        source <> candidate AND
+        minPlayers(source) <= maxPlayers(candidate) AND
+        minPlayers(candidate) <= maxPlayers(source)
+    ELSE 0;
+
+// +1 point if age difference is within ±2 years
+ageDifferenceScore (BoardGame source, BoardGame candidate) =
+    SCORE_AGE_DIFFERENCE_WITHIN_RANGE IF
+        source <> candidate AND
+        abs(minAge(source) - minAge(candidate)) <= AGE_DIFFERENCE_THRESHOLD
+    ELSE 0;
+
+// =============================================================================
+// TOTAL RECOMMENDATION SCORE
+// =============================================================================
+
+recommendationScore (BoardGame source, BoardGame candidate) =
+    genreMatchScore(source, candidate) +
+    playerRangeOverlapScore(source, candidate) +
+    ageDifferenceScore(source, candidate);
+
+// =============================================================================
+// RECOMMENDATION EXPLANATION (Bonus feature)
+// =============================================================================
+// Builds human-readable explanation of why a game was recommended
+// =============================================================================
+
+// Build explanation from non-NULL parts (CONCAT skips NULL)
+recommendationExplanation (BoardGame source, BoardGame candidate) =
+    CONCAT '; '
+        (IF genreMatchScore(source, candidate) > 0 THEN 'Same genre' ELSE NULL),
+        (IF playerRangeOverlapScore(source, candidate) > 0 THEN 'Similar player count' ELSE NULL),
+        (IF ageDifferenceScore(source, candidate) > 0 THEN 'Similar age rating' ELSE NULL)
+    CHARWIDTH 100;
+
+// Trim trailing separator from explanation
+recommendationExplanationTrimmed (BoardGame source, BoardGame candidate) =
+    trim(recommendationExplanation(source, candidate));
+
+// =============================================================================
+// TOP RECOMMENDATIONS
+// =============================================================================
+// Returns top N games sorted by score DESC.
+// Uses GROUP LAST to get top RECOMMENDATION_TOP_COUNT by score.
+// =============================================================================
+
+// Ordered list of recommended games with scores (BoardGame, INTEGER)
+recommendationOrder (BoardGame source, BoardGame candidate) =
+    recommendationScore(source, candidate);
+
+// Get top recommended games - returns BoardGame for each rank 1..N
+topRecommendedGame (BoardGame source, INTEGER rank) =
+    GROUP LAST BoardGame candidate
+    ORDER recommendationScore(source, candidate) DESC, id(candidate)
+    TOP 1
+    OFFSET (rank - 1)
+    WHERE candidate IS BoardGame AND source <> candidate AND recommendationScore(source, candidate) > 0;
+
+// Score for a specific recommended game
+topRecommendedScore (BoardGame source, INTEGER rank) =
+    recommendationScore(source, topRecommendedGame(source, rank));
+
+// =============================================================================
+// FILTERING PROPERTIES
+// =============================================================================
+// Used by forms to filter games by user criteria
+// =============================================================================
+
+// Filter: matches genre
+matchesGenre (BoardGame g, Genre genreFilter) =
+    genre(g) = genreFilter OR genreFilter IS NULL;
+
+// Filter: matches player count
+matchesPlayerCount (BoardGame g, INTEGER players) =
+    (minPlayers(g) <= players AND maxPlayers(g) >= players) OR players IS NULL;
+
+// Filter: matches duration range (max minutes)
+matchesDuration (BoardGame g, INTEGER maxDuration) =
+    (durationMinutes(g) <= maxDuration) OR maxDuration IS NULL;
+
+// Filter: matches minimum age
+matchesMinAge (BoardGame g, INTEGER age) =
+    (minAge(g) <= age) OR age IS NULL;
+
+// Filter: available only
+matchesAvailable (BoardGame g, BOOLEAN availableOnly) =
+    (available(g) = TRUE) OR NOT availableOnly;

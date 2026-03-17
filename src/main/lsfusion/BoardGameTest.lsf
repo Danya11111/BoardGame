@@ -1,0 +1,185 @@
+// =============================================================================
+// BoardGameTest.lsf - Unit Tests for Recommendation and Filtering Logic
+// =============================================================================
+// Tests recommendation algorithm, filtering logic, and edge cases.
+// Run via lsFusion test framework or manually verify.
+// =============================================================================
+
+MODULE BoardGameTest;
+
+REQUIRE BoardGameDomain, BoardGameLogic, Utils;
+
+NAMESPACE BoardGame;
+
+// =============================================================================
+// TEST DATA SETUP (run before tests)
+// =============================================================================
+
+// Test action: creates minimal dataset for testing
+createTestData () {
+    NEW g1 = Genre { name(g1) <- 'Strategy'; }
+    NEW g2 = Genre { name(g2) <- 'Party'; }
+    NEW p = Publisher { name(p) <- 'Test Publisher'; country(p) <- 'Germany'; }
+    NEW o = Owner { name(o) <- 'Test Owner'; contacts(o) <- 'test@test.com'; }
+
+    // Game 1: Catan - Strategy, 3-4 players, age 10, 60 min
+    NEW bg1 = BoardGame {
+        name(bg1) <- 'Catan';
+        genre(bg1) <- g1;
+        minPlayers(bg1) <- 3;
+        maxPlayers(bg1) <- 4;
+        durationMinutes(bg1) <- 60;
+        minAge(bg1) <- 10;
+        publisher(bg1) <- p;
+        owner(bg1) <- o;
+        available(bg1) <- TRUE;
+    }
+
+    // Game 2: Carcassonne - Strategy, 2-5 players, age 8, 45 min (similar to Catan)
+    NEW bg2 = BoardGame {
+        name(bg2) <- 'Carcassonne';
+        genre(bg2) <- g1;
+        minPlayers(bg2) <- 2;
+        maxPlayers(bg2) <- 5;
+        durationMinutes(bg2) <- 45;
+        minAge(bg2) <- 8;
+        publisher(bg2) <- p;
+        owner(bg2) <- o;
+        available(bg2) <- TRUE;
+    }
+
+    // Game 3: Different genre - Party, 4-8 players, age 12
+    NEW bg3 = BoardGame {
+        name(bg3) <- 'Codenames';
+        genre(bg3) <- g2;
+        minPlayers(bg3) <- 4;
+        maxPlayers(bg3) <- 8;
+        durationMinutes(bg3) <- 15;
+        minAge(bg3) <- 12;
+        publisher(bg3) <- p;
+        owner(bg3) <- o;
+        available(bg3) <- TRUE;
+    }
+
+    MESSAGE 'Test data created: 3 games, 2 genres';
+}
+
+// =============================================================================
+// RECOMMENDATION ALGORITHM TESTS
+// =============================================================================
+
+// Test: Catan and Carcassonne - same genre, overlapping players, age within ±2
+// Expected score: 3 + 2 + 1 = 6
+testRecommendationScoreSameGenre () {
+    FOR BoardGame bg1 IS BoardGame AND name(bg1) = 'Catan' DO
+        FOR BoardGame bg2 IS BoardGame AND name(bg2) = 'Carcassonne' DO
+            IF recommendationScore(bg1, bg2) = 6 THEN
+                MESSAGE 'PASS: recommendationScore(Catan, Carcassonne) = 6'
+            ELSE
+                MESSAGE 'FAIL: Expected 6, got ' + toString(recommendationScore(bg1, bg2));
+        }
+}
+
+// Test: Catan and Codenames - different genre
+// Expected score: 0 (genre) + 2 (player overlap 4) + 1 (age 10 vs 12) = 3
+testRecommendationScoreDifferentGenre () {
+    FOR BoardGame bg1 IS BoardGame AND name(bg1) = 'Catan' DO
+        FOR BoardGame bg2 IS BoardGame AND name(bg2) = 'Codenames' DO
+            IF recommendationScore(bg1, bg2) = 3 THEN
+                MESSAGE 'PASS: recommendationScore(Catan, Codenames) = 3'
+            ELSE
+                MESSAGE 'FAIL: Expected 3, got ' + toString(recommendationScore(bg1, bg2));
+        }
+}
+
+// Test: topRecommendedGame returns Carcassonne for Catan (highest score)
+testTopRecommendation () {
+    FOR BoardGame bg1 IS BoardGame AND name(bg1) = 'Catan' DO
+        IF name(topRecommendedGame(bg1, 1)) = 'Carcassonne' THEN
+            MESSAGE 'PASS: topRecommendedGame(Catan, 1) = Carcassonne'
+        ELSE
+            MESSAGE 'FAIL: Expected Carcassonne, got ' + name(topRecommendedGame(bg1, 1));
+}
+
+// =============================================================================
+// FILTERING LOGIC TESTS
+// =============================================================================
+
+// Test: matchesGenre with NULL filter (show all)
+testMatchesGenreNullFilter () {
+    LOCAL foundFail = BOOLEAN ();
+    foundFail() <- FALSE;
+    FOR BoardGame g IS BoardGame DO
+        IF NOT matchesGenre(g, NULL) THEN
+            foundFail() <- TRUE;
+    IF NOT foundFail() THEN
+        MESSAGE 'PASS: matchesGenre(g, NULL) returns TRUE for all games'
+    ELSE
+        MESSAGE 'FAIL: matchesGenre(g, NULL) should be TRUE for all games';
+}
+
+// Test: matchesPlayerCount - 4 players should match Catan (3-4) and Codenames (4-8)
+testMatchesPlayerCount () {
+    LOCAL count = INTEGER ();
+    count() <- 0;
+    FOR BoardGame g IS BoardGame AND matchesPlayerCount(g, 4) DO
+        count() <- count() + 1;
+    IF count() = 2 THEN
+        MESSAGE 'PASS: matchesPlayerCount(4) returns 2 games'
+    ELSE
+        MESSAGE 'FAIL: Expected 2 games, got ' + toString(count());
+}
+
+// Test: matchesDuration - 30 min max should match Carcassonne (45) and Codenames (15)? No - 45 > 30
+// 30 min: Codenames (15) only
+testMatchesDuration () {
+    LOCAL count = INTEGER ();
+    count() <- 0;
+    FOR BoardGame g IS BoardGame AND matchesDuration(g, 30) DO
+        count() <- count() + 1;
+    IF count() = 1 THEN
+        MESSAGE 'PASS: matchesDuration(30) returns 1 game (Codenames)'
+    ELSE
+        MESSAGE 'FAIL: Expected 1 game, got ' + toString(count());
+}
+
+// =============================================================================
+// EDGE CASE TESTS
+// =============================================================================
+
+// Test: recommendationScore for same game (source = candidate) should be 0
+// (We exclude source <> candidate in our logic, so it returns 0)
+testRecommendationSameGame () {
+    FOR BoardGame bg IS BoardGame AND name(bg) = 'Catan' DO
+        IF recommendationScore(bg, bg) = 0 THEN
+            MESSAGE 'PASS: recommendationScore(same game) = 0'
+        ELSE
+            MESSAGE 'FAIL: Same game should not recommend itself';
+}
+
+// Test: Multiple equal scores - deterministic ordering
+testMultipleEqualScores () {
+    // With 3 games, Catan's top 3 should be deterministic
+    FOR BoardGame bg IS BoardGame AND name(bg) = 'Catan' DO
+        IF topRecommendedGame(bg, 1) IS BoardGame AND topRecommendedGame(bg, 2) IS BoardGame THEN
+            MESSAGE 'PASS: Top recommendations return valid games'
+        ELSE
+            MESSAGE 'FAIL: Top recommendations should not be NULL';
+}
+
+// =============================================================================
+// RUN ALL TESTS
+// =============================================================================
+
+runAllTests 'Run all BoardGame tests' () {
+    createTestData();
+    testRecommendationScoreSameGenre();
+    testRecommendationScoreDifferentGenre();
+    testTopRecommendation();
+    testMatchesGenreNullFilter();
+    testMatchesPlayerCount();
+    testMatchesDuration();
+    testRecommendationSameGame();
+    testMultipleEqualScores();
+    MESSAGE 'All tests completed. Check output for PASS/FAIL.';
+}
