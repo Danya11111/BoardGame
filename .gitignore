@@ -1,4 +1,6 @@
 target/
+# Downloaded at build time — see download-server.ps1 / README
+lib/*.jar
 .idea/
 *.iml
 logs/
