@@ -5,3 +5,20 @@
 24 мар. 2026 19:37:24,646 ERROR SchedulerLogger - SERVER STOPPING, all scheduled tasks will be interrupted
 24 мар. 2026 19:38:18,282 ERROR SchedulerLogger - SERVER STOPPING, all scheduled tasks will be interrupted
 24 мар. 2026 19:40:24,975 ERROR SchedulerLogger - SERVER STOPPING, all scheduled tasks will be interrupted
+24 мар. 2026 19:45:05,174 ERROR SchedulerLogger - SERVER STOPPING, all scheduled tasks will be interrupted
+24 мар. 2026 23:05:21,112 ERROR SchedulerLogger - SERVER STOPPING, all scheduled tasks will be interrupted
+24 мар. 2026 23:08:38,513 ERROR SchedulerLogger - SERVER STOPPING, all scheduled tasks will be interrupted
+24 мар. 2026 23:11:21,612 ERROR SchedulerLogger - SERVER STOPPING, all scheduled tasks will be interrupted
+24 мар. 2026 23:15:37,461 ERROR SchedulerLogger - SERVER STOPPING, all scheduled tasks will be interrupted
+24 мар. 2026 23:16:35,386 ERROR SchedulerLogger - SERVER STOPPING, all scheduled tasks will be interrupted
+24 мар. 2026 23:17:43,360 ERROR SchedulerLogger - SERVER STOPPING, all scheduled tasks will be interrupted
+24 мар. 2026 23:18:22,892 ERROR SchedulerLogger - SERVER STOPPING, all scheduled tasks will be interrupted
+24 мар. 2026 23:20:04,028 ERROR SchedulerLogger - SERVER STOPPING, all scheduled tasks will be interrupted
+24 мар. 2026 23:22:15,140 ERROR SchedulerLogger - SERVER STOPPING, all scheduled tasks will be interrupted
+24 мар. 2026 23:22:50,696 ERROR SchedulerLogger - SERVER STOPPING, all scheduled tasks will be interrupted
+24 мар. 2026 23:24:16,139 ERROR SchedulerLogger - SERVER STOPPING, all scheduled tasks will be interrupted
+24 мар. 2026 23:24:56,392 ERROR SchedulerLogger - SERVER STOPPING, all scheduled tasks will be interrupted
+24 мар. 2026 23:28:05,717  INFO SchedulerLogger - Scheduled scheduler task: Обслуживание БД
+24 мар. 2026 23:34:24,778 ERROR SchedulerLogger - SERVER STOPPING, all scheduled tasks will be interrupted
+24 мар. 2026 23:35:13,467 ERROR SchedulerLogger - SERVER STOPPING, all scheduled tasks will be interrupted
+24 мар. 2026 23:35:57,501 ERROR SchedulerLogger - SERVER STOPPING, all scheduled tasks will be interrupted

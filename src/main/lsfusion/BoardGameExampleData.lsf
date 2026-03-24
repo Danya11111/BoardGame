@@ -1,8 +1,7 @@
 // =============================================================================
 // BoardGameExampleData.lsf - Example Dataset for Board Game Recommendation System
 // =============================================================================
-// Load this module to populate the database with sample games.
-// Run loadExampleData() action to insert data.
+// After NEW, locals like strategy are not visible on the next line — use genreByName('...') etc. from BoardGameDomain.
 // =============================================================================
 
 MODULE BoardGameExampleData;
@@ -11,18 +10,12 @@ REQUIRE BoardGameDomain;
 
 NAMESPACE BoardGame;
 
-// =============================================================================
-// EXAMPLE DATA LOADER
-// =============================================================================
-
 loadExampleData 'Load example board games' () {
-    // Genres
     NEW strategy = Genre { name(strategy) <- 'Strategy'; }
     NEW party = Genre { name(party) <- 'Party'; }
     NEW euro = Genre { name(euro) <- 'Euro'; }
     NEW family = Genre { name(family) <- 'Family'; }
 
-    // Publishers
     NEW catanGmbh = Publisher {
         name(catanGmbh) <- 'Catan Studio';
         website(catanGmbh) <- 'https://www.catan.com';
@@ -43,74 +36,71 @@ loadExampleData 'Load example board games' () {
         country(daysOfWonder) <- 'USA';
     }
 
-    // Owners
     NEW owner1 = Owner { name(owner1) <- 'John Doe'; contacts(owner1) <- 'john@example.com'; }
     NEW owner2 = Owner { name(owner2) <- 'Jane Smith'; contacts(owner2) <- 'jane@example.com'; }
 
-    // Mechanics
     NEW diceRolling = Mechanic { name(diceRolling) <- 'Dice Rolling'; }
     NEW tilePlacement = Mechanic { name(tilePlacement) <- 'Tile Placement'; }
     NEW trading = Mechanic { name(trading) <- 'Trading'; }
     NEW wordGame = Mechanic { name(wordGame) <- 'Word Game'; }
     NEW handManagement = Mechanic { name(handManagement) <- 'Hand Management'; }
 
-    // Games
     NEW catan = BoardGame {
         name(catan) <- 'Catan';
         description(catan) <- 'Trade, build and settle the island of Catan.';
-        genre(catan) <- strategy;
         minPlayers(catan) <- 3;
         maxPlayers(catan) <- 4;
         durationMinutes(catan) <- 60;
         minAge(catan) <- 10;
-        publisher(catan) <- catanGmbh;
-        owner(catan) <- owner1;
         available(catan) <- TRUE;
     }
-    hasMechanic(catan, diceRolling) <- TRUE;
-    hasMechanic(catan, trading) <- TRUE;
+    genre(catan) <- genreByName('Strategy');
+    publisher(catan) <- publisherByName('Catan Studio');
+    owner(catan) <- ownerByName('John Doe');
+    hasMechanic(catan, mechanicByName('Dice Rolling')) <- TRUE;
+    hasMechanic(catan, mechanicByName('Trading')) <- TRUE;
 
     NEW carcassonne = BoardGame {
         name(carcassonne) <- 'Carcassonne';
         description(carcassonne) <- 'Tile-placement game set in medieval France.';
-        genre(carcassonne) <- strategy;
         minPlayers(carcassonne) <- 2;
         maxPlayers(carcassonne) <- 5;
         durationMinutes(carcassonne) <- 45;
         minAge(carcassonne) <- 8;
-        publisher(carcassonne) <- zman;
-        owner(carcassonne) <- owner1;
         available(carcassonne) <- TRUE;
     }
-    hasMechanic(carcassonne, tilePlacement) <- TRUE;
+    genre(carcassonne) <- genreByName('Strategy');
+    publisher(carcassonne) <- publisherByName('Z-Man Games');
+    owner(carcassonne) <- ownerByName('John Doe');
+    hasMechanic(carcassonne, mechanicByName('Tile Placement')) <- TRUE;
 
     NEW codenames = BoardGame {
         name(codenames) <- 'Codenames';
         description(codenames) <- 'Word association party game for two teams.';
-        genre(codenames) <- party;
         minPlayers(codenames) <- 4;
         maxPlayers(codenames) <- 8;
         durationMinutes(codenames) <- 15;
         minAge(codenames) <- 12;
-        publisher(codenames) <- czech;
-        owner(codenames) <- owner2;
         available(codenames) <- TRUE;
     }
-    hasMechanic(codenames, wordGame) <- TRUE;
+    genre(codenames) <- genreByName('Party');
+    publisher(codenames) <- publisherByName('Czech Games Edition');
+    owner(codenames) <- ownerByName('Jane Smith');
+    hasMechanic(codenames, mechanicByName('Word Game')) <- TRUE;
 
     NEW ticketToRide = BoardGame {
         name(ticketToRide) <- 'Ticket to Ride';
         description(ticketToRide) <- 'Collect train cards and claim railway routes.';
-        genre(ticketToRide) <- family;
         minPlayers(ticketToRide) <- 2;
         maxPlayers(ticketToRide) <- 5;
         durationMinutes(ticketToRide) <- 60;
         minAge(ticketToRide) <- 8;
-        publisher(ticketToRide) <- daysOfWonder;
-        owner(ticketToRide) <- owner1;
         available(ticketToRide) <- TRUE;
     }
-    hasMechanic(ticketToRide, handManagement) <- TRUE;
+    genre(ticketToRide) <- genreByName('Family');
+    publisher(ticketToRide) <- publisherByName('Days of Wonder');
+    owner(ticketToRide) <- ownerByName('John Doe');
+    hasMechanic(ticketToRide, mechanicByName('Hand Management')) <- TRUE;
 
     MESSAGE 'Example data loaded: 4 games, 4 genres, 4 publishers, 2 owners, 5 mechanics';
 }

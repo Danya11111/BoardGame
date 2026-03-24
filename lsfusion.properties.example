@@ -1,0 +1,15 @@
+# Скопируйте в lsfusion.properties (в корень проекта) и задайте db.password.
+# Не коммитьте lsfusion.properties — файл в .gitignore.
+#
+# ВАЖНО: BusinessLogicsBootstrap ищет конфиг как /lsfusion.properties (на Windows это C:\lsfusion.properties),
+# а не файл в папке проекта. Поэтому для локального запуска используйте .\run.ps1, run.bat или run.sh —
+# они читают ЭТОТ файл и передают параметры в JVM через -Ddb.* .
+#
+db.server=localhost:5432
+db.name=boardgame
+db.user=postgres
+db.password=CHANGE_ME
+
+# Необязательно — если порты заняты другим процессом lsFusion:
+# rmi.port=7652
+# http.port=7651

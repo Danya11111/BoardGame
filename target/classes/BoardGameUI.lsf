@@ -2,7 +2,6 @@
 // BoardGameUI.lsf - User Interface Module
 // =============================================================================
 // Forms, actions, and navigator for the Board Game Recommendation System.
-// Implements User and Admin features with role-based visibility.
 // =============================================================================
 
 MODULE BoardGameUI;
@@ -12,36 +11,48 @@ REQUIRE BoardGameDomain, BoardGameLogic, BoardGameSecurity, BoardGameExampleData
 NAMESPACE BoardGame;
 
 // =============================================================================
-// GAME LIST FORM (User view - read-only with filters)
+// RECOMMENDATIONS FORM + ACTION (declared before forms that reference the action)
+// =============================================================================
+
+FORM recommendationsForm 'Recommendations'
+    OBJECTS g = BoardGame PANEL
+    PROPERTIES(g) name
+    PROPERTIES
+        rec1Name = name(topRecommendedGame(g, 1)),
+        rec1Score = topRecommendedScore(g, 1),
+        rec1Why = recommendationExplanationTrimmed(g, topRecommendedGame(g, 1)),
+        rec2Name = name(topRecommendedGame(g, 2)),
+        rec2Score = topRecommendedScore(g, 2),
+        rec2Why = recommendationExplanationTrimmed(g, topRecommendedGame(g, 2)),
+        rec3Name = name(topRecommendedGame(g, 3)),
+        rec3Score = topRecommendedScore(g, 3),
+        rec3Why = recommendationExplanationTrimmed(g, topRecommendedGame(g, 3))
+;
+
+getRecommendations 'Get recommendations' (BoardGame g) {
+    printToLog(CONCAT ' ', 'Recommendations for', name(g));
+    FOR iterate(i, 1, 3) DO {
+        IF topRecommendedGame(g, i) IS BoardGame THEN {
+            printToLog(CONCAT ' ', '#', i, ':', name(topRecommendedGame(g, i)), 'score=', topRecommendedScore(g, i));
+        }
+    }
+    SHOW recommendationsForm OBJECTS g = g;
+}
+
+// =============================================================================
+// GAME LIST (read-only list + recommendations)
 // =============================================================================
 
 FORM gamesList 'Games'
-    OBJECTS
-        genreFilter = Genre PANEL,
-        filterPlayers = INTEGER PANEL,
-        filterMaxDuration = INTEGER PANEL,
-        filterMinAge = INTEGER PANEL,
-        filterAvailableOnly = BOOLEAN PANEL
-    PROPERTIES
-        (genreFilter) name(genreFilter),
-        (filterPlayers) filterPlayers,
-        (filterMaxDuration) filterMaxDuration,
-        (filterMinAge) filterMinAge,
-        (filterAvailableOnly) filterAvailableOnly
     OBJECTS g = BoardGame
-    PROPERTIES(g) name, genre, playerRange, durationMinutes, minAge, publisher, available, mechanicsList
+    PROPERTIES(g) READONLY name, genre, playerRange, durationMinutes, minAge, publisher, available, mechanicsList
     PROPERTIES(g) NEWSESSION getRecommendations
-    FILTERS
-        matchesGenre(g, genreFilter),
-        matchesPlayerCount(g, filterPlayers),
-        matchesDuration(g, filterMaxDuration),
-        matchesMinAge(g, filterMinAge),
-        matchesAvailable(g, filterAvailableOnly)
+    USERFILTERS name(g), genre(g)
     ORDERS name(g)
 ;
 
 // =============================================================================
-// GAME DETAIL FORM
+// GAME DETAIL
 // =============================================================================
 
 FORM gameDetail 'Game Details'
@@ -51,40 +62,9 @@ FORM gameDetail 'Game Details'
 ;
 
 // =============================================================================
-// RECOMMENDATIONS FORM
+// ADMIN FORMS
 // =============================================================================
 
-FORM recommendationsForm 'Recommendations'
-    OBJECTS
-        g = BoardGame PANEL,
-        rank = INTEGER
-    PROPERTIES
-        rank = rank,
-        recGame = topRecommendedGame(g, rank),
-        recScore = topRecommendedScore(g, rank),
-        recExplanation = recommendationExplanationTrimmed(g, topRecommendedGame(g, rank))
-    FILTERS iterate(rank, 1, RECOMMENDATION_TOP_COUNT)
-;
-
-// =============================================================================
-// ACTIONS
-// =============================================================================
-
-// Get recommendations for selected game (with logging)
-getRecommendations 'Get recommendations' (BoardGame g) {
-    // Log recommendation request for audit/debugging
-    printToLog(CONCAT 'Recommendations requested for: ', name(g), ' (id=', toString(id(g)), ')', 'BoardGame');
-    FOR iterate(i, 1, RECOMMENDATION_TOP_COUNT) DO
-        IF topRecommendedGame(g, i) IS BoardGame THEN
-            printToLog(CONCAT '  #', toString(i), ': ', name(topRecommendedGame(g, i)), ' score=', toString(topRecommendedScore(g, i)), ' - ', recommendationExplanationTrimmed(g, topRecommendedGame(g, i)), 'BoardGame');
-    OPEN FORM recommendationsForm OBJECTS g = g;
-}
-
-// =============================================================================
-// ADMIN FORMS (CRUD - full access for admin role)
-// =============================================================================
-
-// Games admin
 FORM gameEdit 'Edit Game'
     OBJECTS g = BoardGame PANEL
     PROPERTIES(g) name, description, genre, minPlayers, maxPlayers, durationMinutes, minAge, publisher, owner, available, image
@@ -98,7 +78,6 @@ FORM gamesAdmin 'Games (Admin)'
     EDIT BoardGame OBJECT g
 ;
 
-// Mechanics for game (many-to-many editor)
 FORM gameMechanics 'Game Mechanics'
     OBJECTS
         g = BoardGame PANEL,
@@ -112,14 +91,12 @@ EXTEND FORM gameEdit
     PROPERTIES(g, m) hasMechanic
 ;
 
-// Genre list (for selector in games filter)
 FORM genresList 'Genres'
     OBJECTS gen = Genre
     PROPERTIES(gen) name
     LIST Genre OBJECT gen
 ;
 
-// Genres admin
 FORM genreEdit 'Edit Genre'
     OBJECTS gen = Genre PANEL
     PROPERTIES(gen) name
@@ -133,7 +110,6 @@ FORM genresAdmin 'Genres (Admin)'
     EDIT Genre OBJECT gen
 ;
 
-// Publishers admin
 FORM publisherEdit 'Edit Publisher'
     OBJECTS p = Publisher PANEL
     PROPERTIES(p) name, website, country
@@ -147,7 +123,6 @@ FORM publishersAdmin 'Publishers (Admin)'
     EDIT Publisher OBJECT p
 ;
 
-// Owners admin
 FORM ownerEdit 'Edit Owner'
     OBJECTS o = Owner PANEL
     PROPERTIES(o) name, contacts
@@ -161,7 +136,6 @@ FORM ownersAdmin 'Owners (Admin)'
     EDIT Owner OBJECT o
 ;
 
-// Mechanics admin
 FORM mechanicEdit 'Edit Mechanic'
     OBJECTS m = Mechanic PANEL
     PROPERTIES(m) name
@@ -177,9 +151,6 @@ FORM mechanicsAdmin 'Mechanics (Admin)'
 
 // =============================================================================
 // NAVIGATOR
-// =============================================================================
-// Role-based visibility: Admin forms show NEW/EDIT/DELETE only when canEdit().
-// Configure Security permissions for admin folder to restrict access.
 // =============================================================================
 
 NAVIGATOR {

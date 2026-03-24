@@ -19,18 +19,15 @@ NAMESPACE BoardGame;
 // Total score = sum of all applicable criteria.
 // =============================================================================
 
-// +3 points if genre matches (OVERRIDE: first non-NULL, else 0)
+// +3 / +2 / +1 points — weights match BoardGameDomain (SCORE_*); literals here (lsFusion resolves constant names oddly in OVERRIDE)
 genreMatchScore (BoardGame source, BoardGame candidate) =
-    OVERRIDE (SCORE_GENRE_MATCH IF genre(source) = genre(candidate) AND source != candidate), 0;
+    OVERRIDE (3 IF genre(source) = genre(candidate) AND source != candidate), 0;
 
-// +2 points if player range overlaps
-// Overlap: source.min <= candidate.max AND candidate.min <= source.max
 playerRangeOverlapScore (BoardGame source, BoardGame candidate) =
-    OVERRIDE (SCORE_PLAYER_RANGE_OVERLAP IF source != candidate AND minPlayers(source) <= maxPlayers(candidate) AND minPlayers(candidate) <= maxPlayers(source)), 0;
+    OVERRIDE (2 IF source != candidate AND minPlayers(source) <= maxPlayers(candidate) AND minPlayers(candidate) <= maxPlayers(source)), 0;
 
-// +1 point if age difference is within ±2 years
 ageDifferenceScore (BoardGame source, BoardGame candidate) =
-    OVERRIDE (SCORE_AGE_DIFFERENCE_WITHIN_RANGE IF source != candidate AND abs(minAge(source) - minAge(candidate)) <= AGE_DIFFERENCE_THRESHOLD), 0;
+    OVERRIDE (1 IF source != candidate AND abs(minAge(source) - minAge(candidate)) <= 2), 0;
 
 // =============================================================================
 // TOTAL RECOMMENDATION SCORE
@@ -73,7 +70,7 @@ recommendationOrder (BoardGame source, BoardGame candidate) =
 // Get top recommended games - returns BoardGame for each rank 1..N
 topRecommendedGame (BoardGame source, INTEGER rank) =
     GROUP LAST BoardGame candidate
-    ORDER DESC recommendationScore(source, candidate), id(candidate)
+    ORDER DESC recommendationScore(source, candidate), name(candidate)
     TOP 1
     OFFSET rank - 1
     WHERE candidate IS BoardGame AND source != candidate AND recommendationScore(source, candidate) > 0;

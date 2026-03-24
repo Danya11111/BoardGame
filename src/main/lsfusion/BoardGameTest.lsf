@@ -22,44 +22,41 @@ createTestData () {
     NEW p = Publisher { name(p) <- 'Test Publisher'; country(p) <- 'Germany'; }
     NEW o = Owner { name(o) <- 'Test Owner'; contacts(o) <- 'test@test.com'; }
 
-    // Game 1: Catan - Strategy, 3-4 players, age 10, 60 min
     NEW bg1 = BoardGame {
         name(bg1) <- 'Catan';
-        genre(bg1) <- g1;
         minPlayers(bg1) <- 3;
         maxPlayers(bg1) <- 4;
         durationMinutes(bg1) <- 60;
         minAge(bg1) <- 10;
-        publisher(bg1) <- p;
-        owner(bg1) <- o;
         available(bg1) <- TRUE;
     }
+    genre(bg1) <- genreByName('Strategy');
+    publisher(bg1) <- publisherByName('Test Publisher');
+    owner(bg1) <- ownerByName('Test Owner');
 
-    // Game 2: Carcassonne - Strategy, 2-5 players, age 8, 45 min (similar to Catan)
     NEW bg2 = BoardGame {
         name(bg2) <- 'Carcassonne';
-        genre(bg2) <- g1;
         minPlayers(bg2) <- 2;
         maxPlayers(bg2) <- 5;
         durationMinutes(bg2) <- 45;
         minAge(bg2) <- 8;
-        publisher(bg2) <- p;
-        owner(bg2) <- o;
         available(bg2) <- TRUE;
     }
+    genre(bg2) <- genreByName('Strategy');
+    publisher(bg2) <- publisherByName('Test Publisher');
+    owner(bg2) <- ownerByName('Test Owner');
 
-    // Game 3: Different genre - Party, 4-8 players, age 12
     NEW bg3 = BoardGame {
         name(bg3) <- 'Codenames';
-        genre(bg3) <- g2;
         minPlayers(bg3) <- 4;
         maxPlayers(bg3) <- 8;
         durationMinutes(bg3) <- 15;
         minAge(bg3) <- 12;
-        publisher(bg3) <- p;
-        owner(bg3) <- o;
         available(bg3) <- TRUE;
     }
+    genre(bg3) <- genreByName('Party');
+    publisher(bg3) <- publisherByName('Test Publisher');
+    owner(bg3) <- ownerByName('Test Owner');
 
     MESSAGE 'Test data created: 3 games, 2 genres';
 }
@@ -76,7 +73,7 @@ testRecommendationScoreSameGenre () {
             IF recommendationScore(bg1, bg2) = 6 THEN {
                 MESSAGE 'PASS: recommendationScore(Catan, Carcassonne) = 6';
             } ELSE {
-                MESSAGE 'FAIL: Expected 6, got ' + toString(recommendationScore(bg1, bg2));
+                MESSAGE CONCAT '', 'FAIL: Expected 6, got ', recommendationScore(bg1, bg2);
             }
         }
     }
@@ -90,7 +87,7 @@ testRecommendationScoreDifferentGenre () {
             IF recommendationScore(bg1, bg2) = 3 THEN {
                 MESSAGE 'PASS: recommendationScore(Catan, Codenames) = 3';
             } ELSE {
-                MESSAGE 'FAIL: Expected 3, got ' + toString(recommendationScore(bg1, bg2));
+                MESSAGE CONCAT '', 'FAIL: Expected 3, got ', recommendationScore(bg1, bg2);
             }
         }
     }
@@ -102,7 +99,7 @@ testTopRecommendation () {
         IF name(topRecommendedGame(bg1, 1)) = 'Carcassonne' THEN {
             MESSAGE 'PASS: topRecommendedGame(Catan, 1) = Carcassonne';
         } ELSE {
-            MESSAGE 'FAIL: Expected Carcassonne, got ' + name(topRecommendedGame(bg1, 1));
+            MESSAGE CONCAT '', 'FAIL: Expected Carcassonne, got ', name(topRecommendedGame(bg1, 1));
         }
     }
 }
@@ -114,7 +111,7 @@ testTopRecommendation () {
 // Test: matchesGenre with NULL filter (show all)
 testMatchesGenreNullFilter () {
     LOCAL foundFail = BOOLEAN ();
-    foundFail() <- FALSE;
+    foundFail() <- NULL;
     FOR BoardGame g IS BoardGame DO {
         IF NOT matchesGenre(g, NULL) THEN {
             foundFail() <- TRUE;
@@ -137,7 +134,7 @@ testMatchesPlayerCount () {
     IF count() = 2 THEN {
         MESSAGE 'PASS: matchesPlayerCount(4) returns 2 games';
     } ELSE {
-        MESSAGE 'FAIL: Expected 2 games, got ' + toString(count());
+        MESSAGE CONCAT '', 'FAIL: Expected 2 games, got ', count();
     }
 }
 
@@ -152,7 +149,7 @@ testMatchesDuration () {
     IF count() = 1 THEN {
         MESSAGE 'PASS: matchesDuration(30) returns 1 game (Codenames)';
     } ELSE {
-        MESSAGE 'FAIL: Expected 1 game, got ' + toString(count());
+        MESSAGE CONCAT '', 'FAIL: Expected 1 game, got ', count();
     }
 }
 

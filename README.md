@@ -152,11 +152,35 @@ BoardGame/
 
 ---
 
+## Quick runbook (локальный старт)
+
+Выполнять из корня репозитория (рядом с `pom.xml`).
+
+```powershell
+# 1) JAR сервера
+.\download-server.ps1
+
+# 2) БД (один раз)
+psql -U postgres -f scripts/postgres-init.sql
+
+# 3) Конфиг (один раз): скопировать пример и задать пароль PostgreSQL
+copy lsfusion.properties.example lsfusion.properties
+# отредактировать lsfusion.properties — заменить CHANGE_ME на реальный db.password
+
+# 4) Запуск (сборка + java с -Ddb.*)
+.\run.ps1
+```
+
+Проверка: в `logs/start.log` должны появиться строки `Logics instance has successfully started` и `Server has successfully started`.  
+Не запускайте голый `java -cp ... BusinessLogicsBootstrap` без `-Ddb.*` — пароль из файла в каталоге проекта bootstrap не подхватит (см. шаг 4 в Installation ниже).
+
+---
+
 ## 6. Setup Instructions
 
 ### Prerequisites
 
-- **Java** 8 or later
+- **Java** 17 (как в `pom.xml`; lsFusion 6.1 на этой сборке проверялась с JDK 17)
 - **PostgreSQL** 9.6+
 - **Maven** 3.6+
 - **IntelliJ IDEA** 2025.2+ with lsFusion plugin (recommended)
@@ -174,18 +198,24 @@ BoardGame/
    mvn clean compile
    ```
 
-3. **Database configuration:** Create `lsfusion.properties` in project root:
-   ```properties
-   db.connect=postgresql://localhost:5432/boardgame
-   db.user=postgres
-   db.password=yourpassword
+3. **PostgreSQL:** создайте БД (от пользователя с правами суперпользователя):
+   ```bash
+   psql -U postgres -f scripts/postgres-init.sql
    ```
 
-4. **Run server:** Use lsFusion IDE run configuration (recommended) or start the server JAR
+4. **Database configuration:** скопируйте `lsfusion.properties.example` → `lsfusion.properties` в **корне проекта** и задайте `db.password`. Файл **в .gitignore** — не коммитьте.
 
-5. **Access:** Web client at `http://localhost:8080/lsfusion`
+   **Важно:** `BusinessLogicsBootstrap` ищет файл как `/lsfusion.properties` (на Windows это `C:\lsfusion.properties`), а не рядом с `pom.xml`. Поэтому для локального запуска **не вызывайте `java` вручную без `-D`**, иначе пароль БД будет пустым. Используйте скрипты ниже.
 
-6. **Load example data:** Click "Load example board games" in the Board Games navigator folder
+5. **Run server (рекомендуется):**
+   - Windows: `.\run.ps1` или `run.bat`
+   - Linux/macOS: `chmod +x run.sh && ./run.sh`
+
+   Скрипт выполняет `mvn clean compile` и запускает `java` с `-Ddb.server`, `-Ddb.name`, `-Ddb.user`, `-Ddb.password`, прочитанными из **локального** `lsfusion.properties`.
+
+6. **Клиент:** после строки `Server has successfully started` в `logs/start.log` используйте **десктоп-клиент** (JNLP / установщик — ссылки печатаются в лог) или поднимите **веб-клиент** через Tomcat + `lsfusion-client-*.war` ([документация](https://lsfusion.github.io/Development_manual/)). Встроенный bootstrap сам по себе не обязан отдавать UI на `http://localhost:8080`.
+
+7. **Пример данных:** в навигаторе клиента — действие «Load example board games».
 
 ### Default Users
 

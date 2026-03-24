@@ -108,3 +108,9 @@ playerRange 'Players' (BoardGame g) = CONCAT '', minPlayers(g), '-', maxPlayers(
 
 // Computed: mechanics list for display
 mechanicsList 'Mechanics' (BoardGame b) = GROUP CONCAT name(Mechanic m) IF hasMechanic(b, m), ', ' ORDER name(m) CHARWIDTH 30;
+
+// Lookups by name (locals from NEW are not visible on the next line in actions — use these after INSERT)
+genreByName (ISTRING[50] n) = GROUP LAST Genre g ORDER g WHERE name(g) = n;
+publisherByName (ISTRING[100] n) = GROUP LAST Publisher p ORDER p WHERE name(p) = n;
+ownerByName (ISTRING[100] n) = GROUP LAST Owner o ORDER o WHERE name(o) = n;
+mechanicByName (ISTRING[50] n) = GROUP LAST Mechanic m ORDER m WHERE name(m) = n;
