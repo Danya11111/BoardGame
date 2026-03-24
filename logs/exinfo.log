@@ -101,3 +101,12 @@
 24 мар. 2026 23:39:58,679 system - system - system  INFO ExInfoLogger - SQL SESSION CLOSE SQL@1306085976
 24 мар. 2026 23:40:55,114 system - system - system  INFO ExInfoLogger - SQL SESSION OPEN SQL@1438744474
 24 мар. 2026 23:43:55,111 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+24 мар. 2026 23:45:53,178 system - system - system  INFO ExInfoLogger - SQL SESSION OPEN SQL@1822058359
+24 мар. 2026 23:45:55,215 system - system - system  INFO ExInfoLogger - SQL SESSION OPEN SQL@176851829
+24 мар. 2026 23:45:55,219 system - system - system  INFO ExInfoLogger - SQL SESSION CLOSE SQL@1822058359
+24 мар. 2026 23:45:58,664 system - system - system  INFO ExInfoLogger - SQL SESSION OPEN SQL@718057154
+24 мар. 2026 23:46:00,254 system - system - system  INFO ExInfoLogger - SQL SESSION CLOSE SQL@176851829
+24 мар. 2026 23:47:55,117 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+24 мар. 2026 23:51:55,116 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+24 мар. 2026 23:55:55,107 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+24 мар. 2026 23:59:55,103 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0

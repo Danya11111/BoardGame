@@ -2806,3 +2806,1142 @@ java.base@17.0.12/java.lang.Thread.run(Thread.java:842)
 
 
 
+24 мар. 2026 23:45:55,133 system - system - system  INFO ProcessDumpLogger - PROCESS DUMP: 3 JAVA processes
+
+24 мар. 2026 23:45:55,133 system - system - system  INFO ProcessDumpLogger - idThreadProcess: 2
+   nameJavaProcess: Reference Handler
+   statusJavaProcess: RUNNABLE
+   lockNameJavaProcess: null
+   nameComputerJavaProcess: null
+   nameUserJavaProcess: null
+   threadAllocatedBytesProcess: 0
+   lastThreadAllocatedBytesProcess: 0
+
+lsfStackTraceProcess: 
+
+
+stackTraceJavaProcess: 
+java.base@17.0.12/java.lang.ref.Reference.waitForReferencePendingList(Native Method)
+java.base@17.0.12/java.lang.ref.Reference.processPendingReferences(Reference.java:253)
+java.base@17.0.12/java.lang.ref.Reference$ReferenceHandler.run(Reference.java:215)
+
+
+
+24 мар. 2026 23:45:55,133 system - system - system  INFO ProcessDumpLogger - idThreadProcess: 37
+   nameJavaProcess: RMI TCP Accept-7652
+   statusJavaProcess: RUNNABLE
+   lockNameJavaProcess: null
+   nameComputerJavaProcess: null
+   nameUserJavaProcess: null
+   threadAllocatedBytesProcess: 1360
+   lastThreadAllocatedBytesProcess: 0
+
+lsfStackTraceProcess: 
+
+
+stackTraceJavaProcess: 
+java.base@17.0.12/sun.nio.ch.Net.accept(Native Method)
+java.base@17.0.12/sun.nio.ch.NioSocketImpl.accept(NioSocketImpl.java:760)
+java.base@17.0.12/java.net.ServerSocket.implAccept(ServerSocket.java:675)
+java.base@17.0.12/java.net.ServerSocket.platformImplAccept(ServerSocket.java:641)
+java.base@17.0.12/java.net.ServerSocket.implAccept(ServerSocket.java:617)
+java.base@17.0.12/java.net.ServerSocket.implAccept(ServerSocket.java:574)
+app//lsfusion.base.remote.ZipServerSocket.accept(ZipServerSocket.java:21)
+java.rmi@17.0.12/sun.rmi.transport.tcp.TCPTransport$AcceptLoop.executeAcceptLoop(TCPTransport.java:413)
+java.rmi@17.0.12/sun.rmi.transport.tcp.TCPTransport$AcceptLoop.run(TCPTransport.java:377)
+java.base@17.0.12/java.lang.Thread.run(Thread.java:842)
+
+
+
+24 мар. 2026 23:45:55,133 system - system - system  INFO ProcessDumpLogger - idThreadProcess: 46
+   nameJavaProcess: FileSystemWatchService
+   statusJavaProcess: RUNNABLE
+   lockNameJavaProcess: null
+   nameComputerJavaProcess: null
+   nameUserJavaProcess: null
+   threadAllocatedBytesProcess: 6664
+   lastThreadAllocatedBytesProcess: 0
+
+lsfStackTraceProcess: 
+
+
+stackTraceJavaProcess: 
+java.base@17.0.12/sun.nio.fs.WindowsNativeDispatcher.GetQueuedCompletionStatus0(Native Method)
+java.base@17.0.12/sun.nio.fs.WindowsNativeDispatcher.GetQueuedCompletionStatus(WindowsNativeDispatcher.java:1065)
+java.base@17.0.12/sun.nio.fs.WindowsWatchService$Poller.run(WindowsWatchService.java:587)
+java.base@17.0.12/java.lang.Thread.run(Thread.java:842)
+
+
+
+24 мар. 2026 23:46:55,114 system - system - system  INFO ProcessDumpLogger - PROCESS DUMP: 3 JAVA processes
+
+24 мар. 2026 23:46:55,114 system - system - system  INFO ProcessDumpLogger - idThreadProcess: 2
+   nameJavaProcess: Reference Handler
+   statusJavaProcess: RUNNABLE
+   lockNameJavaProcess: null
+   nameComputerJavaProcess: null
+   nameUserJavaProcess: null
+   threadAllocatedBytesProcess: 0
+   lastThreadAllocatedBytesProcess: 0
+
+lsfStackTraceProcess: 
+
+
+stackTraceJavaProcess: 
+java.base@17.0.12/java.lang.ref.Reference.waitForReferencePendingList(Native Method)
+java.base@17.0.12/java.lang.ref.Reference.processPendingReferences(Reference.java:253)
+java.base@17.0.12/java.lang.ref.Reference$ReferenceHandler.run(Reference.java:215)
+
+
+
+24 мар. 2026 23:46:55,114 system - system - system  INFO ProcessDumpLogger - idThreadProcess: 37
+   nameJavaProcess: RMI TCP Accept-7652
+   statusJavaProcess: RUNNABLE
+   lockNameJavaProcess: null
+   nameComputerJavaProcess: null
+   nameUserJavaProcess: null
+   threadAllocatedBytesProcess: 1360
+   lastThreadAllocatedBytesProcess: 0
+
+lsfStackTraceProcess: 
+
+
+stackTraceJavaProcess: 
+java.base@17.0.12/sun.nio.ch.Net.accept(Native Method)
+java.base@17.0.12/sun.nio.ch.NioSocketImpl.accept(NioSocketImpl.java:760)
+java.base@17.0.12/java.net.ServerSocket.implAccept(ServerSocket.java:675)
+java.base@17.0.12/java.net.ServerSocket.platformImplAccept(ServerSocket.java:641)
+java.base@17.0.12/java.net.ServerSocket.implAccept(ServerSocket.java:617)
+java.base@17.0.12/java.net.ServerSocket.implAccept(ServerSocket.java:574)
+app//lsfusion.base.remote.ZipServerSocket.accept(ZipServerSocket.java:21)
+java.rmi@17.0.12/sun.rmi.transport.tcp.TCPTransport$AcceptLoop.executeAcceptLoop(TCPTransport.java:413)
+java.rmi@17.0.12/sun.rmi.transport.tcp.TCPTransport$AcceptLoop.run(TCPTransport.java:377)
+java.base@17.0.12/java.lang.Thread.run(Thread.java:842)
+
+
+
+24 мар. 2026 23:46:55,114 system - system - system  INFO ProcessDumpLogger - idThreadProcess: 46
+   nameJavaProcess: FileSystemWatchService
+   statusJavaProcess: RUNNABLE
+   lockNameJavaProcess: null
+   nameComputerJavaProcess: null
+   nameUserJavaProcess: null
+   threadAllocatedBytesProcess: 6664
+   lastThreadAllocatedBytesProcess: 0
+
+lsfStackTraceProcess: 
+
+
+stackTraceJavaProcess: 
+java.base@17.0.12/sun.nio.fs.WindowsNativeDispatcher.GetQueuedCompletionStatus0(Native Method)
+java.base@17.0.12/sun.nio.fs.WindowsNativeDispatcher.GetQueuedCompletionStatus(WindowsNativeDispatcher.java:1065)
+java.base@17.0.12/sun.nio.fs.WindowsWatchService$Poller.run(WindowsWatchService.java:587)
+java.base@17.0.12/java.lang.Thread.run(Thread.java:842)
+
+
+
+24 мар. 2026 23:47:55,122 system - system - system  INFO ProcessDumpLogger - PROCESS DUMP: 3 JAVA processes
+
+24 мар. 2026 23:47:55,122 system - system - system  INFO ProcessDumpLogger - idThreadProcess: 2
+   nameJavaProcess: Reference Handler
+   statusJavaProcess: RUNNABLE
+   lockNameJavaProcess: null
+   nameComputerJavaProcess: null
+   nameUserJavaProcess: null
+   threadAllocatedBytesProcess: 0
+   lastThreadAllocatedBytesProcess: 0
+
+lsfStackTraceProcess: 
+
+
+stackTraceJavaProcess: 
+java.base@17.0.12/java.lang.ref.Reference.waitForReferencePendingList(Native Method)
+java.base@17.0.12/java.lang.ref.Reference.processPendingReferences(Reference.java:253)
+java.base@17.0.12/java.lang.ref.Reference$ReferenceHandler.run(Reference.java:215)
+
+
+
+24 мар. 2026 23:47:55,122 system - system - system  INFO ProcessDumpLogger - idThreadProcess: 37
+   nameJavaProcess: RMI TCP Accept-7652
+   statusJavaProcess: RUNNABLE
+   lockNameJavaProcess: null
+   nameComputerJavaProcess: null
+   nameUserJavaProcess: null
+   threadAllocatedBytesProcess: 1360
+   lastThreadAllocatedBytesProcess: 0
+
+lsfStackTraceProcess: 
+
+
+stackTraceJavaProcess: 
+java.base@17.0.12/sun.nio.ch.Net.accept(Native Method)
+java.base@17.0.12/sun.nio.ch.NioSocketImpl.accept(NioSocketImpl.java:760)
+java.base@17.0.12/java.net.ServerSocket.implAccept(ServerSocket.java:675)
+java.base@17.0.12/java.net.ServerSocket.platformImplAccept(ServerSocket.java:641)
+java.base@17.0.12/java.net.ServerSocket.implAccept(ServerSocket.java:617)
+java.base@17.0.12/java.net.ServerSocket.implAccept(ServerSocket.java:574)
+app//lsfusion.base.remote.ZipServerSocket.accept(ZipServerSocket.java:21)
+java.rmi@17.0.12/sun.rmi.transport.tcp.TCPTransport$AcceptLoop.executeAcceptLoop(TCPTransport.java:413)
+java.rmi@17.0.12/sun.rmi.transport.tcp.TCPTransport$AcceptLoop.run(TCPTransport.java:377)
+java.base@17.0.12/java.lang.Thread.run(Thread.java:842)
+
+
+
+24 мар. 2026 23:47:55,122 system - system - system  INFO ProcessDumpLogger - idThreadProcess: 46
+   nameJavaProcess: FileSystemWatchService
+   statusJavaProcess: RUNNABLE
+   lockNameJavaProcess: null
+   nameComputerJavaProcess: null
+   nameUserJavaProcess: null
+   threadAllocatedBytesProcess: 6664
+   lastThreadAllocatedBytesProcess: 0
+
+lsfStackTraceProcess: 
+
+
+stackTraceJavaProcess: 
+java.base@17.0.12/sun.nio.fs.WindowsNativeDispatcher.GetQueuedCompletionStatus0(Native Method)
+java.base@17.0.12/sun.nio.fs.WindowsNativeDispatcher.GetQueuedCompletionStatus(WindowsNativeDispatcher.java:1065)
+java.base@17.0.12/sun.nio.fs.WindowsWatchService$Poller.run(WindowsWatchService.java:587)
+java.base@17.0.12/java.lang.Thread.run(Thread.java:842)
+
+
+
+24 мар. 2026 23:48:55,108 system - system - system  INFO ProcessDumpLogger - PROCESS DUMP: 3 JAVA processes
+
+24 мар. 2026 23:48:55,108 system - system - system  INFO ProcessDumpLogger - idThreadProcess: 2
+   nameJavaProcess: Reference Handler
+   statusJavaProcess: RUNNABLE
+   lockNameJavaProcess: null
+   nameComputerJavaProcess: null
+   nameUserJavaProcess: null
+   threadAllocatedBytesProcess: 0
+   lastThreadAllocatedBytesProcess: 0
+
+lsfStackTraceProcess: 
+
+
+stackTraceJavaProcess: 
+java.base@17.0.12/java.lang.ref.Reference.waitForReferencePendingList(Native Method)
+java.base@17.0.12/java.lang.ref.Reference.processPendingReferences(Reference.java:253)
+java.base@17.0.12/java.lang.ref.Reference$ReferenceHandler.run(Reference.java:215)
+
+
+
+24 мар. 2026 23:48:55,108 system - system - system  INFO ProcessDumpLogger - idThreadProcess: 37
+   nameJavaProcess: RMI TCP Accept-7652
+   statusJavaProcess: RUNNABLE
+   lockNameJavaProcess: null
+   nameComputerJavaProcess: null
+   nameUserJavaProcess: null
+   threadAllocatedBytesProcess: 1360
+   lastThreadAllocatedBytesProcess: 0
+
+lsfStackTraceProcess: 
+
+
+stackTraceJavaProcess: 
+java.base@17.0.12/sun.nio.ch.Net.accept(Native Method)
+java.base@17.0.12/sun.nio.ch.NioSocketImpl.accept(NioSocketImpl.java:760)
+java.base@17.0.12/java.net.ServerSocket.implAccept(ServerSocket.java:675)
+java.base@17.0.12/java.net.ServerSocket.platformImplAccept(ServerSocket.java:641)
+java.base@17.0.12/java.net.ServerSocket.implAccept(ServerSocket.java:617)
+java.base@17.0.12/java.net.ServerSocket.implAccept(ServerSocket.java:574)
+app//lsfusion.base.remote.ZipServerSocket.accept(ZipServerSocket.java:21)
+java.rmi@17.0.12/sun.rmi.transport.tcp.TCPTransport$AcceptLoop.executeAcceptLoop(TCPTransport.java:413)
+java.rmi@17.0.12/sun.rmi.transport.tcp.TCPTransport$AcceptLoop.run(TCPTransport.java:377)
+java.base@17.0.12/java.lang.Thread.run(Thread.java:842)
+
+
+
+24 мар. 2026 23:48:55,108 system - system - system  INFO ProcessDumpLogger - idThreadProcess: 46
+   nameJavaProcess: FileSystemWatchService
+   statusJavaProcess: RUNNABLE
+   lockNameJavaProcess: null
+   nameComputerJavaProcess: null
+   nameUserJavaProcess: null
+   threadAllocatedBytesProcess: 6664
+   lastThreadAllocatedBytesProcess: 0
+
+lsfStackTraceProcess: 
+
+
+stackTraceJavaProcess: 
+java.base@17.0.12/sun.nio.fs.WindowsNativeDispatcher.GetQueuedCompletionStatus0(Native Method)
+java.base@17.0.12/sun.nio.fs.WindowsNativeDispatcher.GetQueuedCompletionStatus(WindowsNativeDispatcher.java:1065)
+java.base@17.0.12/sun.nio.fs.WindowsWatchService$Poller.run(WindowsWatchService.java:587)
+java.base@17.0.12/java.lang.Thread.run(Thread.java:842)
+
+
+
+24 мар. 2026 23:49:55,110 system - system - system  INFO ProcessDumpLogger - PROCESS DUMP: 3 JAVA processes
+
+24 мар. 2026 23:49:55,110 system - system - system  INFO ProcessDumpLogger - idThreadProcess: 2
+   nameJavaProcess: Reference Handler
+   statusJavaProcess: RUNNABLE
+   lockNameJavaProcess: null
+   nameComputerJavaProcess: null
+   nameUserJavaProcess: null
+   threadAllocatedBytesProcess: 0
+   lastThreadAllocatedBytesProcess: 0
+
+lsfStackTraceProcess: 
+
+
+stackTraceJavaProcess: 
+java.base@17.0.12/java.lang.ref.Reference.waitForReferencePendingList(Native Method)
+java.base@17.0.12/java.lang.ref.Reference.processPendingReferences(Reference.java:253)
+java.base@17.0.12/java.lang.ref.Reference$ReferenceHandler.run(Reference.java:215)
+
+
+
+24 мар. 2026 23:49:55,110 system - system - system  INFO ProcessDumpLogger - idThreadProcess: 37
+   nameJavaProcess: RMI TCP Accept-7652
+   statusJavaProcess: RUNNABLE
+   lockNameJavaProcess: null
+   nameComputerJavaProcess: null
+   nameUserJavaProcess: null
+   threadAllocatedBytesProcess: 1360
+   lastThreadAllocatedBytesProcess: 0
+
+lsfStackTraceProcess: 
+
+
+stackTraceJavaProcess: 
+java.base@17.0.12/sun.nio.ch.Net.accept(Native Method)
+java.base@17.0.12/sun.nio.ch.NioSocketImpl.accept(NioSocketImpl.java:760)
+java.base@17.0.12/java.net.ServerSocket.implAccept(ServerSocket.java:675)
+java.base@17.0.12/java.net.ServerSocket.platformImplAccept(ServerSocket.java:641)
+java.base@17.0.12/java.net.ServerSocket.implAccept(ServerSocket.java:617)
+java.base@17.0.12/java.net.ServerSocket.implAccept(ServerSocket.java:574)
+app//lsfusion.base.remote.ZipServerSocket.accept(ZipServerSocket.java:21)
+java.rmi@17.0.12/sun.rmi.transport.tcp.TCPTransport$AcceptLoop.executeAcceptLoop(TCPTransport.java:413)
+java.rmi@17.0.12/sun.rmi.transport.tcp.TCPTransport$AcceptLoop.run(TCPTransport.java:377)
+java.base@17.0.12/java.lang.Thread.run(Thread.java:842)
+
+
+
+24 мар. 2026 23:49:55,110 system - system - system  INFO ProcessDumpLogger - idThreadProcess: 46
+   nameJavaProcess: FileSystemWatchService
+   statusJavaProcess: RUNNABLE
+   lockNameJavaProcess: null
+   nameComputerJavaProcess: null
+   nameUserJavaProcess: null
+   threadAllocatedBytesProcess: 6664
+   lastThreadAllocatedBytesProcess: 0
+
+lsfStackTraceProcess: 
+
+
+stackTraceJavaProcess: 
+java.base@17.0.12/sun.nio.fs.WindowsNativeDispatcher.GetQueuedCompletionStatus0(Native Method)
+java.base@17.0.12/sun.nio.fs.WindowsNativeDispatcher.GetQueuedCompletionStatus(WindowsNativeDispatcher.java:1065)
+java.base@17.0.12/sun.nio.fs.WindowsWatchService$Poller.run(WindowsWatchService.java:587)
+java.base@17.0.12/java.lang.Thread.run(Thread.java:842)
+
+
+
+24 мар. 2026 23:50:55,124 system - system - system  INFO ProcessDumpLogger - PROCESS DUMP: 3 JAVA processes
+
+24 мар. 2026 23:50:55,124 system - system - system  INFO ProcessDumpLogger - idThreadProcess: 2
+   nameJavaProcess: Reference Handler
+   statusJavaProcess: RUNNABLE
+   lockNameJavaProcess: null
+   nameComputerJavaProcess: null
+   nameUserJavaProcess: null
+   threadAllocatedBytesProcess: 0
+   lastThreadAllocatedBytesProcess: 0
+
+lsfStackTraceProcess: 
+
+
+stackTraceJavaProcess: 
+java.base@17.0.12/java.lang.ref.Reference.waitForReferencePendingList(Native Method)
+java.base@17.0.12/java.lang.ref.Reference.processPendingReferences(Reference.java:253)
+java.base@17.0.12/java.lang.ref.Reference$ReferenceHandler.run(Reference.java:215)
+
+
+
+24 мар. 2026 23:50:55,124 system - system - system  INFO ProcessDumpLogger - idThreadProcess: 37
+   nameJavaProcess: RMI TCP Accept-7652
+   statusJavaProcess: RUNNABLE
+   lockNameJavaProcess: null
+   nameComputerJavaProcess: null
+   nameUserJavaProcess: null
+   threadAllocatedBytesProcess: 1360
+   lastThreadAllocatedBytesProcess: 0
+
+lsfStackTraceProcess: 
+
+
+stackTraceJavaProcess: 
+java.base@17.0.12/sun.nio.ch.Net.accept(Native Method)
+java.base@17.0.12/sun.nio.ch.NioSocketImpl.accept(NioSocketImpl.java:760)
+java.base@17.0.12/java.net.ServerSocket.implAccept(ServerSocket.java:675)
+java.base@17.0.12/java.net.ServerSocket.platformImplAccept(ServerSocket.java:641)
+java.base@17.0.12/java.net.ServerSocket.implAccept(ServerSocket.java:617)
+java.base@17.0.12/java.net.ServerSocket.implAccept(ServerSocket.java:574)
+app//lsfusion.base.remote.ZipServerSocket.accept(ZipServerSocket.java:21)
+java.rmi@17.0.12/sun.rmi.transport.tcp.TCPTransport$AcceptLoop.executeAcceptLoop(TCPTransport.java:413)
+java.rmi@17.0.12/sun.rmi.transport.tcp.TCPTransport$AcceptLoop.run(TCPTransport.java:377)
+java.base@17.0.12/java.lang.Thread.run(Thread.java:842)
+
+
+
+24 мар. 2026 23:50:55,124 system - system - system  INFO ProcessDumpLogger - idThreadProcess: 46
+   nameJavaProcess: FileSystemWatchService
+   statusJavaProcess: RUNNABLE
+   lockNameJavaProcess: null
+   nameComputerJavaProcess: null
+   nameUserJavaProcess: null
+   threadAllocatedBytesProcess: 6664
+   lastThreadAllocatedBytesProcess: 0
+
+lsfStackTraceProcess: 
+
+
+stackTraceJavaProcess: 
+java.base@17.0.12/sun.nio.fs.WindowsNativeDispatcher.GetQueuedCompletionStatus0(Native Method)
+java.base@17.0.12/sun.nio.fs.WindowsNativeDispatcher.GetQueuedCompletionStatus(WindowsNativeDispatcher.java:1065)
+java.base@17.0.12/sun.nio.fs.WindowsWatchService$Poller.run(WindowsWatchService.java:587)
+java.base@17.0.12/java.lang.Thread.run(Thread.java:842)
+
+
+
+24 мар. 2026 23:51:55,120 system - system - system  INFO ProcessDumpLogger - PROCESS DUMP: 3 JAVA processes
+
+24 мар. 2026 23:51:55,120 system - system - system  INFO ProcessDumpLogger - idThreadProcess: 2
+   nameJavaProcess: Reference Handler
+   statusJavaProcess: RUNNABLE
+   lockNameJavaProcess: null
+   nameComputerJavaProcess: null
+   nameUserJavaProcess: null
+   threadAllocatedBytesProcess: 0
+   lastThreadAllocatedBytesProcess: 0
+
+lsfStackTraceProcess: 
+
+
+stackTraceJavaProcess: 
+java.base@17.0.12/java.lang.ref.Reference.waitForReferencePendingList(Native Method)
+java.base@17.0.12/java.lang.ref.Reference.processPendingReferences(Reference.java:253)
+java.base@17.0.12/java.lang.ref.Reference$ReferenceHandler.run(Reference.java:215)
+
+
+
+24 мар. 2026 23:51:55,120 system - system - system  INFO ProcessDumpLogger - idThreadProcess: 37
+   nameJavaProcess: RMI TCP Accept-7652
+   statusJavaProcess: RUNNABLE
+   lockNameJavaProcess: null
+   nameComputerJavaProcess: null
+   nameUserJavaProcess: null
+   threadAllocatedBytesProcess: 1360
+   lastThreadAllocatedBytesProcess: 0
+
+lsfStackTraceProcess: 
+
+
+stackTraceJavaProcess: 
+java.base@17.0.12/sun.nio.ch.Net.accept(Native Method)
+java.base@17.0.12/sun.nio.ch.NioSocketImpl.accept(NioSocketImpl.java:760)
+java.base@17.0.12/java.net.ServerSocket.implAccept(ServerSocket.java:675)
+java.base@17.0.12/java.net.ServerSocket.platformImplAccept(ServerSocket.java:641)
+java.base@17.0.12/java.net.ServerSocket.implAccept(ServerSocket.java:617)
+java.base@17.0.12/java.net.ServerSocket.implAccept(ServerSocket.java:574)
+app//lsfusion.base.remote.ZipServerSocket.accept(ZipServerSocket.java:21)
+java.rmi@17.0.12/sun.rmi.transport.tcp.TCPTransport$AcceptLoop.executeAcceptLoop(TCPTransport.java:413)
+java.rmi@17.0.12/sun.rmi.transport.tcp.TCPTransport$AcceptLoop.run(TCPTransport.java:377)
+java.base@17.0.12/java.lang.Thread.run(Thread.java:842)
+
+
+
+24 мар. 2026 23:51:55,120 system - system - system  INFO ProcessDumpLogger - idThreadProcess: 46
+   nameJavaProcess: FileSystemWatchService
+   statusJavaProcess: RUNNABLE
+   lockNameJavaProcess: null
+   nameComputerJavaProcess: null
+   nameUserJavaProcess: null
+   threadAllocatedBytesProcess: 6664
+   lastThreadAllocatedBytesProcess: 0
+
+lsfStackTraceProcess: 
+
+
+stackTraceJavaProcess: 
+java.base@17.0.12/sun.nio.fs.WindowsNativeDispatcher.GetQueuedCompletionStatus0(Native Method)
+java.base@17.0.12/sun.nio.fs.WindowsNativeDispatcher.GetQueuedCompletionStatus(WindowsNativeDispatcher.java:1065)
+java.base@17.0.12/sun.nio.fs.WindowsWatchService$Poller.run(WindowsWatchService.java:587)
+java.base@17.0.12/java.lang.Thread.run(Thread.java:842)
+
+
+
+24 мар. 2026 23:52:55,149 system - system - system  INFO ProcessDumpLogger - PROCESS DUMP: 3 JAVA processes
+
+24 мар. 2026 23:52:55,149 system - system - system  INFO ProcessDumpLogger - idThreadProcess: 2
+   nameJavaProcess: Reference Handler
+   statusJavaProcess: RUNNABLE
+   lockNameJavaProcess: null
+   nameComputerJavaProcess: null
+   nameUserJavaProcess: null
+   threadAllocatedBytesProcess: 0
+   lastThreadAllocatedBytesProcess: 0
+
+lsfStackTraceProcess: 
+
+
+stackTraceJavaProcess: 
+java.base@17.0.12/java.lang.ref.Reference.waitForReferencePendingList(Native Method)
+java.base@17.0.12/java.lang.ref.Reference.processPendingReferences(Reference.java:253)
+java.base@17.0.12/java.lang.ref.Reference$ReferenceHandler.run(Reference.java:215)
+
+
+
+24 мар. 2026 23:52:55,149 system - system - system  INFO ProcessDumpLogger - idThreadProcess: 37
+   nameJavaProcess: RMI TCP Accept-7652
+   statusJavaProcess: RUNNABLE
+   lockNameJavaProcess: null
+   nameComputerJavaProcess: null
+   nameUserJavaProcess: null
+   threadAllocatedBytesProcess: 1360
+   lastThreadAllocatedBytesProcess: 0
+
+lsfStackTraceProcess: 
+
+
+stackTraceJavaProcess: 
+java.base@17.0.12/sun.nio.ch.Net.accept(Native Method)
+java.base@17.0.12/sun.nio.ch.NioSocketImpl.accept(NioSocketImpl.java:760)
+java.base@17.0.12/java.net.ServerSocket.implAccept(ServerSocket.java:675)
+java.base@17.0.12/java.net.ServerSocket.platformImplAccept(ServerSocket.java:641)
+java.base@17.0.12/java.net.ServerSocket.implAccept(ServerSocket.java:617)
+java.base@17.0.12/java.net.ServerSocket.implAccept(ServerSocket.java:574)
+app//lsfusion.base.remote.ZipServerSocket.accept(ZipServerSocket.java:21)
+java.rmi@17.0.12/sun.rmi.transport.tcp.TCPTransport$AcceptLoop.executeAcceptLoop(TCPTransport.java:413)
+java.rmi@17.0.12/sun.rmi.transport.tcp.TCPTransport$AcceptLoop.run(TCPTransport.java:377)
+java.base@17.0.12/java.lang.Thread.run(Thread.java:842)
+
+
+
+24 мар. 2026 23:52:55,149 system - system - system  INFO ProcessDumpLogger - idThreadProcess: 46
+   nameJavaProcess: FileSystemWatchService
+   statusJavaProcess: RUNNABLE
+   lockNameJavaProcess: null
+   nameComputerJavaProcess: null
+   nameUserJavaProcess: null
+   threadAllocatedBytesProcess: 6664
+   lastThreadAllocatedBytesProcess: 0
+
+lsfStackTraceProcess: 
+
+
+stackTraceJavaProcess: 
+java.base@17.0.12/sun.nio.fs.WindowsNativeDispatcher.GetQueuedCompletionStatus0(Native Method)
+java.base@17.0.12/sun.nio.fs.WindowsNativeDispatcher.GetQueuedCompletionStatus(WindowsNativeDispatcher.java:1065)
+java.base@17.0.12/sun.nio.fs.WindowsWatchService$Poller.run(WindowsWatchService.java:587)
+java.base@17.0.12/java.lang.Thread.run(Thread.java:842)
+
+
+
+24 мар. 2026 23:53:55,118 system - system - system  INFO ProcessDumpLogger - PROCESS DUMP: 3 JAVA processes
+
+24 мар. 2026 23:53:55,118 system - system - system  INFO ProcessDumpLogger - idThreadProcess: 2
+   nameJavaProcess: Reference Handler
+   statusJavaProcess: RUNNABLE
+   lockNameJavaProcess: null
+   nameComputerJavaProcess: null
+   nameUserJavaProcess: null
+   threadAllocatedBytesProcess: 0
+   lastThreadAllocatedBytesProcess: 0
+
+lsfStackTraceProcess: 
+
+
+stackTraceJavaProcess: 
+java.base@17.0.12/java.lang.ref.Reference.waitForReferencePendingList(Native Method)
+java.base@17.0.12/java.lang.ref.Reference.processPendingReferences(Reference.java:253)
+java.base@17.0.12/java.lang.ref.Reference$ReferenceHandler.run(Reference.java:215)
+
+
+
+24 мар. 2026 23:53:55,118 system - system - system  INFO ProcessDumpLogger - idThreadProcess: 37
+   nameJavaProcess: RMI TCP Accept-7652
+   statusJavaProcess: RUNNABLE
+   lockNameJavaProcess: null
+   nameComputerJavaProcess: null
+   nameUserJavaProcess: null
+   threadAllocatedBytesProcess: 1360
+   lastThreadAllocatedBytesProcess: 0
+
+lsfStackTraceProcess: 
+
+
+stackTraceJavaProcess: 
+java.base@17.0.12/sun.nio.ch.Net.accept(Native Method)
+java.base@17.0.12/sun.nio.ch.NioSocketImpl.accept(NioSocketImpl.java:760)
+java.base@17.0.12/java.net.ServerSocket.implAccept(ServerSocket.java:675)
+java.base@17.0.12/java.net.ServerSocket.platformImplAccept(ServerSocket.java:641)
+java.base@17.0.12/java.net.ServerSocket.implAccept(ServerSocket.java:617)
+java.base@17.0.12/java.net.ServerSocket.implAccept(ServerSocket.java:574)
+app//lsfusion.base.remote.ZipServerSocket.accept(ZipServerSocket.java:21)
+java.rmi@17.0.12/sun.rmi.transport.tcp.TCPTransport$AcceptLoop.executeAcceptLoop(TCPTransport.java:413)
+java.rmi@17.0.12/sun.rmi.transport.tcp.TCPTransport$AcceptLoop.run(TCPTransport.java:377)
+java.base@17.0.12/java.lang.Thread.run(Thread.java:842)
+
+
+
+24 мар. 2026 23:53:55,118 system - system - system  INFO ProcessDumpLogger - idThreadProcess: 46
+   nameJavaProcess: FileSystemWatchService
+   statusJavaProcess: RUNNABLE
+   lockNameJavaProcess: null
+   nameComputerJavaProcess: null
+   nameUserJavaProcess: null
+   threadAllocatedBytesProcess: 6664
+   lastThreadAllocatedBytesProcess: 0
+
+lsfStackTraceProcess: 
+
+
+stackTraceJavaProcess: 
+java.base@17.0.12/sun.nio.fs.WindowsNativeDispatcher.GetQueuedCompletionStatus0(Native Method)
+java.base@17.0.12/sun.nio.fs.WindowsNativeDispatcher.GetQueuedCompletionStatus(WindowsNativeDispatcher.java:1065)
+java.base@17.0.12/sun.nio.fs.WindowsWatchService$Poller.run(WindowsWatchService.java:587)
+java.base@17.0.12/java.lang.Thread.run(Thread.java:842)
+
+
+
+24 мар. 2026 23:54:55,115 system - system - system  INFO ProcessDumpLogger - PROCESS DUMP: 3 JAVA processes
+
+24 мар. 2026 23:54:55,115 system - system - system  INFO ProcessDumpLogger - idThreadProcess: 2
+   nameJavaProcess: Reference Handler
+   statusJavaProcess: RUNNABLE
+   lockNameJavaProcess: null
+   nameComputerJavaProcess: null
+   nameUserJavaProcess: null
+   threadAllocatedBytesProcess: 0
+   lastThreadAllocatedBytesProcess: 0
+
+lsfStackTraceProcess: 
+
+
+stackTraceJavaProcess: 
+java.base@17.0.12/java.lang.ref.Reference.waitForReferencePendingList(Native Method)
+java.base@17.0.12/java.lang.ref.Reference.processPendingReferences(Reference.java:253)
+java.base@17.0.12/java.lang.ref.Reference$ReferenceHandler.run(Reference.java:215)
+
+
+
+24 мар. 2026 23:54:55,115 system - system - system  INFO ProcessDumpLogger - idThreadProcess: 37
+   nameJavaProcess: RMI TCP Accept-7652
+   statusJavaProcess: RUNNABLE
+   lockNameJavaProcess: null
+   nameComputerJavaProcess: null
+   nameUserJavaProcess: null
+   threadAllocatedBytesProcess: 1360
+   lastThreadAllocatedBytesProcess: 0
+
+lsfStackTraceProcess: 
+
+
+stackTraceJavaProcess: 
+java.base@17.0.12/sun.nio.ch.Net.accept(Native Method)
+java.base@17.0.12/sun.nio.ch.NioSocketImpl.accept(NioSocketImpl.java:760)
+java.base@17.0.12/java.net.ServerSocket.implAccept(ServerSocket.java:675)
+java.base@17.0.12/java.net.ServerSocket.platformImplAccept(ServerSocket.java:641)
+java.base@17.0.12/java.net.ServerSocket.implAccept(ServerSocket.java:617)
+java.base@17.0.12/java.net.ServerSocket.implAccept(ServerSocket.java:574)
+app//lsfusion.base.remote.ZipServerSocket.accept(ZipServerSocket.java:21)
+java.rmi@17.0.12/sun.rmi.transport.tcp.TCPTransport$AcceptLoop.executeAcceptLoop(TCPTransport.java:413)
+java.rmi@17.0.12/sun.rmi.transport.tcp.TCPTransport$AcceptLoop.run(TCPTransport.java:377)
+java.base@17.0.12/java.lang.Thread.run(Thread.java:842)
+
+
+
+24 мар. 2026 23:54:55,115 system - system - system  INFO ProcessDumpLogger - idThreadProcess: 46
+   nameJavaProcess: FileSystemWatchService
+   statusJavaProcess: RUNNABLE
+   lockNameJavaProcess: null
+   nameComputerJavaProcess: null
+   nameUserJavaProcess: null
+   threadAllocatedBytesProcess: 6664
+   lastThreadAllocatedBytesProcess: 0
+
+lsfStackTraceProcess: 
+
+
+stackTraceJavaProcess: 
+java.base@17.0.12/sun.nio.fs.WindowsNativeDispatcher.GetQueuedCompletionStatus0(Native Method)
+java.base@17.0.12/sun.nio.fs.WindowsNativeDispatcher.GetQueuedCompletionStatus(WindowsNativeDispatcher.java:1065)
+java.base@17.0.12/sun.nio.fs.WindowsWatchService$Poller.run(WindowsWatchService.java:587)
+java.base@17.0.12/java.lang.Thread.run(Thread.java:842)
+
+
+
+24 мар. 2026 23:55:55,112 system - system - system  INFO ProcessDumpLogger - PROCESS DUMP: 3 JAVA processes
+
+24 мар. 2026 23:55:55,112 system - system - system  INFO ProcessDumpLogger - idThreadProcess: 2
+   nameJavaProcess: Reference Handler
+   statusJavaProcess: RUNNABLE
+   lockNameJavaProcess: null
+   nameComputerJavaProcess: null
+   nameUserJavaProcess: null
+   threadAllocatedBytesProcess: 0
+   lastThreadAllocatedBytesProcess: 0
+
+lsfStackTraceProcess: 
+
+
+stackTraceJavaProcess: 
+java.base@17.0.12/java.lang.ref.Reference.waitForReferencePendingList(Native Method)
+java.base@17.0.12/java.lang.ref.Reference.processPendingReferences(Reference.java:253)
+java.base@17.0.12/java.lang.ref.Reference$ReferenceHandler.run(Reference.java:215)
+
+
+
+24 мар. 2026 23:55:55,112 system - system - system  INFO ProcessDumpLogger - idThreadProcess: 37
+   nameJavaProcess: RMI TCP Accept-7652
+   statusJavaProcess: RUNNABLE
+   lockNameJavaProcess: null
+   nameComputerJavaProcess: null
+   nameUserJavaProcess: null
+   threadAllocatedBytesProcess: 1360
+   lastThreadAllocatedBytesProcess: 0
+
+lsfStackTraceProcess: 
+
+
+stackTraceJavaProcess: 
+java.base@17.0.12/sun.nio.ch.Net.accept(Native Method)
+java.base@17.0.12/sun.nio.ch.NioSocketImpl.accept(NioSocketImpl.java:760)
+java.base@17.0.12/java.net.ServerSocket.implAccept(ServerSocket.java:675)
+java.base@17.0.12/java.net.ServerSocket.platformImplAccept(ServerSocket.java:641)
+java.base@17.0.12/java.net.ServerSocket.implAccept(ServerSocket.java:617)
+java.base@17.0.12/java.net.ServerSocket.implAccept(ServerSocket.java:574)
+app//lsfusion.base.remote.ZipServerSocket.accept(ZipServerSocket.java:21)
+java.rmi@17.0.12/sun.rmi.transport.tcp.TCPTransport$AcceptLoop.executeAcceptLoop(TCPTransport.java:413)
+java.rmi@17.0.12/sun.rmi.transport.tcp.TCPTransport$AcceptLoop.run(TCPTransport.java:377)
+java.base@17.0.12/java.lang.Thread.run(Thread.java:842)
+
+
+
+24 мар. 2026 23:55:55,112 system - system - system  INFO ProcessDumpLogger - idThreadProcess: 46
+   nameJavaProcess: FileSystemWatchService
+   statusJavaProcess: RUNNABLE
+   lockNameJavaProcess: null
+   nameComputerJavaProcess: null
+   nameUserJavaProcess: null
+   threadAllocatedBytesProcess: 6664
+   lastThreadAllocatedBytesProcess: 0
+
+lsfStackTraceProcess: 
+
+
+stackTraceJavaProcess: 
+java.base@17.0.12/sun.nio.fs.WindowsNativeDispatcher.GetQueuedCompletionStatus0(Native Method)
+java.base@17.0.12/sun.nio.fs.WindowsNativeDispatcher.GetQueuedCompletionStatus(WindowsNativeDispatcher.java:1065)
+java.base@17.0.12/sun.nio.fs.WindowsWatchService$Poller.run(WindowsWatchService.java:587)
+java.base@17.0.12/java.lang.Thread.run(Thread.java:842)
+
+
+
+24 мар. 2026 23:56:55,106 system - system - system  INFO ProcessDumpLogger - PROCESS DUMP: 3 JAVA processes
+
+24 мар. 2026 23:56:55,106 system - system - system  INFO ProcessDumpLogger - idThreadProcess: 2
+   nameJavaProcess: Reference Handler
+   statusJavaProcess: RUNNABLE
+   lockNameJavaProcess: null
+   nameComputerJavaProcess: null
+   nameUserJavaProcess: null
+   threadAllocatedBytesProcess: 0
+   lastThreadAllocatedBytesProcess: 0
+
+lsfStackTraceProcess: 
+
+
+stackTraceJavaProcess: 
+java.base@17.0.12/java.lang.ref.Reference.waitForReferencePendingList(Native Method)
+java.base@17.0.12/java.lang.ref.Reference.processPendingReferences(Reference.java:253)
+java.base@17.0.12/java.lang.ref.Reference$ReferenceHandler.run(Reference.java:215)
+
+
+
+24 мар. 2026 23:56:55,106 system - system - system  INFO ProcessDumpLogger - idThreadProcess: 37
+   nameJavaProcess: RMI TCP Accept-7652
+   statusJavaProcess: RUNNABLE
+   lockNameJavaProcess: null
+   nameComputerJavaProcess: null
+   nameUserJavaProcess: null
+   threadAllocatedBytesProcess: 1360
+   lastThreadAllocatedBytesProcess: 0
+
+lsfStackTraceProcess: 
+
+
+stackTraceJavaProcess: 
+java.base@17.0.12/sun.nio.ch.Net.accept(Native Method)
+java.base@17.0.12/sun.nio.ch.NioSocketImpl.accept(NioSocketImpl.java:760)
+java.base@17.0.12/java.net.ServerSocket.implAccept(ServerSocket.java:675)
+java.base@17.0.12/java.net.ServerSocket.platformImplAccept(ServerSocket.java:641)
+java.base@17.0.12/java.net.ServerSocket.implAccept(ServerSocket.java:617)
+java.base@17.0.12/java.net.ServerSocket.implAccept(ServerSocket.java:574)
+app//lsfusion.base.remote.ZipServerSocket.accept(ZipServerSocket.java:21)
+java.rmi@17.0.12/sun.rmi.transport.tcp.TCPTransport$AcceptLoop.executeAcceptLoop(TCPTransport.java:413)
+java.rmi@17.0.12/sun.rmi.transport.tcp.TCPTransport$AcceptLoop.run(TCPTransport.java:377)
+java.base@17.0.12/java.lang.Thread.run(Thread.java:842)
+
+
+
+24 мар. 2026 23:56:55,107 system - system - system  INFO ProcessDumpLogger - idThreadProcess: 46
+   nameJavaProcess: FileSystemWatchService
+   statusJavaProcess: RUNNABLE
+   lockNameJavaProcess: null
+   nameComputerJavaProcess: null
+   nameUserJavaProcess: null
+   threadAllocatedBytesProcess: 6664
+   lastThreadAllocatedBytesProcess: 0
+
+lsfStackTraceProcess: 
+
+
+stackTraceJavaProcess: 
+java.base@17.0.12/sun.nio.fs.WindowsNativeDispatcher.GetQueuedCompletionStatus0(Native Method)
+java.base@17.0.12/sun.nio.fs.WindowsNativeDispatcher.GetQueuedCompletionStatus(WindowsNativeDispatcher.java:1065)
+java.base@17.0.12/sun.nio.fs.WindowsWatchService$Poller.run(WindowsWatchService.java:587)
+java.base@17.0.12/java.lang.Thread.run(Thread.java:842)
+
+
+
+24 мар. 2026 23:57:55,114 system - system - system  INFO ProcessDumpLogger - PROCESS DUMP: 3 JAVA processes
+
+24 мар. 2026 23:57:55,114 system - system - system  INFO ProcessDumpLogger - idThreadProcess: 2
+   nameJavaProcess: Reference Handler
+   statusJavaProcess: RUNNABLE
+   lockNameJavaProcess: null
+   nameComputerJavaProcess: null
+   nameUserJavaProcess: null
+   threadAllocatedBytesProcess: 0
+   lastThreadAllocatedBytesProcess: 0
+
+lsfStackTraceProcess: 
+
+
+stackTraceJavaProcess: 
+java.base@17.0.12/java.lang.ref.Reference.waitForReferencePendingList(Native Method)
+java.base@17.0.12/java.lang.ref.Reference.processPendingReferences(Reference.java:253)
+java.base@17.0.12/java.lang.ref.Reference$ReferenceHandler.run(Reference.java:215)
+
+
+
+24 мар. 2026 23:57:55,114 system - system - system  INFO ProcessDumpLogger - idThreadProcess: 37
+   nameJavaProcess: RMI TCP Accept-7652
+   statusJavaProcess: RUNNABLE
+   lockNameJavaProcess: null
+   nameComputerJavaProcess: null
+   nameUserJavaProcess: null
+   threadAllocatedBytesProcess: 1360
+   lastThreadAllocatedBytesProcess: 0
+
+lsfStackTraceProcess: 
+
+
+stackTraceJavaProcess: 
+java.base@17.0.12/sun.nio.ch.Net.accept(Native Method)
+java.base@17.0.12/sun.nio.ch.NioSocketImpl.accept(NioSocketImpl.java:760)
+java.base@17.0.12/java.net.ServerSocket.implAccept(ServerSocket.java:675)
+java.base@17.0.12/java.net.ServerSocket.platformImplAccept(ServerSocket.java:641)
+java.base@17.0.12/java.net.ServerSocket.implAccept(ServerSocket.java:617)
+java.base@17.0.12/java.net.ServerSocket.implAccept(ServerSocket.java:574)
+app//lsfusion.base.remote.ZipServerSocket.accept(ZipServerSocket.java:21)
+java.rmi@17.0.12/sun.rmi.transport.tcp.TCPTransport$AcceptLoop.executeAcceptLoop(TCPTransport.java:413)
+java.rmi@17.0.12/sun.rmi.transport.tcp.TCPTransport$AcceptLoop.run(TCPTransport.java:377)
+java.base@17.0.12/java.lang.Thread.run(Thread.java:842)
+
+
+
+24 мар. 2026 23:57:55,114 system - system - system  INFO ProcessDumpLogger - idThreadProcess: 46
+   nameJavaProcess: FileSystemWatchService
+   statusJavaProcess: RUNNABLE
+   lockNameJavaProcess: null
+   nameComputerJavaProcess: null
+   nameUserJavaProcess: null
+   threadAllocatedBytesProcess: 6664
+   lastThreadAllocatedBytesProcess: 0
+
+lsfStackTraceProcess: 
+
+
+stackTraceJavaProcess: 
+java.base@17.0.12/sun.nio.fs.WindowsNativeDispatcher.GetQueuedCompletionStatus0(Native Method)
+java.base@17.0.12/sun.nio.fs.WindowsNativeDispatcher.GetQueuedCompletionStatus(WindowsNativeDispatcher.java:1065)
+java.base@17.0.12/sun.nio.fs.WindowsWatchService$Poller.run(WindowsWatchService.java:587)
+java.base@17.0.12/java.lang.Thread.run(Thread.java:842)
+
+
+
+24 мар. 2026 23:58:55,115 system - system - system  INFO ProcessDumpLogger - PROCESS DUMP: 3 JAVA processes
+
+24 мар. 2026 23:58:55,115 system - system - system  INFO ProcessDumpLogger - idThreadProcess: 2
+   nameJavaProcess: Reference Handler
+   statusJavaProcess: RUNNABLE
+   lockNameJavaProcess: null
+   nameComputerJavaProcess: null
+   nameUserJavaProcess: null
+   threadAllocatedBytesProcess: 0
+   lastThreadAllocatedBytesProcess: 0
+
+lsfStackTraceProcess: 
+
+
+stackTraceJavaProcess: 
+java.base@17.0.12/java.lang.ref.Reference.waitForReferencePendingList(Native Method)
+java.base@17.0.12/java.lang.ref.Reference.processPendingReferences(Reference.java:253)
+java.base@17.0.12/java.lang.ref.Reference$ReferenceHandler.run(Reference.java:215)
+
+
+
+24 мар. 2026 23:58:55,115 system - system - system  INFO ProcessDumpLogger - idThreadProcess: 37
+   nameJavaProcess: RMI TCP Accept-7652
+   statusJavaProcess: RUNNABLE
+   lockNameJavaProcess: null
+   nameComputerJavaProcess: null
+   nameUserJavaProcess: null
+   threadAllocatedBytesProcess: 1360
+   lastThreadAllocatedBytesProcess: 0
+
+lsfStackTraceProcess: 
+
+
+stackTraceJavaProcess: 
+java.base@17.0.12/sun.nio.ch.Net.accept(Native Method)
+java.base@17.0.12/sun.nio.ch.NioSocketImpl.accept(NioSocketImpl.java:760)
+java.base@17.0.12/java.net.ServerSocket.implAccept(ServerSocket.java:675)
+java.base@17.0.12/java.net.ServerSocket.platformImplAccept(ServerSocket.java:641)
+java.base@17.0.12/java.net.ServerSocket.implAccept(ServerSocket.java:617)
+java.base@17.0.12/java.net.ServerSocket.implAccept(ServerSocket.java:574)
+app//lsfusion.base.remote.ZipServerSocket.accept(ZipServerSocket.java:21)
+java.rmi@17.0.12/sun.rmi.transport.tcp.TCPTransport$AcceptLoop.executeAcceptLoop(TCPTransport.java:413)
+java.rmi@17.0.12/sun.rmi.transport.tcp.TCPTransport$AcceptLoop.run(TCPTransport.java:377)
+java.base@17.0.12/java.lang.Thread.run(Thread.java:842)
+
+
+
+24 мар. 2026 23:58:55,115 system - system - system  INFO ProcessDumpLogger - idThreadProcess: 46
+   nameJavaProcess: FileSystemWatchService
+   statusJavaProcess: RUNNABLE
+   lockNameJavaProcess: null
+   nameComputerJavaProcess: null
+   nameUserJavaProcess: null
+   threadAllocatedBytesProcess: 6664
+   lastThreadAllocatedBytesProcess: 0
+
+lsfStackTraceProcess: 
+
+
+stackTraceJavaProcess: 
+java.base@17.0.12/sun.nio.fs.WindowsNativeDispatcher.GetQueuedCompletionStatus0(Native Method)
+java.base@17.0.12/sun.nio.fs.WindowsNativeDispatcher.GetQueuedCompletionStatus(WindowsNativeDispatcher.java:1065)
+java.base@17.0.12/sun.nio.fs.WindowsWatchService$Poller.run(WindowsWatchService.java:587)
+java.base@17.0.12/java.lang.Thread.run(Thread.java:842)
+
+
+
+24 мар. 2026 23:59:55,106 system - system - system  INFO ProcessDumpLogger - PROCESS DUMP: 3 JAVA processes
+
+24 мар. 2026 23:59:55,106 system - system - system  INFO ProcessDumpLogger - idThreadProcess: 2
+   nameJavaProcess: Reference Handler
+   statusJavaProcess: RUNNABLE
+   lockNameJavaProcess: null
+   nameComputerJavaProcess: null
+   nameUserJavaProcess: null
+   threadAllocatedBytesProcess: 0
+   lastThreadAllocatedBytesProcess: 0
+
+lsfStackTraceProcess: 
+
+
+stackTraceJavaProcess: 
+java.base@17.0.12/java.lang.ref.Reference.waitForReferencePendingList(Native Method)
+java.base@17.0.12/java.lang.ref.Reference.processPendingReferences(Reference.java:253)
+java.base@17.0.12/java.lang.ref.Reference$ReferenceHandler.run(Reference.java:215)
+
+
+
+24 мар. 2026 23:59:55,106 system - system - system  INFO ProcessDumpLogger - idThreadProcess: 37
+   nameJavaProcess: RMI TCP Accept-7652
+   statusJavaProcess: RUNNABLE
+   lockNameJavaProcess: null
+   nameComputerJavaProcess: null
+   nameUserJavaProcess: null
+   threadAllocatedBytesProcess: 1360
+   lastThreadAllocatedBytesProcess: 0
+
+lsfStackTraceProcess: 
+
+
+stackTraceJavaProcess: 
+java.base@17.0.12/sun.nio.ch.Net.accept(Native Method)
+java.base@17.0.12/sun.nio.ch.NioSocketImpl.accept(NioSocketImpl.java:760)
+java.base@17.0.12/java.net.ServerSocket.implAccept(ServerSocket.java:675)
+java.base@17.0.12/java.net.ServerSocket.platformImplAccept(ServerSocket.java:641)
+java.base@17.0.12/java.net.ServerSocket.implAccept(ServerSocket.java:617)
+java.base@17.0.12/java.net.ServerSocket.implAccept(ServerSocket.java:574)
+app//lsfusion.base.remote.ZipServerSocket.accept(ZipServerSocket.java:21)
+java.rmi@17.0.12/sun.rmi.transport.tcp.TCPTransport$AcceptLoop.executeAcceptLoop(TCPTransport.java:413)
+java.rmi@17.0.12/sun.rmi.transport.tcp.TCPTransport$AcceptLoop.run(TCPTransport.java:377)
+java.base@17.0.12/java.lang.Thread.run(Thread.java:842)
+
+
+
+24 мар. 2026 23:59:55,106 system - system - system  INFO ProcessDumpLogger - idThreadProcess: 46
+   nameJavaProcess: FileSystemWatchService
+   statusJavaProcess: RUNNABLE
+   lockNameJavaProcess: null
+   nameComputerJavaProcess: null
+   nameUserJavaProcess: null
+   threadAllocatedBytesProcess: 6664
+   lastThreadAllocatedBytesProcess: 0
+
+lsfStackTraceProcess: 
+
+
+stackTraceJavaProcess: 
+java.base@17.0.12/sun.nio.fs.WindowsNativeDispatcher.GetQueuedCompletionStatus0(Native Method)
+java.base@17.0.12/sun.nio.fs.WindowsNativeDispatcher.GetQueuedCompletionStatus(WindowsNativeDispatcher.java:1065)
+java.base@17.0.12/sun.nio.fs.WindowsWatchService$Poller.run(WindowsWatchService.java:587)
+java.base@17.0.12/java.lang.Thread.run(Thread.java:842)
+
+
+
+25 мар. 2026 00:00:55,112 system - system - system  INFO ProcessDumpLogger - PROCESS DUMP: 3 JAVA processes
+
+25 мар. 2026 00:00:55,112 system - system - system  INFO ProcessDumpLogger - idThreadProcess: 2
+   nameJavaProcess: Reference Handler
+   statusJavaProcess: RUNNABLE
+   lockNameJavaProcess: null
+   nameComputerJavaProcess: null
+   nameUserJavaProcess: null
+   threadAllocatedBytesProcess: 0
+   lastThreadAllocatedBytesProcess: 0
+
+lsfStackTraceProcess: 
+
+
+stackTraceJavaProcess: 
+java.base@17.0.12/java.lang.ref.Reference.waitForReferencePendingList(Native Method)
+java.base@17.0.12/java.lang.ref.Reference.processPendingReferences(Reference.java:253)
+java.base@17.0.12/java.lang.ref.Reference$ReferenceHandler.run(Reference.java:215)
+
+
+
+25 мар. 2026 00:00:55,112 system - system - system  INFO ProcessDumpLogger - idThreadProcess: 37
+   nameJavaProcess: RMI TCP Accept-7652
+   statusJavaProcess: RUNNABLE
+   lockNameJavaProcess: null
+   nameComputerJavaProcess: null
+   nameUserJavaProcess: null
+   threadAllocatedBytesProcess: 1360
+   lastThreadAllocatedBytesProcess: 0
+
+lsfStackTraceProcess: 
+
+
+stackTraceJavaProcess: 
+java.base@17.0.12/sun.nio.ch.Net.accept(Native Method)
+java.base@17.0.12/sun.nio.ch.NioSocketImpl.accept(NioSocketImpl.java:760)
+java.base@17.0.12/java.net.ServerSocket.implAccept(ServerSocket.java:675)
+java.base@17.0.12/java.net.ServerSocket.platformImplAccept(ServerSocket.java:641)
+java.base@17.0.12/java.net.ServerSocket.implAccept(ServerSocket.java:617)
+java.base@17.0.12/java.net.ServerSocket.implAccept(ServerSocket.java:574)
+app//lsfusion.base.remote.ZipServerSocket.accept(ZipServerSocket.java:21)
+java.rmi@17.0.12/sun.rmi.transport.tcp.TCPTransport$AcceptLoop.executeAcceptLoop(TCPTransport.java:413)
+java.rmi@17.0.12/sun.rmi.transport.tcp.TCPTransport$AcceptLoop.run(TCPTransport.java:377)
+java.base@17.0.12/java.lang.Thread.run(Thread.java:842)
+
+
+
+25 мар. 2026 00:00:55,112 system - system - system  INFO ProcessDumpLogger - idThreadProcess: 46
+   nameJavaProcess: FileSystemWatchService
+   statusJavaProcess: RUNNABLE
+   lockNameJavaProcess: null
+   nameComputerJavaProcess: null
+   nameUserJavaProcess: null
+   threadAllocatedBytesProcess: 6664
+   lastThreadAllocatedBytesProcess: 0
+
+lsfStackTraceProcess: 
+
+
+stackTraceJavaProcess: 
+java.base@17.0.12/sun.nio.fs.WindowsNativeDispatcher.GetQueuedCompletionStatus0(Native Method)
+java.base@17.0.12/sun.nio.fs.WindowsNativeDispatcher.GetQueuedCompletionStatus(WindowsNativeDispatcher.java:1065)
+java.base@17.0.12/sun.nio.fs.WindowsWatchService$Poller.run(WindowsWatchService.java:587)
+java.base@17.0.12/java.lang.Thread.run(Thread.java:842)
+
+
+
+25 мар. 2026 00:01:55,111 system - system - system  INFO ProcessDumpLogger - PROCESS DUMP: 3 JAVA processes
+
+25 мар. 2026 00:01:55,111 system - system - system  INFO ProcessDumpLogger - idThreadProcess: 2
+   nameJavaProcess: Reference Handler
+   statusJavaProcess: RUNNABLE
+   lockNameJavaProcess: null
+   nameComputerJavaProcess: null
+   nameUserJavaProcess: null
+   threadAllocatedBytesProcess: 0
+   lastThreadAllocatedBytesProcess: 0
+
+lsfStackTraceProcess: 
+
+
+stackTraceJavaProcess: 
+java.base@17.0.12/java.lang.ref.Reference.waitForReferencePendingList(Native Method)
+java.base@17.0.12/java.lang.ref.Reference.processPendingReferences(Reference.java:253)
+java.base@17.0.12/java.lang.ref.Reference$ReferenceHandler.run(Reference.java:215)
+
+
+
+25 мар. 2026 00:01:55,111 system - system - system  INFO ProcessDumpLogger - idThreadProcess: 37
+   nameJavaProcess: RMI TCP Accept-7652
+   statusJavaProcess: RUNNABLE
+   lockNameJavaProcess: null
+   nameComputerJavaProcess: null
+   nameUserJavaProcess: null
+   threadAllocatedBytesProcess: 1360
+   lastThreadAllocatedBytesProcess: 0
+
+lsfStackTraceProcess: 
+
+
+stackTraceJavaProcess: 
+java.base@17.0.12/sun.nio.ch.Net.accept(Native Method)
+java.base@17.0.12/sun.nio.ch.NioSocketImpl.accept(NioSocketImpl.java:760)
+java.base@17.0.12/java.net.ServerSocket.implAccept(ServerSocket.java:675)
+java.base@17.0.12/java.net.ServerSocket.platformImplAccept(ServerSocket.java:641)
+java.base@17.0.12/java.net.ServerSocket.implAccept(ServerSocket.java:617)
+java.base@17.0.12/java.net.ServerSocket.implAccept(ServerSocket.java:574)
+app//lsfusion.base.remote.ZipServerSocket.accept(ZipServerSocket.java:21)
+java.rmi@17.0.12/sun.rmi.transport.tcp.TCPTransport$AcceptLoop.executeAcceptLoop(TCPTransport.java:413)
+java.rmi@17.0.12/sun.rmi.transport.tcp.TCPTransport$AcceptLoop.run(TCPTransport.java:377)
+java.base@17.0.12/java.lang.Thread.run(Thread.java:842)
+
+
+
+25 мар. 2026 00:01:55,111 system - system - system  INFO ProcessDumpLogger - idThreadProcess: 46
+   nameJavaProcess: FileSystemWatchService
+   statusJavaProcess: RUNNABLE
+   lockNameJavaProcess: null
+   nameComputerJavaProcess: null
+   nameUserJavaProcess: null
+   threadAllocatedBytesProcess: 6664
+   lastThreadAllocatedBytesProcess: 0
+
+lsfStackTraceProcess: 
+
+
+stackTraceJavaProcess: 
+java.base@17.0.12/sun.nio.fs.WindowsNativeDispatcher.GetQueuedCompletionStatus0(Native Method)
+java.base@17.0.12/sun.nio.fs.WindowsNativeDispatcher.GetQueuedCompletionStatus(WindowsNativeDispatcher.java:1065)
+java.base@17.0.12/sun.nio.fs.WindowsWatchService$Poller.run(WindowsWatchService.java:587)
+java.base@17.0.12/java.lang.Thread.run(Thread.java:842)
+
+
+

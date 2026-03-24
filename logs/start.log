@@ -2320,3 +2320,195 @@ Caused by: org.postgresql.util.PSQLException: The server requested SCRAM-based a
 24 мар. 2026 23:39:58,681  INFO StartLogger - Java Web Start (with auto update, requires JDK): https://download.lsfusion.org/java/lsfusion-client-6.1.jnlp
 24 мар. 2026 23:39:58,681  INFO StartLogger - Installer for Windows (without auto update): https://download.lsfusion.org/exe/lsfusion-desktop-6.1-x64.exe
 24 мар. 2026 23:39:58,681  INFO StartLogger - Server has successfully started in 33316 ms
+24 мар. 2026 23:45:44,343  INFO StartLogger - Server is starting...
+24 мар. 2026 23:45:44,465  INFO StartLogger - Current version: 6.1 (365)
+24 мар. 2026 23:45:44,466  INFO StartLogger - Java version: 17.0.12
+24 мар. 2026 23:45:44,467  INFO StartLogger - Class path: lib/lsfusion-server-6.1.jar;target/classes
+24 мар. 2026 23:45:44,483  INFO StartLogger - JVM arguments: [-Ddb.server=localhost:5432, -Ddb.name=boardgame, -Ddb.user=postgres, -Ddb.password=Ad2305@@]
+24 мар. 2026 23:45:45,536  INFO StartLogger - Logics instance is starting...
+24 мар. 2026 23:45:45,587  INFO StartLogger - Initializing BusinessLogics
+24 мар. 2026 23:45:45,622  INFO StartLogger - Initializing string literals data
+24 мар. 2026 23:45:45,622  INFO StartLogger - Initializing localizer
+24 мар. 2026 23:45:45,623  INFO StartLogger - Creating modules
+24 мар. 2026 23:45:46,505  INFO StartLogger - Initializing dependencies
+24 мар. 2026 23:45:46,697  INFO StartLogger - Initializing modules order
+24 мар. 2026 23:45:46,703  INFO StartLogger - Initializing metacodes and classes
+24 мар. 2026 23:45:47,755  INFO StartLogger - Initializing object class
+24 мар. 2026 23:45:47,767  INFO StartLogger - Initializing tables
+24 мар. 2026 23:45:47,871  INFO StartLogger - Initializing class tables
+24 мар. 2026 23:45:48,034  INFO StartLogger - Initializing full tables with one key
+24 мар. 2026 23:45:48,036  INFO StartLogger - Initializing main logic
+24 мар. 2026 23:45:48,052  INFO StartLogger - Initializing main logic for module : #1 of 55 System (actual: 1)
+24 мар. 2026 23:45:48,889  INFO StartLogger - Initializing main logic for module : #2 of 55 Time (actual: 2)
+24 мар. 2026 23:45:48,889  INFO StartLogger - Initializing main logic for module : #3 of 55 Printer (actual: 10)
+24 мар. 2026 23:45:48,889  INFO StartLogger - Initializing main logic for module : #4 of 55 Image (actual: 11)
+24 мар. 2026 23:45:48,889  INFO StartLogger - Initializing main logic for module : #5 of 55 Com (actual: 49)
+24 мар. 2026 23:45:48,889  INFO StartLogger - Initializing main logic for module : #6 of 55 DefaultData (actual: 12)
+24 мар. 2026 23:45:48,890  INFO StartLogger - Initializing main logic for module : #7 of 55 Integration (actual: 46)
+24 мар. 2026 23:45:48,890  INFO StartLogger - Initializing main logic for module : #8 of 55 Sound (actual: 27)
+24 мар. 2026 23:45:48,890  INFO StartLogger - Initializing main logic for module : #9 of 55 UserEvents (actual: 15)
+24 мар. 2026 23:45:48,897  INFO StartLogger - Initializing main logic for module : #10 of 55 MasterData (actual: 7)
+24 мар. 2026 23:45:48,898  INFO StartLogger - Initializing main logic for module : #11 of 55 ProcessUtils (actual: 29)
+24 мар. 2026 23:45:48,908  INFO StartLogger - Initializing main logic for module : #12 of 55 Numerator (actual: 13)
+24 мар. 2026 23:45:49,685  INFO StartLogger - Initializing main logic for module : #13 of 55 Utils (actual: 3)
+24 мар. 2026 23:45:49,931  INFO StartLogger - Initializing main logic for module : #14 of 55 Schedule (actual: 55)
+24 мар. 2026 23:45:49,931  INFO StartLogger - Initializing main logic for module : #16 of 55 I18n (actual: 26)
+24 мар. 2026 23:45:49,931  INFO StartLogger - Initializing main logic for module : #15 of 55 Authentication (actual: 4)
+24 мар. 2026 23:45:49,931  INFO StartLogger - Initializing main logic for module : #17 of 55 Excel (actual: 18)
+24 мар. 2026 23:45:49,932  INFO StartLogger - Initializing main logic for module : #18 of 55 Hierarchy (actual: 17)
+24 мар. 2026 23:45:49,932  INFO StartLogger - Initializing main logic for module : #19 of 55 BoardGameDomain (actual: 40)
+24 мар. 2026 23:45:50,071  INFO StartLogger - Initializing main logic for module : #20 of 55 BoardGameLogic (actual: 41)
+24 мар. 2026 23:45:50,071  INFO StartLogger - Initializing main logic for module : #21 of 55 BoardGameExampleData (actual: 43)
+24 мар. 2026 23:45:50,215  INFO StartLogger - Initializing main logic for module : #22 of 55 BoardGameTest (actual: 44)
+24 мар. 2026 23:45:50,598  INFO StartLogger - Initializing main logic for module : #23 of 55 Historizable (actual: 16)
+24 мар. 2026 23:45:50,598  INFO StartLogger - Initializing main logic for module : #26 of 55 Document (actual: 14)
+24 мар. 2026 23:45:50,598  INFO StartLogger - Initializing main logic for module : #25 of 55 Reflection (actual: 5)
+24 мар. 2026 23:45:50,598  INFO StartLogger - Initializing main logic for module : #24 of 55 ProcessMonitor (actual: 38)
+24 мар. 2026 23:45:50,854  INFO StartLogger - Initializing main logic for module : #27 of 55 SystemEvents (actual: 6)
+24 мар. 2026 23:45:50,854  INFO StartLogger - Initializing main logic for module : #28 of 55 Messenger (actual: 24)
+24 мар. 2026 23:45:50,888  INFO StartLogger - Initializing main logic for module : #29 of 55 Viber (actual: 31)
+24 мар. 2026 23:45:50,888  INFO StartLogger - Initializing main logic for module : #31 of 55 Slack (actual: 33)
+24 мар. 2026 23:45:50,888  INFO StartLogger - Initializing main logic for module : #33 of 55 Telegram (actual: 50)
+24 мар. 2026 23:45:50,888  INFO StartLogger - Initializing main logic for module : #30 of 55 Whatsapp (actual: 25)
+24 мар. 2026 23:45:50,888  INFO StartLogger - Initializing main logic for module : #32 of 55 Skype (actual: 53)
+24 мар. 2026 23:45:51,162  INFO StartLogger - Initializing main logic for module : #34 of 55 Icon (actual: 34)
+24 мар. 2026 23:45:51,162  INFO StartLogger - Initializing main logic for module : #36 of 55 JKanban (actual: 32)
+24 мар. 2026 23:45:51,162  INFO StartLogger - Initializing main logic for module : #35 of 55 RabbitMQ (actual: 52)
+24 мар. 2026 23:45:51,162  INFO StartLogger - Initializing main logic for module : #38 of 55 Chart (actual: 48)
+24 мар. 2026 23:45:51,162  INFO StartLogger - Initializing main logic for module : #37 of 55 Word (actual: 8)
+24 мар. 2026 23:45:51,162  INFO StartLogger - Initializing main logic for module : #40 of 55 QZTray (actual: 28)
+24 мар. 2026 23:45:51,162  INFO StartLogger - Initializing main logic for module : #39 of 55 Geo (actual: 30)
+24 мар. 2026 23:45:51,163  INFO StartLogger - Initializing main logic for module : #41 of 55 Email (actual: 19)
+24 мар. 2026 23:45:51,167  INFO StartLogger - Initializing main logic for module : #42 of 55 WebSocket (actual: 51)
+24 мар. 2026 23:45:51,170  INFO StartLogger - Initializing main logic for module : #43 of 55 OpenCV (actual: 54)
+24 мар. 2026 23:45:51,205  INFO StartLogger - Initializing main logic for module : #44 of 55 Carousel (actual: 9)
+24 мар. 2026 23:45:51,216  INFO StartLogger - Initializing main logic for module : #45 of 55 FrappeGantt (actual: 35)
+24 мар. 2026 23:45:51,418  INFO StartLogger - Initializing main logic for module : #46 of 55 Security (actual: 20)
+24 мар. 2026 23:45:51,661  INFO StartLogger - Initializing main logic for module : #47 of 55 Service (actual: 21)
+24 мар. 2026 23:45:51,661  INFO StartLogger - Initializing main logic for module : #48 of 55 BoardGameSecurity (actual: 42)
+24 мар. 2026 23:45:51,664  INFO StartLogger - Initializing main logic for module : #49 of 55 BoardGameUI (actual: 45)
+24 мар. 2026 23:45:51,958  INFO StartLogger - Initializing main logic for module : #50 of 55 Profiler (actual: 22)
+24 мар. 2026 23:45:51,958  INFO StartLogger - Initializing main logic for module : #53 of 55 Scheduler (actual: 36)
+24 мар. 2026 23:45:51,958  INFO StartLogger - Initializing main logic for module : #52 of 55 Chat (actual: 47)
+24 мар. 2026 23:45:51,958  INFO StartLogger - Initializing main logic for module : #51 of 55 SQLUtils (actual: 39)
+24 мар. 2026 23:45:51,958  INFO StartLogger - Initializing main logic for module : #54 of 55 Eval (actual: 23)
+24 мар. 2026 23:45:52,100  INFO StartLogger - Initializing main logic for module : #55 of 55 Backup (actual: 37)
+24 мар. 2026 23:45:52,190  INFO StartLogger - Checking for duplicate elements
+24 мар. 2026 23:45:52,190  INFO StartLogger - Finalizing groups
+24 мар. 2026 23:45:52,190  INFO StartLogger - Finalizing classes
+24 мар. 2026 23:45:52,249  INFO StartLogger - Initializing class dialog forms
+24 мар. 2026 23:45:52,249  INFO StartLogger - Filling implicit cases
+24 мар. 2026 23:45:52,250  INFO StartLogger - Finalizing abstract actions
+24 мар. 2026 23:45:52,250  INFO StartLogger - Initializing abstract properties
+24 мар. 2026 23:45:52,332  INFO StartLogger - Checking abstract
+24 мар. 2026 23:45:52,332  INFO StartLogger - Initializing fields for data and materialized properties
+24 мар. 2026 23:45:52,332  INFO StartLogger - Initializing class aggr props
+24 мар. 2026 23:45:52,333  INFO StartLogger - Looking for recursions in abstract actions
+24 мар. 2026 23:45:52,540  INFO StartLogger - Finalizing navigator elements
+24 мар. 2026 23:45:52,764  INFO StartLogger - Setting up property policy
+24 мар. 2026 23:45:52,832  INFO StartLogger - Setting up drill-down
+24 мар. 2026 23:45:53,147  INFO StartLogger - Finalizing tables
+24 мар. 2026 23:45:53,147  INFO StartLogger - Initializing indices
+24 мар. 2026 23:45:53,171  INFO StartLogger - Initializing reflection events
+24 мар. 2026 23:45:53,192  INFO StartLogger - Setting up action policy
+24 мар. 2026 23:45:54,952  INFO StartLogger - Setting user logging for properties
+24 мар. 2026 23:45:54,998  INFO StartLogger - Setting user materialized for properties
+24 мар. 2026 23:45:55,005  INFO StartLogger - Setting user not null constraints for properties
+24 мар. 2026 23:45:55,024  INFO StartLogger - Disabling input list
+24 мар. 2026 23:45:55,042  INFO StartLogger - Setting user select for properties
+24 мар. 2026 23:45:55,058  INFO StartLogger - Setting up loggables
+24 мар. 2026 23:45:55,059  INFO StartLogger - Finalizing forms
+24 мар. 2026 23:45:55,059  INFO StartLogger - Initializing class data indexes
+24 мар. 2026 23:45:55,157  INFO StartLogger - Finalizing properties
+24 мар. 2026 23:45:55,214  INFO StartLogger - Synchronizing DB
+24 мар. 2026 23:45:55,320  INFO StartLogger - Checking indexes
+24 мар. 2026 23:45:55,339  INFO StartLogger - Applying migration script (0.0 -> 0.0)
+24 мар. 2026 23:45:55,445  INFO StartLogger - Creating tables
+24 мар. 2026 23:45:55,458  INFO StartLogger - Updating stats
+24 мар. 2026 23:45:55,523  INFO StartLogger - Adding indexes
+24 мар. 2026 23:45:55,524  INFO StartLogger - Packing tables
+24 мар. 2026 23:45:55,525  INFO StartLogger - Filling static objects ids
+24 мар. 2026 23:45:55,913  INFO StartLogger - Prereading form property events
+24 мар. 2026 23:45:56,383  INFO StartLogger - Initializing lazy properties
+24 мар. 2026 23:45:56,429  INFO StartLogger - Reading global events / materialized properties links
+24 мар. 2026 23:45:56,429  INFO StartLogger - Looking for recursions in abstract properties
+24 мар. 2026 23:45:58,436  INFO StartLogger - Building global events / materialized properties list
+24 мар. 2026 23:45:58,534  INFO StartLogger - Reading local events links
+24 мар. 2026 23:45:58,586  INFO StartLogger - Building local events list
+24 мар. 2026 23:45:58,674  INFO StartLogger - Writing static objects changes
+24 мар. 2026 23:45:59,749  INFO StartLogger - Migrating reflection properties and actions
+24 мар. 2026 23:45:59,826  INFO StartLogger - Recalculating materializations
+24 мар. 2026 23:46:00,098  INFO StartLogger - Initializing security manager
+24 мар. 2026 23:46:00,099  INFO StartLogger - Starting security manager
+24 мар. 2026 23:46:00,209  INFO StartLogger - Starting RMI manager
+24 мар. 2026 23:46:00,242 ERROR StartLogger - Error starting RMI manager: 
+java.rmi.server.ExportException: Port already in use: 7652; nested exception is: 
+	java.net.BindException: Address already in use: bind
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport.listen(TCPTransport.java:346)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport.exportObject(TCPTransport.java:243)
+	at java.rmi/sun.rmi.transport.tcp.TCPEndpoint.exportObject(TCPEndpoint.java:415)
+	at java.rmi/sun.rmi.transport.LiveRef.exportObject(LiveRef.java:147)
+	at java.rmi/sun.rmi.server.UnicastServerRef.exportObject(UnicastServerRef.java:235)
+	at java.rmi/sun.rmi.registry.RegistryImpl.setup(RegistryImpl.java:223)
+	at java.rmi/sun.rmi.registry.RegistryImpl.<init>(RegistryImpl.java:182)
+	at java.rmi/sun.rmi.registry.RegistryImpl.<init>(RegistryImpl.java:152)
+	at java.rmi/java.rmi.registry.LocateRegistry.createRegistry(LocateRegistry.java:239)
+	at lsfusion.base.remote.RMIUtils.createRmiRegistry(RMIUtils.java:32)
+	at lsfusion.server.base.controller.remote.RmiManager.initRegistry(RmiManager.java:210)
+	at lsfusion.server.base.controller.remote.RmiManager.onStarted(RmiManager.java:139)
+	at lsfusion.server.base.controller.lifecycle.LifecycleAdapter.lifecycleEvent(LifecycleAdapter.java:22)
+	at lsfusion.server.base.controller.manager.LifecycleManager.fireLifecycleEvent(LifecycleManager.java:39)
+	at lsfusion.server.base.controller.manager.LifecycleManager.fireStarted(LifecycleManager.java:48)
+	at lsfusion.server.logics.LogicsInstance.start(LogicsInstance.java:220)
+	at lsfusion.server.logics.BusinessLogicsBootstrap.start(BusinessLogicsBootstrap.java:62)
+	at lsfusion.server.logics.BusinessLogicsBootstrap.main(BusinessLogicsBootstrap.java:177)
+Caused by: java.net.BindException: Address already in use: bind
+	at java.base/sun.nio.ch.Net.bind0(Native Method)
+	at java.base/sun.nio.ch.Net.bind(Net.java:555)
+	at java.base/sun.nio.ch.Net.bind(Net.java:544)
+	at java.base/sun.nio.ch.NioSocketImpl.bind(NioSocketImpl.java:648)
+	at java.base/java.net.ServerSocket.bind(ServerSocket.java:388)
+	at java.base/java.net.ServerSocket.<init>(ServerSocket.java:274)
+	at java.base/java.net.ServerSocket.<init>(ServerSocket.java:218)
+	at lsfusion.base.remote.ZipServerSocket.<init>(ZipServerSocket.java:10)
+	at lsfusion.base.remote.ZipServerSocketFactory.createServerSocket(ZipServerSocketFactory.java:10)
+	at lsfusion.base.remote.ZipServerSocketFactory.createServerSocket(ZipServerSocketFactory.java:6)
+	at java.rmi/sun.rmi.transport.tcp.TCPEndpoint.newServerSocket(TCPEndpoint.java:673)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport.listen(TCPTransport.java:335)
+	... 17 more
+24 мар. 2026 23:46:00,255 ERROR StartLogger - Exception while starting logics instance: 
+java.net.BindException: Address already in use: bind
+	at java.base/sun.nio.ch.Net.bind0(Native Method)
+	at java.base/sun.nio.ch.Net.bind(Net.java:555)
+	at java.base/sun.nio.ch.Net.bind(Net.java:544)
+	at java.base/sun.nio.ch.NioSocketImpl.bind(NioSocketImpl.java:648)
+	at java.base/java.net.ServerSocket.bind(ServerSocket.java:388)
+	at java.base/java.net.ServerSocket.<init>(ServerSocket.java:274)
+	at java.base/java.net.ServerSocket.<init>(ServerSocket.java:218)
+	at lsfusion.base.remote.ZipServerSocket.<init>(ZipServerSocket.java:10)
+	at lsfusion.base.remote.ZipServerSocketFactory.createServerSocket(ZipServerSocketFactory.java:10)
+	at lsfusion.base.remote.ZipServerSocketFactory.createServerSocket(ZipServerSocketFactory.java:6)
+	at java.rmi/sun.rmi.transport.tcp.TCPEndpoint.newServerSocket(TCPEndpoint.java:673)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport.listen(TCPTransport.java:335)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport.exportObject(TCPTransport.java:243)
+	at java.rmi/sun.rmi.transport.tcp.TCPEndpoint.exportObject(TCPEndpoint.java:415)
+	at java.rmi/sun.rmi.transport.LiveRef.exportObject(LiveRef.java:147)
+	at java.rmi/sun.rmi.server.UnicastServerRef.exportObject(UnicastServerRef.java:235)
+	at java.rmi/sun.rmi.registry.RegistryImpl.setup(RegistryImpl.java:223)
+	at java.rmi/sun.rmi.registry.RegistryImpl.<init>(RegistryImpl.java:182)
+	at java.rmi/sun.rmi.registry.RegistryImpl.<init>(RegistryImpl.java:152)
+	at java.rmi/java.rmi.registry.LocateRegistry.createRegistry(LocateRegistry.java:239)
+	at lsfusion.base.remote.RMIUtils.createRmiRegistry(RMIUtils.java:32)
+	at lsfusion.server.base.controller.remote.RmiManager.initRegistry(RmiManager.java:210)
+	at lsfusion.server.base.controller.remote.RmiManager.onStarted(RmiManager.java:139)
+	at lsfusion.server.base.controller.lifecycle.LifecycleAdapter.lifecycleEvent(LifecycleAdapter.java:22)
+	at lsfusion.server.base.controller.manager.LifecycleManager.fireLifecycleEvent(LifecycleManager.java:39)
+	at lsfusion.server.base.controller.manager.LifecycleManager.fireStarted(LifecycleManager.java:48)
+	at lsfusion.server.logics.LogicsInstance.start(LogicsInstance.java:220)
+	at lsfusion.server.logics.BusinessLogicsBootstrap.start(BusinessLogicsBootstrap.java:62)
+	at lsfusion.server.logics.BusinessLogicsBootstrap.main(BusinessLogicsBootstrap.java:177)
+24 мар. 2026 23:46:00,256  INFO StartLogger - Error starting server, server will be stopped
+24 мар. 2026 23:46:00,257  INFO StartLogger - Server is stopping...
+24 мар. 2026 23:46:00,257  INFO StartLogger - Logics instance is stopping...
+24 мар. 2026 23:46:00,258  INFO StartLogger - Logics instance has stopped...
+24 мар. 2026 23:46:00,259  INFO StartLogger - Server has stopped...
