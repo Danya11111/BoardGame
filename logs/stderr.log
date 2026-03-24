@@ -6,3 +6,14 @@
 [error]:
 	BoardGameTest:81:1 missing EOF at '}'
 
+24 мар. 2026 19:40:24,959 ERROR StartLogger - Exception while starting logics instance: [error]:
+	BoardGameUI:26:27 mismatched input '(' expecting ';'
+[error]:
+	BoardGameUI:32:5 no viable alternative at input 'PROPERTIES'
+[error]:
+	BoardGameUI:80:10 mismatched input 'FORM' expecting '('
+[error]:
+	BoardGameUI:80:35 mismatched input 'OBJECTS' expecting '('
+[error]:
+	BoardGameUI:80:45 mismatched input '=' expecting '('
+

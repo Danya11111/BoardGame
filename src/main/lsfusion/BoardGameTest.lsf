@@ -71,34 +71,40 @@ createTestData () {
 // Test: Catan and Carcassonne - same genre, overlapping players, age within ±2
 // Expected score: 3 + 2 + 1 = 6
 testRecommendationScoreSameGenre () {
-    FOR BoardGame bg1 IS BoardGame AND name(bg1) = 'Catan' DO
-        FOR BoardGame bg2 IS BoardGame AND name(bg2) = 'Carcassonne' DO
-            IF recommendationScore(bg1, bg2) = 6 THEN
-                MESSAGE 'PASS: recommendationScore(Catan, Carcassonne) = 6'
-            ELSE
+    FOR BoardGame bg1 IS BoardGame AND name(bg1) = 'Catan' DO {
+        FOR BoardGame bg2 IS BoardGame AND name(bg2) = 'Carcassonne' DO {
+            IF recommendationScore(bg1, bg2) = 6 THEN {
+                MESSAGE 'PASS: recommendationScore(Catan, Carcassonne) = 6';
+            } ELSE {
                 MESSAGE 'FAIL: Expected 6, got ' + toString(recommendationScore(bg1, bg2));
+            }
         }
+    }
 }
 
 // Test: Catan and Codenames - different genre
 // Expected score: 0 (genre) + 2 (player overlap 4) + 1 (age 10 vs 12) = 3
 testRecommendationScoreDifferentGenre () {
-    FOR BoardGame bg1 IS BoardGame AND name(bg1) = 'Catan' DO
-        FOR BoardGame bg2 IS BoardGame AND name(bg2) = 'Codenames' DO
-            IF recommendationScore(bg1, bg2) = 3 THEN
-                MESSAGE 'PASS: recommendationScore(Catan, Codenames) = 3'
-            ELSE
+    FOR BoardGame bg1 IS BoardGame AND name(bg1) = 'Catan' DO {
+        FOR BoardGame bg2 IS BoardGame AND name(bg2) = 'Codenames' DO {
+            IF recommendationScore(bg1, bg2) = 3 THEN {
+                MESSAGE 'PASS: recommendationScore(Catan, Codenames) = 3';
+            } ELSE {
                 MESSAGE 'FAIL: Expected 3, got ' + toString(recommendationScore(bg1, bg2));
+            }
         }
+    }
 }
 
 // Test: topRecommendedGame returns Carcassonne for Catan (highest score)
 testTopRecommendation () {
-    FOR BoardGame bg1 IS BoardGame AND name(bg1) = 'Catan' DO
-        IF name(topRecommendedGame(bg1, 1)) = 'Carcassonne' THEN
-            MESSAGE 'PASS: topRecommendedGame(Catan, 1) = Carcassonne'
-        ELSE
+    FOR BoardGame bg1 IS BoardGame AND name(bg1) = 'Catan' DO {
+        IF name(topRecommendedGame(bg1, 1)) = 'Carcassonne' THEN {
+            MESSAGE 'PASS: topRecommendedGame(Catan, 1) = Carcassonne';
+        } ELSE {
             MESSAGE 'FAIL: Expected Carcassonne, got ' + name(topRecommendedGame(bg1, 1));
+        }
+    }
 }
 
 // =============================================================================
@@ -109,25 +115,30 @@ testTopRecommendation () {
 testMatchesGenreNullFilter () {
     LOCAL foundFail = BOOLEAN ();
     foundFail() <- FALSE;
-    FOR BoardGame g IS BoardGame DO
-        IF NOT matchesGenre(g, NULL) THEN
+    FOR BoardGame g IS BoardGame DO {
+        IF NOT matchesGenre(g, NULL) THEN {
             foundFail() <- TRUE;
-    IF NOT foundFail() THEN
-        MESSAGE 'PASS: matchesGenre(g, NULL) returns TRUE for all games'
-    ELSE
+        }
+    }
+    IF NOT foundFail() THEN {
+        MESSAGE 'PASS: matchesGenre(g, NULL) returns TRUE for all games';
+    } ELSE {
         MESSAGE 'FAIL: matchesGenre(g, NULL) should be TRUE for all games';
+    }
 }
 
 // Test: matchesPlayerCount - 4 players should match Catan (3-4) and Codenames (4-8)
 testMatchesPlayerCount () {
     LOCAL count = INTEGER ();
     count() <- 0;
-    FOR BoardGame g IS BoardGame AND matchesPlayerCount(g, 4) DO
+    FOR BoardGame g IS BoardGame AND matchesPlayerCount(g, 4) DO {
         count() <- count() + 1;
-    IF count() = 2 THEN
-        MESSAGE 'PASS: matchesPlayerCount(4) returns 2 games'
-    ELSE
+    }
+    IF count() = 2 THEN {
+        MESSAGE 'PASS: matchesPlayerCount(4) returns 2 games';
+    } ELSE {
         MESSAGE 'FAIL: Expected 2 games, got ' + toString(count());
+    }
 }
 
 // Test: matchesDuration - 30 min max should match Carcassonne (45) and Codenames (15)? No - 45 > 30
@@ -135,12 +146,14 @@ testMatchesPlayerCount () {
 testMatchesDuration () {
     LOCAL count = INTEGER ();
     count() <- 0;
-    FOR BoardGame g IS BoardGame AND matchesDuration(g, 30) DO
+    FOR BoardGame g IS BoardGame AND matchesDuration(g, 30) DO {
         count() <- count() + 1;
-    IF count() = 1 THEN
-        MESSAGE 'PASS: matchesDuration(30) returns 1 game (Codenames)'
-    ELSE
+    }
+    IF count() = 1 THEN {
+        MESSAGE 'PASS: matchesDuration(30) returns 1 game (Codenames)';
+    } ELSE {
         MESSAGE 'FAIL: Expected 1 game, got ' + toString(count());
+    }
 }
 
 // =============================================================================
@@ -150,21 +163,25 @@ testMatchesDuration () {
 // Test: recommendationScore for same game (source = candidate) should be 0
 // (We exclude source <> candidate in our logic, so it returns 0)
 testRecommendationSameGame () {
-    FOR BoardGame bg IS BoardGame AND name(bg) = 'Catan' DO
-        IF recommendationScore(bg, bg) = 0 THEN
-            MESSAGE 'PASS: recommendationScore(same game) = 0'
-        ELSE
+    FOR BoardGame bg IS BoardGame AND name(bg) = 'Catan' DO {
+        IF recommendationScore(bg, bg) = 0 THEN {
+            MESSAGE 'PASS: recommendationScore(same game) = 0';
+        } ELSE {
             MESSAGE 'FAIL: Same game should not recommend itself';
+        }
+    }
 }
 
 // Test: Multiple equal scores - deterministic ordering
 testMultipleEqualScores () {
     // With 3 games, Catan's top 3 should be deterministic
-    FOR BoardGame bg IS BoardGame AND name(bg) = 'Catan' DO
-        IF topRecommendedGame(bg, 1) IS BoardGame AND topRecommendedGame(bg, 2) IS BoardGame THEN
-            MESSAGE 'PASS: Top recommendations return valid games'
-        ELSE
+    FOR BoardGame bg IS BoardGame AND name(bg) = 'Catan' DO {
+        IF topRecommendedGame(bg, 1) IS BoardGame AND topRecommendedGame(bg, 2) IS BoardGame THEN {
+            MESSAGE 'PASS: Top recommendations return valid games';
+        } ELSE {
             MESSAGE 'FAIL: Top recommendations should not be NULL';
+        }
+    }
 }
 
 // =============================================================================
