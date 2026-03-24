@@ -53,7 +53,7 @@ explanationPlayerPart (BoardGame source, BoardGame candidate) = 'Similar player 
 explanationAgePart (BoardGame source, BoardGame candidate) = 'Similar age rating' IF ageDifferenceScore(source, candidate) > 0;
 
 recommendationExplanation (BoardGame source, BoardGame candidate) =
-    CONCAT '; ' explanationGenrePart(source, candidate), explanationPlayerPart(source, candidate), explanationAgePart(source, candidate) CHARWIDTH 100;
+    CONCAT '; ', explanationGenrePart(source, candidate), explanationPlayerPart(source, candidate), explanationAgePart(source, candidate) CHARWIDTH 100;
 
 // Trim trailing separator from explanation
 recommendationExplanationTrimmed (BoardGame source, BoardGame candidate) =
