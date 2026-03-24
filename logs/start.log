@@ -1,0 +1,173 @@
+18 мар. 2026 11:25:15,587  INFO StartLogger - Server is starting...
+18 мар. 2026 11:25:15,705  INFO StartLogger - Current version: 6.1 (365)
+18 мар. 2026 11:25:15,707  INFO StartLogger - Java version: 17.0.12
+18 мар. 2026 11:25:15,707  INFO StartLogger - Class path: lib/lsfusion-server-6.1.jar;target/classes
+18 мар. 2026 11:25:15,730  INFO StartLogger - JVM arguments: []
+18 мар. 2026 11:25:16,741  INFO StartLogger - Logics instance is starting...
+18 мар. 2026 11:25:16,783  INFO StartLogger - Initializing BusinessLogics
+18 мар. 2026 11:25:16,834  INFO StartLogger - Creating modules
+18 мар. 2026 11:25:16,834  INFO StartLogger - Initializing localizer
+18 мар. 2026 11:25:16,840  INFO StartLogger - Initializing string literals data
+18 мар. 2026 11:25:17,398 ERROR StartLogger - Exception while starting logics instance: 
+java.lang.Error: Read classesfailed
+	at lsfusion.server.base.ResourceUtils.getResourcesFromJarFile(ResourceUtils.java:111)
+	at lsfusion.server.base.ResourceUtils.getResources(ResourceUtils.java:99)
+	at lsfusion.server.base.ResourceUtils.getResources(ResourceUtils.java:53)
+	at lsfusion.server.base.ResourceUtils.getResources(ResourceUtils.java:75)
+	at lsfusion.server.base.ResourceUtils.getResources(ResourceUtils.java:71)
+	at lsfusion.server.physics.dev.i18n.DefaultLocalizer.getBundlesNames(DefaultLocalizer.java:18)
+	at lsfusion.server.physics.dev.i18n.DefaultLocalizer.<init>(DefaultLocalizer.java:13)
+	at lsfusion.server.logics.BusinessLogics.initLocalizer(BusinessLogics.java:445)
+	at lsfusion.server.physics.dev.i18n.controller.init.InitLocalizerTask.run(InitLocalizerTask.java:15)
+	at lsfusion.server.base.task.Task.lambda$1(Task.java:151)
+	at lsfusion.server.base.controller.thread.ExecutorFactory.lambda$0(ExecutorFactory.java:183)
+	at lsfusion.base.BaseUtils.executeWithTimeout(BaseUtils.java:2323)
+	at lsfusion.server.base.controller.thread.ExecutorFactory.executeWithTimeout(ExecutorFactory.java:180)
+	at lsfusion.server.base.task.Task.proceed(Task.java:150)
+	at lsfusion.server.base.task.Task$1.aspectRun(Task.java:107)
+	at lsfusion.server.base.controller.thread.ExecutorFactory$AspectRunnable.run(ExecutorFactory.java:510)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:842)
+	at lsfusion.server.base.controller.thread.ExecutorFactory$ClosableDaemonThreadFactory$ClosableThread.run(ExecutorFactory.java:592)
+Caused by: java.nio.file.NoSuchFileException: target\classes
+	at java.base/sun.nio.fs.WindowsException.translateToIOException(WindowsException.java:85)
+	at java.base/sun.nio.fs.WindowsException.rethrowAsIOException(WindowsException.java:103)
+	at java.base/sun.nio.fs.WindowsException.rethrowAsIOException(WindowsException.java:108)
+	at java.base/sun.nio.fs.WindowsFileAttributeViews$Basic.readAttributes(WindowsFileAttributeViews.java:53)
+	at java.base/sun.nio.fs.WindowsFileAttributeViews$Basic.readAttributes(WindowsFileAttributeViews.java:38)
+	at java.base/sun.nio.fs.WindowsFileSystemProvider.readAttributes(WindowsFileSystemProvider.java:199)
+	at java.base/java.nio.file.Files.readAttributes(Files.java:1851)
+	at java.base/java.util.zip.ZipFile$Source.get(ZipFile.java:1435)
+	at java.base/java.util.zip.ZipFile$CleanableResource.<init>(ZipFile.java:718)
+	at java.base/java.util.zip.ZipFile.<init>(ZipFile.java:252)
+	at java.base/java.util.zip.ZipFile.<init>(ZipFile.java:181)
+	at java.base/java.util.zip.ZipFile.<init>(ZipFile.java:195)
+	at lsfusion.server.base.ResourceUtils.getResourcesFromJarFile(ResourceUtils.java:109)
+	... 19 more
+18 мар. 2026 11:25:17,410 ERROR StartLogger - Exception while starting logics instance: 
+java.lang.Error: Read classesfailed
+	at lsfusion.server.base.ResourceUtils.getResourcesFromJarFile(ResourceUtils.java:111)
+	at lsfusion.server.base.ResourceUtils.getResources(ResourceUtils.java:99)
+	at lsfusion.server.base.ResourceUtils.getResources(ResourceUtils.java:53)
+	at lsfusion.server.base.ResourceUtils.getResources(ResourceUtils.java:45)
+	at lsfusion.server.logics.BusinessLogics.findLSFFiles(BusinessLogics.java:404)
+	at lsfusion.server.logics.BusinessLogics.addModulesFromResource(BusinessLogics.java:385)
+	at lsfusion.server.language.ScriptingBusinessLogics.createModules(ScriptingBusinessLogics.java:25)
+	at lsfusion.server.physics.dev.module.controller.init.CreateModulesTask.run(CreateModulesTask.java:16)
+	at lsfusion.server.base.task.Task.lambda$1(Task.java:151)
+	at lsfusion.server.base.controller.thread.ExecutorFactory.lambda$0(ExecutorFactory.java:183)
+	at lsfusion.base.BaseUtils.executeWithTimeout(BaseUtils.java:2323)
+	at lsfusion.server.base.controller.thread.ExecutorFactory.executeWithTimeout(ExecutorFactory.java:180)
+	at lsfusion.server.base.task.Task.proceed(Task.java:150)
+	at lsfusion.server.base.task.Task$1.aspectRun(Task.java:107)
+	at lsfusion.server.base.controller.thread.ExecutorFactory$AspectRunnable.run(ExecutorFactory.java:510)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:842)
+	at lsfusion.server.base.controller.thread.ExecutorFactory$ClosableDaemonThreadFactory$ClosableThread.run(ExecutorFactory.java:592)
+Caused by: java.nio.file.NoSuchFileException: target\classes
+	at java.base/sun.nio.fs.WindowsException.translateToIOException(WindowsException.java:85)
+	at java.base/sun.nio.fs.WindowsException.rethrowAsIOException(WindowsException.java:103)
+	at java.base/sun.nio.fs.WindowsException.rethrowAsIOException(WindowsException.java:108)
+	at java.base/sun.nio.fs.WindowsFileAttributeViews$Basic.readAttributes(WindowsFileAttributeViews.java:53)
+	at java.base/sun.nio.fs.WindowsFileAttributeViews$Basic.readAttributes(WindowsFileAttributeViews.java:38)
+	at java.base/sun.nio.fs.WindowsFileSystemProvider.readAttributes(WindowsFileSystemProvider.java:199)
+	at java.base/java.nio.file.Files.readAttributes(Files.java:1851)
+	at java.base/java.util.zip.ZipFile$Source.get(ZipFile.java:1435)
+	at java.base/java.util.zip.ZipFile$CleanableResource.<init>(ZipFile.java:718)
+	at java.base/java.util.zip.ZipFile.<init>(ZipFile.java:252)
+	at java.base/java.util.zip.ZipFile.<init>(ZipFile.java:181)
+	at java.base/java.util.zip.ZipFile.<init>(ZipFile.java:195)
+	at lsfusion.server.base.ResourceUtils.getResourcesFromJarFile(ResourceUtils.java:109)
+	... 18 more
+18 мар. 2026 11:25:17,412  INFO StartLogger - Error starting server, server will be stopped
+18 мар. 2026 11:25:17,414  INFO StartLogger - Server is stopping...
+18 мар. 2026 11:25:17,414  INFO StartLogger - Logics instance is stopping...
+18 мар. 2026 11:25:17,414  INFO StartLogger - Logics instance has stopped...
+18 мар. 2026 11:25:17,423  INFO StartLogger - Server has stopped...
+18 мар. 2026 11:29:10,572  INFO StartLogger - Server is starting...
+18 мар. 2026 11:29:10,692  INFO StartLogger - Current version: 6.1 (365)
+18 мар. 2026 11:29:10,703  INFO StartLogger - Java version: 17.0.12
+18 мар. 2026 11:29:10,703  INFO StartLogger - Class path: lib/lsfusion-server-6.1.jar;target/classes
+18 мар. 2026 11:29:10,708  INFO StartLogger - JVM arguments: []
+18 мар. 2026 11:29:11,651  INFO StartLogger - Logics instance is starting...
+18 мар. 2026 11:29:11,701  INFO StartLogger - Initializing BusinessLogics
+18 мар. 2026 11:29:11,735  INFO StartLogger - Creating modules
+18 мар. 2026 11:29:11,736  INFO StartLogger - Initializing string literals data
+18 мар. 2026 11:29:11,735  INFO StartLogger - Initializing localizer
+18 мар. 2026 11:29:12,340  INFO StartLogger - Initializing dependencies
+18 мар. 2026 11:29:12,525  INFO StartLogger - Initializing modules order
+18 мар. 2026 11:29:12,530  INFO StartLogger - Initializing metacodes and classes
+18 мар. 2026 11:29:13,135 ERROR StartLogger - Exception while starting logics instance: [error]:
+	BoardGameDomain:78:1 class 'BoardGame' is not found
+Subsequent errors (if any) could not be found.
+18 мар. 2026 11:29:13,135  INFO StartLogger - Error starting server, server will be stopped
+18 мар. 2026 11:29:13,135  INFO StartLogger - Server is stopping...
+18 мар. 2026 11:29:13,135  INFO StartLogger - Logics instance is stopping...
+18 мар. 2026 11:29:13,142  INFO StartLogger - Logics instance has stopped...
+18 мар. 2026 11:29:13,142  INFO StartLogger - Server has stopped...
+18 мар. 2026 11:30:47,216  INFO StartLogger - Server is starting...
+18 мар. 2026 11:30:47,374  INFO StartLogger - Current version: 6.1 (365)
+18 мар. 2026 11:30:47,409  INFO StartLogger - Java version: 17.0.12
+18 мар. 2026 11:30:47,415  INFO StartLogger - Class path: lib/lsfusion-server-6.1.jar;target/classes
+18 мар. 2026 11:30:47,430  INFO StartLogger - JVM arguments: []
+18 мар. 2026 11:30:48,357  INFO StartLogger - Logics instance is starting...
+18 мар. 2026 11:30:48,405  INFO StartLogger - Initializing BusinessLogics
+18 мар. 2026 11:30:48,431  INFO StartLogger - Creating modules
+18 мар. 2026 11:30:48,431  INFO StartLogger - Initializing string literals data
+18 мар. 2026 11:30:48,433  INFO StartLogger - Initializing localizer
+18 мар. 2026 11:30:49,063  INFO StartLogger - Initializing dependencies
+18 мар. 2026 11:30:49,183  INFO StartLogger - Initializing modules order
+18 мар. 2026 11:30:49,183  INFO StartLogger - Initializing metacodes and classes
+18 мар. 2026 11:30:49,762 ERROR StartLogger - Exception while starting logics instance: [error]:
+	BoardGameLogic:24:71 no viable alternative at input '>'
+[error]:
+	BoardGameLogic:31:17 no viable alternative at input '>'
+[error]:
+	BoardGameLogic:39:17 no viable alternative at input '>'
+[error]:
+	BoardGameLogic:61:9 missing ',' at '('
+[error]:
+	BoardGameLogic:84:50 no viable alternative at input 'DESC'
+[error]:
+	BoardGameLogic:101:46 no viable alternative at input 'NULL'
+[error]:
+	BoardGameLogic:105:75 no viable alternative at input 'NULL'
+[error]:
+	BoardGameLogic:109:59 no viable alternative at input 'NULL'
+[error]:
+	BoardGameLogic:113:34 no viable alternative at input 'NULL'
+
+18 мар. 2026 11:30:49,767  INFO StartLogger - Error starting server, server will be stopped
+18 мар. 2026 11:30:49,767  INFO StartLogger - Server is stopping...
+18 мар. 2026 11:30:49,767  INFO StartLogger - Logics instance is stopping...
+18 мар. 2026 11:30:49,767  INFO StartLogger - Logics instance has stopped...
+18 мар. 2026 11:30:49,767  INFO StartLogger - Server has stopped...
+18 мар. 2026 11:33:11,008  INFO StartLogger - Server is starting...
+18 мар. 2026 11:33:11,119  INFO StartLogger - Current version: 6.1 (365)
+18 мар. 2026 11:33:11,119  INFO StartLogger - Java version: 17.0.12
+18 мар. 2026 11:33:11,119  INFO StartLogger - Class path: lib/lsfusion-server-6.1.jar;target/classes
+18 мар. 2026 11:33:11,128  INFO StartLogger - JVM arguments: []
+18 мар. 2026 11:33:12,064  INFO StartLogger - Logics instance is starting...
+18 мар. 2026 11:33:12,105  INFO StartLogger - Initializing BusinessLogics
+18 мар. 2026 11:33:12,141  INFO StartLogger - Initializing localizer
+18 мар. 2026 11:33:12,142  INFO StartLogger - Creating modules
+18 мар. 2026 11:33:12,141  INFO StartLogger - Initializing string literals data
+18 мар. 2026 11:33:12,731  INFO StartLogger - Initializing dependencies
+18 мар. 2026 11:33:12,895  INFO StartLogger - Initializing modules order
+18 мар. 2026 11:33:12,899  INFO StartLogger - Initializing metacodes and classes
+18 мар. 2026 11:33:13,443 ERROR StartLogger - Exception while starting logics instance: [error]:
+	BoardGameLogic:25:5 no viable alternative at input 'ELSE'
+[error]:
+	BoardGameLogic:34:5 no viable alternative at input 'ELSE'
+[error]:
+	BoardGameLogic:41:5 no viable alternative at input 'ELSE'
+[error]:
+	BoardGameLogic:61:9 missing ',' at '('
+
+18 мар. 2026 11:33:13,455  INFO StartLogger - Error starting server, server will be stopped
+18 мар. 2026 11:33:13,458  INFO StartLogger - Server is stopping...
+18 мар. 2026 11:33:13,458  INFO StartLogger - Logics instance is stopping...
+18 мар. 2026 11:33:13,460  INFO StartLogger - Logics instance has stopped...
+18 мар. 2026 11:33:13,462  INFO StartLogger - Server has stopped...

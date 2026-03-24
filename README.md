@@ -163,15 +163,15 @@ BoardGame/
 
 ### Installation
 
-1. **Recommended: Use lsFusion IDE**
-   - Install IntelliJ IDEA 2025.2+ with lsFusion plugin
-   - Create new lsFusion project, then copy `src/main/lsfusion/*.lsf` files
-   - Download lsFusion server via IDE (Download button)
+1. **Download lsFusion server JAR** (обязательно при ошибке Maven dependency):
+   ```powershell
+   .\download-server.ps1
+   ```
+   Или вручную: скачайте [lsfusion-server-6.1.jar](https://download.lsfusion.org/java/lsfusion-server-6.1.jar) и поместите в папку `lib/`.
 
-2. **Alternative: Maven build**
+2. **Сборка проекта:**
    ```bash
-   cd BoardGame
-   mvn clean install
+   mvn clean compile
    ```
 
 3. **Database configuration:** Create `lsfusion.properties` in project root:

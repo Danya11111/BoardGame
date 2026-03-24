@@ -15,7 +15,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <lsfusion.version>6.2</lsfusion.version>
+        <lsfusion.version>6.1</lsfusion.version>
     </properties>
 
     <repositories>
@@ -27,14 +27,28 @@
     </repositories>
 
     <dependencies>
+        <!-- lsFusion server: use system scope with local JAR (Maven repo often unavailable).
+             Download lsfusion-server-6.1.jar from https://download.lsfusion.org/java/
+             and place in lib/ folder. -->
         <dependency>
             <groupId>lsfusion.platform</groupId>
             <artifactId>server</artifactId>
             <version>${lsfusion.version}</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/lsfusion-server-6.1.jar</systemPath>
         </dependency>
     </dependencies>
 
     <build>
+        <resources>
+            <!-- Copy .lsf files to target/classes for lsFusion classpath -->
+            <resource>
+                <directory>src/main/lsfusion</directory>
+                <includes>
+                    <include>**/*.lsf</include>
+                </includes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>

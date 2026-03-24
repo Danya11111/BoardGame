@@ -19,18 +19,26 @@ NAMESPACE BoardGame;
 // Total score = sum of all applicable criteria.
 // =============================================================================
 
-// +3 points if genre matches (OVERRIDE: first non-NULL, else 0)
+// +3 points if genre matches
 genreMatchScore (BoardGame source, BoardGame candidate) =
-    OVERRIDE (SCORE_GENRE_MATCH IF genre(source) = genre(candidate) AND source != candidate), 0;
+    SCORE_GENRE_MATCH IF genre(source) = genre(candidate) AND source != candidate
+    ELSE 0;
 
 // +2 points if player range overlaps
 // Overlap: source.min <= candidate.max AND candidate.min <= source.max
 playerRangeOverlapScore (BoardGame source, BoardGame candidate) =
-    OVERRIDE (SCORE_PLAYER_RANGE_OVERLAP IF source != candidate AND minPlayers(source) <= maxPlayers(candidate) AND minPlayers(candidate) <= maxPlayers(source)), 0;
+    SCORE_PLAYER_RANGE_OVERLAP IF
+        source != candidate AND
+        minPlayers(source) <= maxPlayers(candidate) AND
+        minPlayers(candidate) <= maxPlayers(source)
+    ELSE 0;
 
 // +1 point if age difference is within ±2 years
 ageDifferenceScore (BoardGame source, BoardGame candidate) =
-    OVERRIDE (SCORE_AGE_DIFFERENCE_WITHIN_RANGE IF source != candidate AND abs(minAge(source) - minAge(candidate)) <= AGE_DIFFERENCE_THRESHOLD), 0;
+    SCORE_AGE_DIFFERENCE_WITHIN_RANGE IF
+        source != candidate AND
+        abs(minAge(source) - minAge(candidate)) <= AGE_DIFFERENCE_THRESHOLD
+    ELSE 0;
 
 // =============================================================================
 // TOTAL RECOMMENDATION SCORE
@@ -47,13 +55,13 @@ recommendationScore (BoardGame source, BoardGame candidate) =
 // Builds human-readable explanation of why a game was recommended
 // =============================================================================
 
-// Explanation parts (CONCAT skips NULL; separate properties avoid parser issues)
-explanationGenrePart (BoardGame source, BoardGame candidate) = 'Same genre' IF genreMatchScore(source, candidate) > 0;
-explanationPlayerPart (BoardGame source, BoardGame candidate) = 'Similar player count' IF playerRangeOverlapScore(source, candidate) > 0;
-explanationAgePart (BoardGame source, BoardGame candidate) = 'Similar age rating' IF ageDifferenceScore(source, candidate) > 0;
-
+// Build explanation from non-NULL parts (CONCAT skips NULL)
 recommendationExplanation (BoardGame source, BoardGame candidate) =
-    CONCAT '; ' explanationGenrePart(source, candidate), explanationPlayerPart(source, candidate), explanationAgePart(source, candidate) CHARWIDTH 100;
+    CONCAT '; '
+        ('Same genre' IF genreMatchScore(source, candidate) > 0),
+        ('Similar player count' IF playerRangeOverlapScore(source, candidate) > 0),
+        ('Similar age rating' IF ageDifferenceScore(source, candidate) > 0)
+    CHARWIDTH 100;
 
 // Trim trailing separator from explanation
 recommendationExplanationTrimmed (BoardGame source, BoardGame candidate) =
