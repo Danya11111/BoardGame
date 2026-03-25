@@ -53,6 +53,23 @@ Write-Host "mvn clean compile..."
 & mvn -q clean compile
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
+$rmiPort = 7652
+if ($props.ContainsKey("rmi.port") -and -not [string]::IsNullOrWhiteSpace($props["rmi.port"])) {
+    $rmiPort = [int]$props["rmi.port"]
+}
+$listeners = Get-NetTCPConnection -LocalPort $rmiPort -State Listen -ErrorAction SilentlyContinue
+if ($listeners) {
+    Write-Host ""
+    Write-Host "Port $rmiPort (rmi.port) is already in use; a second server instance cannot start." -ForegroundColor Red
+    Write-Host "Either:"
+    Write-Host "  A) Stop the other lsFusion/Java process (Task Manager: java.exe), e.g. in PowerShell:"
+    Write-Host "       netstat -ano | findstr :$rmiPort"
+    Write-Host "       taskkill /PID <pid_from_last_column> /F"
+    Write-Host "  B) Or set another port in lsfusion.properties, e.g. rmi.port=7653"
+    Write-Host ""
+    exit 1
+}
+
 $passThrough = @(
     "db.server", "db.name", "db.user", "db.password", "db.connectTimeout",
     "rmi.port", "rmi.exportName", "http.port"

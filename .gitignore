@@ -6,3 +6,4 @@ lib/*.jar
 logs/
 lsfusion.properties
 *.class
+.env

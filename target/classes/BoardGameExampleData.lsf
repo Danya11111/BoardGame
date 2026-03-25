@@ -6,9 +6,12 @@
 
 MODULE BoardGameExampleData;
 
-REQUIRE BoardGameDomain;
+REQUIRE BoardGameDomain, Service;
 
 NAMESPACE BoardGame;
+
+boardGameCount() = GROUP SUM 1 IF BoardGame b;
+hasCatan() = GROUP SUM 1 IF BoardGame b AND name(b) = 'Catan';
 
 loadExampleData 'Load example board games' () {
     NEW strategy = Genre { name(strategy) <- 'Strategy'; }
@@ -102,5 +105,33 @@ loadExampleData 'Load example board games' () {
     owner(ticketToRide) <- ownerByName('John Doe');
     hasMechanic(ticketToRide, mechanicByName('Hand Management')) <- TRUE;
 
-    MESSAGE 'Example data loaded: 4 games, 4 genres, 4 publishers, 2 owners, 5 mechanics';
+    NEW splendor = BoardGame {
+        name(splendor) <- 'Splendor';
+        description(splendor) <- 'Collect gems and develop Renaissance merchant guilds.';
+        minPlayers(splendor) <- 2;
+        maxPlayers(splendor) <- 4;
+        durationMinutes(splendor) <- 30;
+        minAge(splendor) <- 10;
+        available(splendor) <- TRUE;
+    }
+    genre(splendor) <- genreByName('Euro');
+    publisher(splendor) <- publisherByName('Days of Wonder');
+    owner(splendor) <- ownerByName('Jane Smith');
+    hasMechanic(splendor, mechanicByName('Hand Management')) <- TRUE;
+
+    printToLog('Example data loaded: 5 games, 4 genres, 4 publishers, 2 owners, 5 mechanics');
+    MESSAGE 'Загружены демо-данные: 5 игр, 4 жанра, 4 издательства, 2 владельца, 5 механик.';
+}
+
+autoLoadExampleData() {
+    IF hasCatan() = 0 OR NOT hasCatan() THEN {
+        printToLog('Auto-loading example board games (DB is empty)');
+        loadExampleData();
+    } ELSE {
+        printToLog(CONCAT ' ', 'Skipping example data autoload; Catan exists, BoardGame count =', boardGameCount());
+    }
+}
+
+onFinallyStarted() + {
+    autoLoadExampleData();
 }

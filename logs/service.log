@@ -534,3 +534,106 @@
 24 мар. 2026 23:28:04,101  INFO ServiceLogger - Recalculating materialization 38 of 39: Chat.isDialog[Chat.Chat] finished, 19ms
 24 мар. 2026 23:28:04,101  INFO ServiceLogger - Recalculating materialization 39 of 39: Profiler.id[Authentication.User] started
 24 мар. 2026 23:28:04,116  INFO ServiceLogger - Recalculating materialization 39 of 39: Profiler.id[Authentication.User] finished, 15ms
+25 мар. 2026 10:28:57,124  INFO ServiceLogger - Recalculate table stats 1 of 135: Reflection_tableKey started
+25 мар. 2026 10:28:59,941  INFO ServiceLogger - Recalculate table stats 1 of 135: Reflection_tableKey finished, 2817ms
+25 мар. 2026 10:28:59,959  INFO ServiceLogger - Recalculate table stats 2 of 135: Reflection_tables started
+25 мар. 2026 10:29:02,361  INFO ServiceLogger - Recalculate table stats 2 of 135: Reflection_tables finished, 2402ms
+25 мар. 2026 10:29:02,364  INFO ServiceLogger - Recalculate table stats 3 of 135: _auto_I18n_MultiLanguageNamed started
+25 мар. 2026 10:29:03,076  INFO ServiceLogger - Recalculate table stats 3 of 135: _auto_I18n_MultiLanguageNamed finished, 712ms
+25 мар. 2026 10:29:03,086  INFO ServiceLogger - Recalculate table stats 4 of 135: _auto_Slack_User started
+25 мар. 2026 10:29:03,644  INFO ServiceLogger - Recalculate table stats 4 of 135: _auto_Slack_User finished, 558ms
+25 мар. 2026 10:29:03,657  INFO ServiceLogger - Recalculate table stats 5 of 135: SystemEvents_clientType started
+25 мар. 2026 10:29:04,008  INFO ServiceLogger - Recalculate table stats 5 of 135: SystemEvents_clientType finished, 351ms
+25 мар. 2026 10:29:04,018  INFO ServiceLogger - Recalculate table stats 6 of 135: System_script started
+25 мар. 2026 10:29:04,589  INFO ServiceLogger - Recalculate table stats 6 of 135: System_script finished, 571ms
+25 мар. 2026 10:29:04,593  INFO ServiceLogger - Recalculate table stats 7 of 135: _auto_ProcessMonitor_StateProcess started
+25 мар. 2026 10:29:04,749  INFO ServiceLogger - Recalculate table stats 7 of 135: _auto_ProcessMonitor_StateProcess finished, 156ms
+25 мар. 2026 10:29:04,753  INFO ServiceLogger - Recalculate table stats 8 of 135: _auto_System_ScriptType started
+25 мар. 2026 10:29:04,872  INFO ServiceLogger - Recalculate table stats 8 of 135: _auto_System_ScriptType finished, 119ms
+25 мар. 2026 10:29:04,874  INFO ServiceLogger - Recalculate table stats 9 of 135: Service_DBType started
+25 мар. 2026 10:29:05,090  INFO ServiceLogger - Recalculate table stats 9 of 135: Service_DBType finished, 216ms
+25 мар. 2026 10:29:05,102  INFO ServiceLogger - Recalculate table stats 10 of 135: Geo_POI started
+25 мар. 2026 10:29:05,357  INFO ServiceLogger - Recalculate table stats 10 of 135: Geo_POI finished, 255ms
+25 мар. 2026 10:29:05,389  INFO ServiceLogger - Recalculate table stats 11 of 135: Time_dow started
+25 мар. 2026 10:29:05,784  INFO ServiceLogger - Recalculate table stats 11 of 135: Time_dow finished, 395ms
+25 мар. 2026 10:29:05,793  INFO ServiceLogger - Recalculate table stats 12 of 135: _auto_Authentication_DesignEnv started
+25 мар. 2026 10:29:06,689  INFO ServiceLogger - Recalculate table stats 12 of 135: _auto_Authentication_DesignEnv finished, 896ms
+25 мар. 2026 10:29:06,691  INFO ServiceLogger - Recalculate table stats 13 of 135: _auto_INTEGER_SystemEvents_Connection_TEXT started
+25 мар. 2026 10:29:07,010  INFO ServiceLogger - Recalculate table stats 13 of 135: _auto_INTEGER_SystemEvents_Connection_TEXT finished, 319ms
+25 мар. 2026 10:29:07,012  INFO ServiceLogger - Recalculate table stats 14 of 135: SystemEvents_sessionObject started
+25 мар. 2026 10:29:07,179  INFO ServiceLogger - Recalculate table stats 14 of 135: SystemEvents_sessionObject finished, 167ms
+25 мар. 2026 10:29:07,188  INFO ServiceLogger - Recalculate table stats 15 of 135: Geo_poiPoi started
+25 мар. 2026 10:29:07,295  INFO ServiceLogger - Recalculate table stats 15 of 135: Geo_poiPoi finished, 107ms
+25 мар. 2026 10:29:07,298  INFO ServiceLogger - Recalculate table stats 16 of 135: Scheduler_scheduledClientTaskLog started
+25 мар. 2026 10:29:07,937  INFO ServiceLogger - Recalculate table stats 16 of 135: Scheduler_scheduledClientTaskLog finished, 639ms
+25 мар. 2026 10:29:07,939  INFO ServiceLogger - Recalculate table stats 17 of 135: BoardGame_genre started
+25 мар. 2026 10:29:08,317  INFO ServiceLogger - Recalculate table stats 17 of 135: BoardGame_genre finished, 378ms
+25 мар. 2026 10:29:08,323  INFO ServiceLogger - Recalculate table stats 18 of 135: Reflection_formGrouping started
+25 мар. 2026 10:29:08,723  INFO ServiceLogger - Recalculate table stats 18 of 135: Reflection_formGrouping finished, 400ms
+25 мар. 2026 10:29:08,725  INFO ServiceLogger - Recalculate table stats 19 of 135: _auto_Authentication_OAuth2 started
+25 мар. 2026 10:29:09,799  INFO ServiceLogger - Recalculate table stats 19 of 135: _auto_Authentication_OAuth2 finished, 1074ms
+25 мар. 2026 10:29:09,804  INFO ServiceLogger - Recalculate table stats 20 of 135: Reflection_formGroupingPropertyDraw started
+25 мар. 2026 10:29:10,121  INFO ServiceLogger - Recalculate table stats 20 of 135: Reflection_formGroupingPropertyDraw finished, 317ms
+25 мар. 2026 10:29:10,125  INFO ServiceLogger - Recalculate table stats 21 of 135: Reflection_dropColumn started
+25 мар. 2026 10:29:10,512  INFO ServiceLogger - Recalculate table stats 21 of 135: Reflection_dropColumn finished, 387ms
+25 мар. 2026 10:29:10,516  INFO ServiceLogger - Recalculate table stats 22 of 135: Chat_messageCustomUser started
+25 мар. 2026 10:29:10,735  INFO ServiceLogger - Recalculate table stats 22 of 135: Chat_messageCustomUser finished, 219ms
+25 мар. 2026 10:29:10,738  INFO ServiceLogger - Recalculate table stats 23 of 135: Email_encryptedConnectionTypeStatus started
+25 мар. 2026 10:29:10,850  INFO ServiceLogger - Recalculate table stats 23 of 135: Email_encryptedConnectionTypeStatus finished, 112ms
+25 мар. 2026 10:29:10,855  INFO ServiceLogger - Recalculate table stats 24 of 135: _auto_Icon_Query started
+25 мар. 2026 10:29:11,093  INFO ServiceLogger - Recalculate table stats 24 of 135: _auto_Icon_Query finished, 238ms
+25 мар. 2026 10:29:11,098  INFO ServiceLogger - Recalculate table stats 25 of 135: SystemEvents_exception started
+25 мар. 2026 10:29:11,716  INFO ServiceLogger - Recalculate table stats 25 of 135: SystemEvents_exception finished, 618ms
+25 мар. 2026 10:29:11,719  INFO ServiceLogger - Recalculate table stats 26 of 135: Chat_chatCustomUser started
+25 мар. 2026 10:29:11,874  INFO ServiceLogger - Recalculate table stats 26 of 135: Chat_chatCustomUser finished, 155ms
+25 мар. 2026 10:29:11,877  INFO ServiceLogger - Recalculate table stats 27 of 135: Reflection_form started
+25 мар. 2026 10:29:12,054  INFO ServiceLogger - Recalculate table stats 27 of 135: Reflection_form finished, 177ms
+25 мар. 2026 10:29:12,060  INFO ServiceLogger - Recalculate table stats 28 of 135: _auto_WebSocket_Socket started
+25 мар. 2026 10:29:12,287  INFO ServiceLogger - Recalculate table stats 28 of 135: _auto_WebSocket_Socket finished, 227ms
+25 мар. 2026 10:29:12,293  INFO ServiceLogger - Recalculate table stats 29 of 135: Security_customUserRole started
+25 мар. 2026 10:29:12,436  INFO ServiceLogger - Recalculate table stats 29 of 135: Security_customUserRole finished, 143ms
+25 мар. 2026 10:29:12,447  INFO ServiceLogger - Recalculate table stats 30 of 135: _auto_Authentication_CustomUser_Time_DateTimePickerRanges started
+25 мар. 2026 10:29:12,612  INFO ServiceLogger - Recalculate table stats 30 of 135: _auto_Authentication_CustomUser_Time_DateTimePickerRanges finished, 165ms
+25 мар. 2026 10:29:12,617  INFO ServiceLogger - Recalculate table stats 31 of 135: Numerator_numerator started
+25 мар. 2026 10:29:13,063  INFO ServiceLogger - Recalculate table stats 31 of 135: Numerator_numerator finished, 446ms
+25 мар. 2026 10:29:13,067  INFO ServiceLogger - Recalculate table stats 32 of 135: Authentication_computer started
+25 мар. 2026 10:29:13,293  INFO ServiceLogger - Recalculate table stats 32 of 135: Authentication_computer finished, 226ms
+25 мар. 2026 10:29:13,295  INFO ServiceLogger - Recalculate table stats 33 of 135: BoardGame_mechanic started
+25 мар. 2026 10:29:13,545  INFO ServiceLogger - Recalculate table stats 33 of 135: BoardGame_mechanic finished, 250ms
+25 мар. 2026 10:29:13,548  INFO ServiceLogger - Recalculate table stats 34 of 135: Messenger_chat started
+25 мар. 2026 10:29:13,925  INFO ServiceLogger - Recalculate table stats 34 of 135: Messenger_chat finished, 377ms
+25 мар. 2026 10:29:13,931  INFO ServiceLogger - Recalculate table stats 35 of 135: _auto_Authentication_CustomUser_Time_DateTimeIntervalPickerRang started
+25 мар. 2026 10:29:14,062  INFO ServiceLogger - Recalculate table stats 35 of 135: _auto_Authentication_CustomUser_Time_DateTimeIntervalPickerRang finished, 131ms
+25 мар. 2026 10:29:14,065  INFO ServiceLogger - Recalculate table stats 36 of 135: SystemEvents_connectionNavigatorElement started
+25 мар. 2026 10:29:14,163  INFO ServiceLogger - Recalculate table stats 36 of 135: SystemEvents_connectionNavigatorElement finished, 98ms
+25 мар. 2026 10:29:14,167  INFO ServiceLogger - Recalculate table stats 37 of 135: Reflection_formPropertyDraw started
+25 мар. 2026 10:29:14,253  INFO ServiceLogger - Recalculate table stats 37 of 135: Reflection_formPropertyDraw finished, 86ms
+25 мар. 2026 10:29:14,255  INFO ServiceLogger - Recalculate table stats 38 of 135: _auto_System_Object started
+25 мар. 2026 10:29:14,344  INFO ServiceLogger - Recalculate table stats 38 of 135: _auto_System_Object finished, 89ms
+25 мар. 2026 10:29:14,346  INFO ServiceLogger - Recalculate table stats 39 of 135: Utils_yesNo started
+25 мар. 2026 10:29:14,437  INFO ServiceLogger - Recalculate table stats 39 of 135: Utils_yesNo finished, 91ms
+25 мар. 2026 10:29:14,440  INFO ServiceLogger - Recalculate table stats 40 of 135: SystemEvents_connection started
+25 мар. 2026 10:29:16,359  INFO ServiceLogger - Recalculate table stats 40 of 135: SystemEvents_connection finished, 1919ms
+25 мар. 2026 10:29:16,367  INFO ServiceLogger - Recalculate table stats 41 of 135: System_staticObject started
+25 мар. 2026 10:29:16,781  INFO ServiceLogger - Recalculate table stats 41 of 135: System_staticObject finished, 414ms
+25 мар. 2026 10:29:16,789  INFO ServiceLogger - Recalculate table stats 42 of 135: Reflection_groupObject started
+25 мар. 2026 10:29:17,197  INFO ServiceLogger - Recalculate table stats 42 of 135: Reflection_groupObject finished, 408ms
+25 мар. 2026 10:29:17,202  INFO ServiceLogger - Recalculate table stats 43 of 135: SystemEvents_sessionContact started
+25 мар. 2026 10:29:17,335  INFO ServiceLogger - Recalculate table stats 43 of 135: SystemEvents_sessionContact finished, 133ms
+25 мар. 2026 10:29:17,343  INFO ServiceLogger - Recalculate table stats 44 of 135: Reflection_propertyGroup started
+25 мар. 2026 10:29:17,666  INFO ServiceLogger - Recalculate table stats 44 of 135: Reflection_propertyGroup finished, 323ms
+25 мар. 2026 10:29:17,673  INFO ServiceLogger - Recalculate table stats 45 of 135: Scheduler_schedulerStartType started
+25 мар. 2026 10:29:17,779  INFO ServiceLogger - Recalculate table stats 45 of 135: Scheduler_schedulerStartType finished, 106ms
+25 мар. 2026 10:29:17,788  INFO ServiceLogger - Recalculate table stats 46 of 135: _auto_Chat_MessageStatus started
+25 мар. 2026 10:29:17,890  INFO ServiceLogger - Recalculate table stats 46 of 135: _auto_Chat_MessageStatus finished, 103ms
+25 мар. 2026 10:29:17,899  INFO ServiceLogger - Recalculate table stats 47 of 135: BoardGame_boardGame started
+25 мар. 2026 10:29:18,495  INFO ServiceLogger - Recalculate table stats 47 of 135: BoardGame_boardGame finished, 596ms
+25 мар. 2026 10:29:18,501  INFO ServiceLogger - Recalculate table stats 48 of 135: Scheduler_scheduledTaskLog started
+25 мар. 2026 10:29:18,801  INFO ServiceLogger - Recalculate table stats 48 of 135: Scheduler_scheduledTaskLog finished, 300ms
+25 мар. 2026 10:29:18,806  INFO ServiceLogger - Recalculate table stats 49 of 135: Word_templateEntry started
+25 мар. 2026 10:29:19,263  INFO ServiceLogger - Recalculate table stats 49 of 135: Word_templateEntry finished, 457ms
+25 мар. 2026 10:29:19,266  INFO ServiceLogger - Recalculate table stats 50 of 135: Security_userRoleActionOrProperty started
+25 мар. 2026 10:29:19,530  INFO ServiceLogger - Recalculate table stats 50 of 135: Security_userRoleActionOrProperty finished, 264ms
+25 мар. 2026 10:29:19,531  INFO ServiceLogger - Recalculate table stats 51 of 135: Scheduler_scheduledTaskDetail started
+25 мар. 2026 10:29:19,869  INFO ServiceLogger - Recalculate table stats 51 of 135: Scheduler_scheduledTaskDetail finished, 338ms
+25 мар. 2026 10:29:19,871  INFO ServiceLogger - Recalculate table stats 52 of 135: _auto_Icon_Icon started

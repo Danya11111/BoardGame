@@ -1,9 +1,9 @@
 // =============================================================================
-// BoardGameSecurity.lsf - Role-Based Access Control Module
+// BoardGameSecurity.lsf — роли и ограничение изменений данных (ТЗ + Authentication)
 // =============================================================================
-// Integrates with lsFusion Security module to provide:
-// - Admin: Full CRUD on Games, Genres, Publishers, Owners, Mechanics
-// - User: Read-only access + recommendations
+// Администратор: роль с кодом 'admin' (стандарт lsFusion Security).
+// Обычный пользователь: любой вошедший CustomUser без роли admin — только просмотр и рекомендации.
+// Ограничения: CONSTRAINT срабатывают только при сессии CustomUser (фоновые задачи без пользователя не режутся).
 // =============================================================================
 
 MODULE BoardGameSecurity;
@@ -12,22 +12,46 @@ REQUIRE BoardGameDomain, BoardGameLogic, Security, Authentication;
 
 NAMESPACE BoardGame;
 
-// =============================================================================
-// ROLE DEFINITIONS
-// =============================================================================
-// Uses Security.userRoleSID for role lookup
-// Admin and User roles are created by Security module (default, admin)
-// =============================================================================
-
-// Check if current user has admin role
 isAdmin () = has(currentUser(), userRoleSID('admin'));
 
-// Check if current user can edit (admin only)
 canEdit () = isAdmin();
 
-// =============================================================================
-// ROLE INITIALIZATION
-// =============================================================================
-// Security.WHEN SETCHANGED creates admin and default roles automatically.
-// We ensure our custom roles exist via the Security module's logic.
-// =============================================================================
+// Сессия «живого» пользователя, не администратора — для него запрещены изменения доменных данных
+nonAdminInteractiveUser () = currentUser() IS CustomUser AND NOT isAdmin();
+
+editDeniedMessage () = 'Изменение данных доступно только администратору.';
+
+// --- BoardGame: все значимые поля + удаление ---
+CONSTRAINT DROPPED(BoardGame b IS BoardGame) AND nonAdminInteractiveUser() MESSAGE editDeniedMessage();
+
+CONSTRAINT SETCHANGED(name(BoardGame b)) AND nonAdminInteractiveUser() MESSAGE editDeniedMessage();
+CONSTRAINT SETCHANGED(description(BoardGame b)) AND nonAdminInteractiveUser() MESSAGE editDeniedMessage();
+CONSTRAINT SETCHANGED(genre(BoardGame b)) AND nonAdminInteractiveUser() MESSAGE editDeniedMessage();
+CONSTRAINT SETCHANGED(minPlayers(BoardGame b)) AND nonAdminInteractiveUser() MESSAGE editDeniedMessage();
+CONSTRAINT SETCHANGED(maxPlayers(BoardGame b)) AND nonAdminInteractiveUser() MESSAGE editDeniedMessage();
+CONSTRAINT SETCHANGED(durationMinutes(BoardGame b)) AND nonAdminInteractiveUser() MESSAGE editDeniedMessage();
+CONSTRAINT SETCHANGED(minAge(BoardGame b)) AND nonAdminInteractiveUser() MESSAGE editDeniedMessage();
+CONSTRAINT SETCHANGED(publisher(BoardGame b)) AND nonAdminInteractiveUser() MESSAGE editDeniedMessage();
+CONSTRAINT SETCHANGED(owner(BoardGame b)) AND nonAdminInteractiveUser() MESSAGE editDeniedMessage();
+CONSTRAINT SETCHANGED(available(BoardGame b)) AND nonAdminInteractiveUser() MESSAGE editDeniedMessage();
+CONSTRAINT SETCHANGED(image(BoardGame b)) AND nonAdminInteractiveUser() MESSAGE editDeniedMessage();
+CONSTRAINT SETCHANGED(hasMechanic(BoardGame b, Mechanic m)) AND nonAdminInteractiveUser() MESSAGE editDeniedMessage();
+
+// --- Genre ---
+CONSTRAINT DROPPED(Genre g IS Genre) AND nonAdminInteractiveUser() MESSAGE editDeniedMessage();
+CONSTRAINT SETCHANGED(name(Genre g)) AND nonAdminInteractiveUser() MESSAGE editDeniedMessage();
+
+// --- Publisher ---
+CONSTRAINT DROPPED(Publisher p IS Publisher) AND nonAdminInteractiveUser() MESSAGE editDeniedMessage();
+CONSTRAINT SETCHANGED(name(Publisher p)) AND nonAdminInteractiveUser() MESSAGE editDeniedMessage();
+CONSTRAINT SETCHANGED(website(Publisher p)) AND nonAdminInteractiveUser() MESSAGE editDeniedMessage();
+CONSTRAINT SETCHANGED(country(Publisher p)) AND nonAdminInteractiveUser() MESSAGE editDeniedMessage();
+
+// --- Owner ---
+CONSTRAINT DROPPED(Owner o IS Owner) AND nonAdminInteractiveUser() MESSAGE editDeniedMessage();
+CONSTRAINT SETCHANGED(name(Owner o)) AND nonAdminInteractiveUser() MESSAGE editDeniedMessage();
+CONSTRAINT SETCHANGED(contacts(Owner o)) AND nonAdminInteractiveUser() MESSAGE editDeniedMessage();
+
+// --- Mechanic (доп. сущность) ---
+CONSTRAINT DROPPED(Mechanic m IS Mechanic) AND nonAdminInteractiveUser() MESSAGE editDeniedMessage();
+CONSTRAINT SETCHANGED(name(Mechanic m)) AND nonAdminInteractiveUser() MESSAGE editDeniedMessage();

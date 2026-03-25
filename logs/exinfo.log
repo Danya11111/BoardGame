@@ -110,3 +110,204 @@
 24 мар. 2026 23:51:55,116 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
 24 мар. 2026 23:55:55,107 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
 24 мар. 2026 23:59:55,103 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 00:03:55,103 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 00:07:10,145 system - system - system  INFO ExInfoLogger - SQL SESSION OPEN SQL@220360914
+25 мар. 2026 00:07:11,947 system - system - system  INFO ExInfoLogger - SQL SESSION OPEN SQL@176851829
+25 мар. 2026 00:07:11,947 system - system - system  INFO ExInfoLogger - SQL SESSION CLOSE SQL@220360914
+25 мар. 2026 00:07:15,315 system - system - system  INFO ExInfoLogger - SQL SESSION OPEN SQL@718057154
+25 мар. 2026 00:07:17,584 system - system - system  INFO ExInfoLogger - SQL SESSION CLOSE SQL@176851829
+25 мар. 2026 00:07:55,113 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 00:09:46,638 system - system - system  INFO ExInfoLogger - SQL SESSION OPEN SQL@498566280
+25 мар. 2026 00:09:48,615 system - system - system  INFO ExInfoLogger - SQL SESSION CLOSE SQL@498566280
+25 мар. 2026 00:09:48,616 system - system - system  INFO ExInfoLogger - SQL SESSION OPEN SQL@176851829
+25 мар. 2026 00:09:51,513 system - system - system  INFO ExInfoLogger - SQL SESSION OPEN SQL@718057154
+25 мар. 2026 00:09:53,129 system - system - system  INFO ExInfoLogger - SQL SESSION CLOSE SQL@176851829
+25 мар. 2026 00:11:55,116 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 00:15:55,104 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 00:19:55,106 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 00:23:55,105 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 00:27:55,108 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 00:30:56,695 system - system - system  INFO ExInfoLogger - SQL SESSION OPEN SQL@1670686654
+25 мар. 2026 00:30:58,848 system - system - system  INFO ExInfoLogger - SQL SESSION CLOSE SQL@1670686654
+25 мар. 2026 00:30:58,852 system - system - system  INFO ExInfoLogger - SQL SESSION OPEN SQL@176851829
+25 мар. 2026 00:31:01,939 system - system - system  INFO ExInfoLogger - SQL SESSION OPEN SQL@718057154
+25 мар. 2026 00:31:03,981 system - system - system  INFO ExInfoLogger - SQL SESSION OPEN SQL@2123899904
+25 мар. 2026 00:31:03,982 system - system - system  INFO ExInfoLogger - SQL SESSION OPEN SQL@1907308529
+25 мар. 2026 00:31:04,537 system - system - system  INFO ExInfoLogger - SQL SESSION OPEN SQL@2000204397
+25 мар. 2026 00:31:05,302 system - system - system  INFO ExInfoLogger - SQL SESSION OPEN SQL@1177077684
+25 мар. 2026 00:31:05,302 system - system - system  INFO ExInfoLogger - SQL SESSION OPEN SQL@362059311
+25 мар. 2026 00:31:05,302 system - system - system  INFO ExInfoLogger - SQL SESSION OPEN SQL@1955128081
+25 мар. 2026 00:31:05,303 system - system - system  INFO ExInfoLogger - SQL SESSION OPEN SQL@376248057
+25 мар. 2026 00:31:05,304 system - system - system  INFO ExInfoLogger - SQL SESSION OPEN SQL@1779312121
+25 мар. 2026 00:31:20,248 system - system - system  INFO ExInfoLogger - SQL SESSION OPEN SQL@1421914958
+25 мар. 2026 00:31:20,258 system - system - system  INFO ExInfoLogger - SQL SESSION OPEN SQL@1546746520
+25 мар. 2026 00:31:20,286 system - system - system  INFO ExInfoLogger - SQL SESSION OPEN SQL@1835957186
+25 мар. 2026 00:31:20,287 system - system - system  INFO ExInfoLogger - SQL SESSION OPEN SQL@141440361
+25 мар. 2026 00:31:20,293 system - system - system  INFO ExInfoLogger - SQL SESSION OPEN SQL@597537224
+25 мар. 2026 00:31:20,386 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 17, drop - 0, max  - 600, used / recently used - 63
+25 мар. 2026 00:31:22,094 system - system - system  INFO ExInfoLogger - SQL SESSION CLOSE SQL@1779312121
+25 мар. 2026 00:31:22,094 system - system - system  INFO ExInfoLogger - SQL SESSION CLOSE SQL@376248057
+25 мар. 2026 00:31:22,095 system - system - system  INFO ExInfoLogger - SQL SESSION CLOSE SQL@1907308529
+25 мар. 2026 00:31:22,094 system - system - system  INFO ExInfoLogger - SQL SESSION CLOSE SQL@2123899904
+25 мар. 2026 00:31:22,094 system - system - system  INFO ExInfoLogger - SQL SESSION CLOSE SQL@362059311
+25 мар. 2026 00:31:22,094 system - system - system  INFO ExInfoLogger - SQL SESSION CLOSE SQL@2000204397
+25 мар. 2026 00:31:22,095 system - system - system  INFO ExInfoLogger - SQL SESSION CLOSE SQL@1955128081
+25 мар. 2026 00:31:22,095 system - system - system  INFO ExInfoLogger - SQL SESSION CLOSE SQL@1177077684
+25 мар. 2026 00:31:22,183 system - system - system  INFO ExInfoLogger - SQL SESSION OPEN SQL@1132458719
+25 мар. 2026 00:31:22,202 system - system - system  INFO ExInfoLogger - SQL SESSION OPEN SQL@481064531
+25 мар. 2026 00:31:22,203 system - system - system  INFO ExInfoLogger - SQL SESSION OPEN SQL@2143819710
+25 мар. 2026 00:31:23,471 system - system - system  INFO ExInfoLogger - SQL SESSION CLOSE SQL@481064531
+25 мар. 2026 00:31:23,471 system - system - system  INFO ExInfoLogger - SQL SESSION CLOSE SQL@2143819710
+25 мар. 2026 00:31:23,471 system - system - system  INFO ExInfoLogger - SQL SESSION CLOSE SQL@1132458719
+25 мар. 2026 00:31:23,527 system - system - system  INFO ExInfoLogger - SQL SESSION CLOSE SQL@176851829
+25 мар. 2026 00:35:20,250 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 00:39:20,244 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 00:43:20,253 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 00:47:20,257 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 00:51:20,244 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 00:55:20,257 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 00:59:20,256 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 01:03:20,254 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 01:07:20,243 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 01:11:20,243 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 01:15:20,244 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 01:19:20,251 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 01:23:20,254 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 01:27:20,255 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 01:31:20,256 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 01:35:20,245 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 01:39:20,255 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 01:43:20,254 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 01:47:20,258 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 01:51:20,251 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 01:55:20,244 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 01:59:20,246 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 02:03:20,255 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 02:07:20,257 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 02:11:20,254 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 02:15:20,257 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 02:19:20,258 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 02:23:20,254 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 02:27:20,257 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 02:31:20,257 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 02:35:20,255 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 02:39:20,256 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 02:43:20,245 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 02:47:20,255 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 02:51:20,258 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 02:55:20,258 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:43,457 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:43,651 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:44,088 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:44,232 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:44,731 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:45,035 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:45,253 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:45,349 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:45,548 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:45,684 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:46,060 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:46,271 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:46,480 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:46,538 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:46,675 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:46,827 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:46,931 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:47,121 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:47,183 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:47,244 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:47,377 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:47,415 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:47,465 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:47,500 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:47,645 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:47,750 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:47,859 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:47,997 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:48,046 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:48,194 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:48,311 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:48,340 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:48,369 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:48,423 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:48,535 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:48,599 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:48,662 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:48,682 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:48,712 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:48,757 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:48,783 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:48,793 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:48,814 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:48,834 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:48,852 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:48,897 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:48,908 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:48,955 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:49,002 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:49,086 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:49,207 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:49,220 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:49,235 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:49,262 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:49,650 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:49,796 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:50,011 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:50,115 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:50,228 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:50,405 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:50,448 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:50,525 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:50,610 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:50,697 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:50,782 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:51,019 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:51,177 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:51,342 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:51,409 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:51,458 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:51,644 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:51,675 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:51,711 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:51,760 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:51,875 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:51,950 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:52,003 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:52,116 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:52,166 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:52,241 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:52,570 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:52,682 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:52,839 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:53,001 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:53,059 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:53,076 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:53,167 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:53,359 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:53,467 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:53,734 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:53,866 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:54,030 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:54,133 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:54,170 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:54,230 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:54,293 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:54,412 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:54,529 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:54,566 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:54,775 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:55,095 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:55,318 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:55,389 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:55,428 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:55,666 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:55,765 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:55,835 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:55,926 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:56,002 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:56,076 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:56,278 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:56,334 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 10:28:56,343 system - system - system  INFO ExInfoLogger - CLEAN TEMP TABLES : not used - 0, drop - 0, max  - 240, used / recently used - 0
+25 мар. 2026 12:50:52,820 system - system - system  INFO ExInfoLogger - SQL SESSION OPEN SQL@1839579221
+25 мар. 2026 12:50:53,230 system - system - system  INFO ExInfoLogger - SQL SESSION CLOSE SQL@1839579221

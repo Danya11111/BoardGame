@@ -1,0 +1,10 @@
+.git
+.idea
+logs
+target
+tools
+web/*.war
+*.md
+.env
+lsfusion.properties
+**/.DS_Store

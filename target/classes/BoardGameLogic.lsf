@@ -1,9 +1,12 @@
 // =============================================================================
-// BoardGameLogic.lsf - Business Logic Module
+// BoardGameLogic.lsf — алгоритм рекомендаций по ТЗ
 // =============================================================================
-// Contains recommendation algorithm, filtering logic, and scoring rules.
-// Extensible architecture: modify SCORE_* constants in BoardGameDomain to
-// change recommendation behavior.
+// Вход: выбранная игра source. Кандидаты — все остальные BoardGame (сама игра исключается).
+// Скоринг (сумма баллов):
+//   +3 — совпадение жанра (genre(source) = genre(candidate));
+//   +2 — пересечение диапазонов игроков: [minPlayers..maxPlayers] у обеих игр пересекаются;
+//   +1 — минимальный возраст отличается не более чем на 2 года (|minAge(source) - minAge(candidate)| <= 2).
+// Сортировка: по убыванию score, затем по названию. Возвращаются топ-3 (RECOMMENDATION_TOP_COUNT).
 // =============================================================================
 
 MODULE BoardGameLogic;
@@ -12,95 +15,58 @@ REQUIRE BoardGameDomain, Utils;
 
 NAMESPACE BoardGame;
 
-// =============================================================================
-// RECOMMENDATION SCORING FUNCTIONS
-// =============================================================================
-// Each function returns points for a specific similarity criterion.
-// Total score = sum of all applicable criteria.
-// =============================================================================
-
-// +3 / +2 / +1 points — weights match BoardGameDomain (SCORE_*); literals here (lsFusion resolves constant names oddly in OVERRIDE)
+// +3 / +2 / +1 — совпадают с константами SCORE_* в BoardGameDomain (здесь литералы: в IF-предикате имена констант воспринимаются как параметры)
 genreMatchScore (BoardGame source, BoardGame candidate) =
-    OVERRIDE (3 IF genre(source) = genre(candidate) AND source != candidate), 0;
+    IF genre(source) = genre(candidate) AND NOT (source = candidate) THEN 3 ELSE 0;
 
 playerRangeOverlapScore (BoardGame source, BoardGame candidate) =
-    OVERRIDE (2 IF source != candidate AND minPlayers(source) <= maxPlayers(candidate) AND minPlayers(candidate) <= maxPlayers(source)), 0;
+    IF NOT (source = candidate) AND minPlayers(source) <= maxPlayers(candidate) AND minPlayers(candidate) <= maxPlayers(source) THEN 2 ELSE 0;
 
 ageDifferenceScore (BoardGame source, BoardGame candidate) =
-    OVERRIDE (1 IF source != candidate AND abs(minAge(source) - minAge(candidate)) <= 2), 0;
-
-// =============================================================================
-// TOTAL RECOMMENDATION SCORE
-// =============================================================================
+    IF NOT (source = candidate) AND abs(minAge(source) - minAge(candidate)) <= 2 THEN 1 ELSE 0;
 
 recommendationScore (BoardGame source, BoardGame candidate) =
     genreMatchScore(source, candidate) +
     playerRangeOverlapScore(source, candidate) +
     ageDifferenceScore(source, candidate);
 
-// =============================================================================
-// RECOMMENDATION EXPLANATION (Bonus feature)
-// =============================================================================
-// Builds human-readable explanation of why a game was recommended
-// =============================================================================
-
-// Explanation parts (CONCAT skips NULL; separate properties avoid parser issues)
-explanationGenrePart (BoardGame source, BoardGame candidate) = 'Same genre' IF genreMatchScore(source, candidate) > 0;
-explanationPlayerPart (BoardGame source, BoardGame candidate) = 'Similar player count' IF playerRangeOverlapScore(source, candidate) > 0;
-explanationAgePart (BoardGame source, BoardGame candidate) = 'Similar age rating' IF ageDifferenceScore(source, candidate) > 0;
+explanationGenrePart (BoardGame source, BoardGame candidate) = 'Тот же жанр' IF genreMatchScore(source, candidate) > 0;
+explanationPlayerPart (BoardGame source, BoardGame candidate) = 'Пересечение по числу игроков' IF playerRangeOverlapScore(source, candidate) > 0;
+explanationAgePart (BoardGame source, BoardGame candidate) = 'Близкий мин. возраст' IF ageDifferenceScore(source, candidate) > 0;
 
 recommendationExplanation (BoardGame source, BoardGame candidate) =
     CONCAT '; ', explanationGenrePart(source, candidate), explanationPlayerPart(source, candidate), explanationAgePart(source, candidate) CHARWIDTH 100;
 
-// Trim trailing separator from explanation
 recommendationExplanationTrimmed (BoardGame source, BoardGame candidate) =
     trim(recommendationExplanation(source, candidate));
 
-// =============================================================================
-// TOP RECOMMENDATIONS
-// =============================================================================
-// Returns top N games sorted by score DESC.
-// Uses GROUP LAST to get top RECOMMENDATION_TOP_COUNT by score.
-// =============================================================================
-
-// Ordered list of recommended games with scores (BoardGame, INTEGER)
 recommendationOrder (BoardGame source, BoardGame candidate) =
     recommendationScore(source, candidate);
 
-// Get top recommended games - returns BoardGame for each rank 1..N
+// Топ-N рекомендаций: все кроме source, сортировка по score DESC, при равенстве — по названию; N = RECOMMENDATION_TOP_COUNT
 topRecommendedGame (BoardGame source, INTEGER rank) =
     GROUP LAST BoardGame candidate
     ORDER DESC recommendationScore(source, candidate), name(candidate)
     TOP 1
     OFFSET rank - 1
-    WHERE candidate IS BoardGame AND source != candidate AND recommendationScore(source, candidate) > 0;
+    WHERE candidate IS BoardGame AND NOT (source = candidate);
 
-// Score for a specific recommended game
 topRecommendedScore (BoardGame source, INTEGER rank) =
     recommendationScore(source, topRecommendedGame(source, rank));
 
-// =============================================================================
-// FILTERING PROPERTIES
-// =============================================================================
-// Used by forms to filter games by user criteria
-// =============================================================================
+// --- Фильтры для списков (не часть ТЗ рекомендаций, вспомогательные) ---
 
-// Filter: matches genre (NOT = null check in lsFusion)
 matchesGenre (BoardGame g, Genre genreFilter) =
     genre(g) = genreFilter OR NOT genreFilter;
 
-// Filter: matches player count
 matchesPlayerCount (BoardGame g, INTEGER players) =
     (minPlayers(g) <= players AND maxPlayers(g) >= players) OR NOT players;
 
-// Filter: matches duration range (max minutes)
 matchesDuration (BoardGame g, INTEGER maxDuration) =
     (durationMinutes(g) <= maxDuration) OR NOT maxDuration;
 
-// Filter: matches minimum age
 matchesMinAge (BoardGame g, INTEGER age) =
     (minAge(g) <= age) OR NOT age;
 
-// Filter: available only
 matchesAvailable (BoardGame g, BOOLEAN availableOnly) =
     (available(g) = TRUE) OR NOT availableOnly;

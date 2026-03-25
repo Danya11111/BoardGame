@@ -1,0 +1,54 @@
+# BoardGame + lsFusion: Postgres + logics + web UI (Tomcat)
+#
+# Usage:
+#   docker compose up --build
+#   Optional: copy .env.example .env and set POSTGRES_PASSWORD (default in compose: boardgame_dev)
+#   Open http://localhost:8080/lsfusion
+#
+# First start of "logics" can take 1–2 minutes (DB sync).
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: boardgame
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-boardgame_dev}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d boardgame"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 10s
+
+  logics:
+    build:
+      context: .
+      dockerfile: docker/logics/Dockerfile
+    environment:
+      DB_PASSWORD: ${POSTGRES_PASSWORD:-boardgame_dev}
+      # For local development:
+      # - set true to allow anonymous access as admin in UI/API
+      LSFUSION_DEVMODE: ${LSFUSION_DEVMODE:-true}
+      # Optional: only applied on FIRST start with an empty DB volume
+      # LSFUSION_INITIAL_ADMIN_PASSWORD: ${LSFUSION_INITIAL_ADMIN_PASSWORD:-}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "7651:7651"
+      - "7652:7652"
+
+  web:
+    build:
+      context: ./docker/web
+      dockerfile: Dockerfile
+    depends_on:
+      - logics
+    ports:
+      - "8080:8080"
+
+volumes:
+  postgres_data:

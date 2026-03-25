@@ -23,3 +23,18 @@
 24 мар. 2026 23:35:13,467 ERROR SchedulerLogger - SERVER STOPPING, all scheduled tasks will be interrupted
 24 мар. 2026 23:35:57,501 ERROR SchedulerLogger - SERVER STOPPING, all scheduled tasks will be interrupted
 24 мар. 2026 23:46:00,257 ERROR SchedulerLogger - SERVER STOPPING, all scheduled tasks will be interrupted
+25 мар. 2026 00:07:17,596 ERROR SchedulerLogger - SERVER STOPPING, all scheduled tasks will be interrupted
+25 мар. 2026 00:09:53,137 ERROR SchedulerLogger - SERVER STOPPING, all scheduled tasks will be interrupted
+25 мар. 2026 10:28:43,460  INFO SchedulerLogger - Started running scheduler task - Обслуживание БД
+25 мар. 2026 10:28:43,652  INFO SchedulerLogger - Active threads: 6, total threads: 6
+25 мар. 2026 10:28:43,652  INFO SchedulerLogger - Task Обслуживание БД. TimeFrom 00:00, TimeTo 00:00, daysOfWeek -, daysOfMonth -. Started successful
+25 мар. 2026 10:28:43,741  INFO SchedulerLogger - Task Пересчитать статистику (Service.recalculateStatsAction[]) - Запущено start
+25 мар. 2026 12:47:50,833 ERROR SchedulerLogger - SERVER STOPPING, all scheduled tasks will be interrupted
+25 мар. 2026 12:48:20,489 ERROR SchedulerLogger - SERVER STOPPING, all scheduled tasks will be interrupted
+25 мар. 2026 12:48:40,160 ERROR SchedulerLogger - SERVER STOPPING, all scheduled tasks will be interrupted
+25 мар. 2026 12:48:56,899 ERROR SchedulerLogger - SERVER STOPPING, all scheduled tasks will be interrupted
+25 мар. 2026 12:49:23,035 ERROR SchedulerLogger - SERVER STOPPING, all scheduled tasks will be interrupted
+25 мар. 2026 12:49:44,250 ERROR SchedulerLogger - SERVER STOPPING, all scheduled tasks will be interrupted
+25 мар. 2026 12:50:02,873 ERROR SchedulerLogger - SERVER STOPPING, all scheduled tasks will be interrupted
+25 мар. 2026 12:50:22,825 ERROR SchedulerLogger - SERVER STOPPING, all scheduled tasks will be interrupted
+25 мар. 2026 12:50:53,230 ERROR SchedulerLogger - SERVER STOPPING, all scheduled tasks will be interrupted

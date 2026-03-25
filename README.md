@@ -174,6 +174,53 @@ copy lsfusion.properties.example lsfusion.properties
 Проверка: в `logs/start.log` должны появиться строки `Logics instance has successfully started` и `Server has successfully started`.  
 Не запускайте голый `java -cp ... BusinessLogicsBootstrap` без `-Ddb.*` — пароль из файла в каталоге проекта bootstrap не подхватит (см. шаг 4 в Installation ниже).
 
+### Частые проблемы
+
+| Симптом | Что сделать |
+|--------|-------------|
+| `psql` не найден | Добавьте в PATH каталог `bin` PostgreSQL (часто `C:\Program Files\PostgreSQL\<версия>\bin`) или вызывайте полный путь: `"C:\Program Files\PostgreSQL\16\bin\psql.exe" -U postgres -f scripts\postgres-init.sql` |
+| `Port already in use: 7652` | Уже запущен другой экземпляр сервера. Закройте лишний `java.exe` (или второе окно `run.ps1`). В cmd/PowerShell: сначала `netstat -ano`, найдите строку с `:7652` и PID в последнем столбце, затем `taskkill /PID <номер> /F`. Либо в `lsfusion.properties`: `rmi.port=7653` |
+| Ошибка при `download-server.ps1`: JAR занят другим процессом | Остановите запущенный lsFusion / закройте IDE, держащую `lib\lsfusion-server-6.1.jar`, затем снова `.\download-server.ps1` |
+
+---
+
+## Docker (веб-интерфейс на http://localhost:8080)
+
+Нужны **Docker** и **Docker Compose v2** (`docker compose`). Поднимаются три сервиса: **PostgreSQL**, сервер логики lsFusion (**logics**), **Tomcat** с `lsfusion-client-6.1.war`.
+
+1. Освободите порты **8080**, **7651**, **7652** (остановите локальный `.\run.ps1`, если он уже слушает эти порты).
+
+2. (Необязательно) Создайте `.env` рядом с `docker-compose.yml` — скопируйте `.env.example` и задайте свой `POSTGRES_PASSWORD`.  
+   Если `.env` нет, используется пароль по умолчанию **`boardgame_dev`** (только для локальной разработки).
+
+3. Из корня репозитория:
+
+```powershell
+docker compose up --build
+```
+
+Первый запуск **logics** может занять 1–2 минуты (сборка образа + синхронизация БД).
+
+4. Откройте в браузере: **http://localhost:8080/lsfusion**
+
+### Логин / пароль в Docker
+
+По умолчанию в `docker-compose.yml` включен **`LSFUSION_DEVMODE=true`** — это режим разработки lsFusion: веб-клиент пускает **анонимно** (как admin), чтобы можно было быстро посмотреть UI без настройки пользователей.
+
+Если хотите нормальный логин:
+- выставьте в `.env`: `LSFUSION_DEVMODE=false`
+- (опционально) задайте `LSFUSION_INITIAL_ADMIN_PASSWORD=...`
+- и **сбросьте volume БД**, чтобы параметр применился на “первом старте”:
+
+```powershell
+docker compose down -v
+docker compose up --build
+```
+
+Остановка: `Ctrl+C` или `docker compose down`. Данные PostgreSQL сохраняются в volume `postgres_data`; полный сброс БД в Docker: `docker compose down -v`.
+
+Структура: `docker-compose.yml`, `docker/logics/` (Dockerfile + entrypoint), `docker/web/` (Tomcat + WAR + `lsfusion-context.xml` с `host=logics` для RMI внутри сети compose).
+
 ---
 
 ## 6. Setup Instructions

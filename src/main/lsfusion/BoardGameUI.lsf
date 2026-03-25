@@ -1,7 +1,5 @@
 // =============================================================================
-// BoardGameUI.lsf - User Interface Module
-// =============================================================================
-// Forms, actions, and navigator for the Board Game Recommendation System.
+// BoardGameUI.lsf — формы: просмотр для пользователя, CRUD для администратора
 // =============================================================================
 
 MODULE BoardGameUI;
@@ -10,13 +8,11 @@ REQUIRE BoardGameDomain, BoardGameLogic, BoardGameSecurity, BoardGameExampleData
 
 NAMESPACE BoardGame;
 
-// =============================================================================
-// RECOMMENDATIONS FORM + ACTION (declared before forms that reference the action)
-// =============================================================================
+// --- Рекомендации по выбранной игре ---
 
-FORM recommendationsForm 'Recommendations'
+FORM recommendationsForm 'Рекомендации по похожим играм'
     OBJECTS g = BoardGame PANEL
-    PROPERTIES(g) name
+    PROPERTIES(g) READONLY name
     PROPERTIES
         rec1Name = name(topRecommendedGame(g, 1)),
         rec1Score = topRecommendedScore(g, 1),
@@ -29,7 +25,7 @@ FORM recommendationsForm 'Recommendations'
         rec3Why = recommendationExplanationTrimmed(g, topRecommendedGame(g, 3))
 ;
 
-getRecommendations 'Get recommendations' (BoardGame g) {
+getRecommendations 'Показать топ-3 рекомендаций' (BoardGame g) {
     printToLog(CONCAT ' ', 'Recommendations for', name(g));
     FOR iterate(i, 1, 3) DO {
         IF topRecommendedGame(g, i) IS BoardGame THEN {
@@ -39,46 +35,64 @@ getRecommendations 'Get recommendations' (BoardGame g) {
     SHOW recommendationsForm OBJECTS g = g;
 }
 
-// =============================================================================
-// GAME LIST (read-only list + recommendations)
-// =============================================================================
+// --- Пользователь: карточка игры (только просмотр; объявить до действий, которые делают SHOW) ---
 
-FORM gamesList 'Games'
+FORM gameDetail 'Карточка игры'
+    OBJECTS g = BoardGame PANEL
+    PROPERTIES(g) READONLY name, description, genre, minPlayers, maxPlayers, durationMinutes, minAge, publisher, owner, available, image, mechanicsList
+    PROPERTIES(g) NEWSESSION getRecommendations
+;
+
+openGameCard 'Открыть карточку игры' (BoardGame g) {
+    SHOW gameDetail OBJECTS g = g;
+}
+
+// --- Пользователь: список игр ---
+
+FORM gamesList 'Список настольных игр'
     OBJECTS g = BoardGame
     PROPERTIES(g) READONLY name, genre, playerRange, durationMinutes, minAge, publisher, available, mechanicsList
-    PROPERTIES(g) NEWSESSION getRecommendations
+    PROPERTIES(g) NEWSESSION openGameCard, getRecommendations
     USERFILTERS name(g), genre(g)
     ORDERS name(g)
 ;
 
-// =============================================================================
-// GAME DETAIL
-// =============================================================================
+// --- Пользователь: справочники (только просмотр) ---
 
-FORM gameDetail 'Game Details'
-    OBJECTS g = BoardGame PANEL
-    PROPERTIES(g) name, description, genre, minPlayers, maxPlayers, durationMinutes, minAge, publisher, owner, available, image, mechanicsList
-    PROPERTIES(g) NEWSESSION getRecommendations
+FORM genresView 'Справочник жанров'
+    OBJECTS gen = Genre
+    PROPERTIES(gen) READONLY name
+    LIST Genre OBJECT gen
 ;
 
-// =============================================================================
-// ADMIN FORMS
-// =============================================================================
+FORM publishersView 'Справочник издательств'
+    OBJECTS p = Publisher
+    PROPERTIES(p) READONLY name, website, country
+    LIST Publisher OBJECT p
+;
 
-FORM gameEdit 'Edit Game'
+FORM ownersView 'Справочник владельцев'
+    OBJECTS o = Owner
+    PROPERTIES(o) READONLY name, contacts
+    LIST Owner OBJECT o
+;
+
+// --- Администрирование: игры ---
+
+FORM gameEdit 'Редактирование игры'
     OBJECTS g = BoardGame PANEL
     PROPERTIES(g) name, description, genre, minPlayers, maxPlayers, durationMinutes, minAge, publisher, owner, available, image
     EDIT BoardGame OBJECT g
 ;
 
-FORM gamesAdmin 'Games (Admin)'
+FORM gamesAdmin 'Игры (администрирование)'
     OBJECTS g = BoardGame
-    PROPERTIES(g) name, genre, playerRange, durationMinutes, available
+    PROPERTIES(g) READONLY name, genre, playerRange, durationMinutes, minAge, publisher, available
     PROPERTIES(g) NEWSESSION NEW, EDIT, DELETE SHOWIF canEdit()
     EDIT BoardGame OBJECT g
 ;
 
-FORM gameMechanics 'Game Mechanics'
+FORM gameMechanics 'Механики в игре'
     OBJECTS
         g = BoardGame PANEL,
         m = Mechanic
@@ -91,80 +105,82 @@ EXTEND FORM gameEdit
     PROPERTIES(g, m) hasMechanic
 ;
 
-FORM genresList 'Genres'
-    OBJECTS gen = Genre
-    PROPERTIES(gen) name
-    LIST Genre OBJECT gen
-;
+// --- Администрирование: жанры ---
 
-FORM genreEdit 'Edit Genre'
+FORM genreEdit 'Редактирование жанра'
     OBJECTS gen = Genre PANEL
     PROPERTIES(gen) name
     EDIT Genre OBJECT gen
 ;
 
-FORM genresAdmin 'Genres (Admin)'
+FORM genresAdmin 'Жанры (администрирование)'
     OBJECTS gen = Genre
-    PROPERTIES(gen) name
+    PROPERTIES(gen) READONLY name
     PROPERTIES(gen) NEWSESSION NEW, EDIT, DELETE SHOWIF canEdit()
     EDIT Genre OBJECT gen
 ;
 
-FORM publisherEdit 'Edit Publisher'
+// --- Администрирование: издательства ---
+
+FORM publisherEdit 'Редактирование издательства'
     OBJECTS p = Publisher PANEL
     PROPERTIES(p) name, website, country
     EDIT Publisher OBJECT p
 ;
 
-FORM publishersAdmin 'Publishers (Admin)'
+FORM publishersAdmin 'Издательства (администрирование)'
     OBJECTS p = Publisher
-    PROPERTIES(p) name, country
+    PROPERTIES(p) READONLY name, website, country
     PROPERTIES(p) NEWSESSION NEW, EDIT, DELETE SHOWIF canEdit()
     EDIT Publisher OBJECT p
 ;
 
-FORM ownerEdit 'Edit Owner'
+// --- Администрирование: владельцы ---
+
+FORM ownerEdit 'Редактирование владельца'
     OBJECTS o = Owner PANEL
     PROPERTIES(o) name, contacts
     EDIT Owner OBJECT o
 ;
 
-FORM ownersAdmin 'Owners (Admin)'
+FORM ownersAdmin 'Владельцы (администрирование)'
     OBJECTS o = Owner
-    PROPERTIES(o) name, contacts
+    PROPERTIES(o) READONLY name, contacts
     PROPERTIES(o) NEWSESSION NEW, EDIT, DELETE SHOWIF canEdit()
     EDIT Owner OBJECT o
 ;
 
-FORM mechanicEdit 'Edit Mechanic'
+FORM mechanicEdit 'Редактирование механики'
     OBJECTS m = Mechanic PANEL
     PROPERTIES(m) name
     EDIT Mechanic OBJECT m
 ;
 
-FORM mechanicsAdmin 'Mechanics (Admin)'
+FORM mechanicsAdmin 'Механики (администрирование)'
     OBJECTS m = Mechanic
-    PROPERTIES(m) name
+    PROPERTIES(m) READONLY name
     PROPERTIES(m) NEWSESSION NEW, EDIT, DELETE SHOWIF canEdit()
     EDIT Mechanic OBJECT m
 ;
 
-// =============================================================================
-// NAVIGATOR
-// =============================================================================
+// --- Навигатор ---
 
 NAVIGATOR {
-    NEW FOLDER boardGames 'Board Games' {
-        NEW ACTION loadExampleData;
-        NEW ACTION runAllTests;
+    NEW FOLDER boardGames 'Настольные игры' {
         NEW gamesList;
-        NEW recommendationsForm;
-        NEW FOLDER adminFolder 'Administration' {
+        NEW FOLDER references 'Справочники' {
+            NEW genresView;
+            NEW publishersView;
+            NEW ownersView;
+        }
+        NEW FOLDER administration 'Администрирование' SHOWIF IF isAdmin() THEN TRUE {
+            NEW ACTION loadExampleData;
             NEW gamesAdmin;
             NEW genresAdmin;
             NEW publishersAdmin;
             NEW ownersAdmin;
             NEW mechanicsAdmin;
+            NEW ACTION runAllTests;
         }
     }
 }
