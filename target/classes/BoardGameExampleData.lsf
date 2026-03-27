@@ -1,7 +1,8 @@
 // =============================================================================
-// BoardGameExampleData.lsf - Example Dataset for Board Game Recommendation System
+// BoardGameExampleData.lsf — загрузка демонстрационных данных
 // =============================================================================
-// After NEW, locals like strategy are not visible on the next line — use genreByName('...') etc. from BoardGameDomain.
+// Набор данных нужен для проверки UI, рекомендаций и прав доступа.
+// Загрузка идемпотентная: повторный запуск не создаёт дубли, а обновляет обязательные записи.
 // =============================================================================
 
 MODULE BoardGameExampleData;
@@ -11,124 +12,145 @@ REQUIRE BoardGameDomain, Service;
 NAMESPACE BoardGame;
 
 boardGameCount() = GROUP SUM 1 IF BoardGame b;
-hasCatan() = GROUP SUM 1 IF BoardGame b AND name(b) = 'Catan';
+hasRequiredDemoGames() = GROUP SUM 1 IF BoardGame b AND (name(b) = 'Мафия' OR name(b) = 'Шпион' OR name(b) = 'Бункер');
 
-loadExampleData 'Load example board games' () {
-    NEW strategy = Genre { name(strategy) <- 'Strategy'; }
-    NEW party = Genre { name(party) <- 'Party'; }
-    NEW euro = Genre { name(euro) <- 'Euro'; }
-    NEW family = Genre { name(family) <- 'Family'; }
+loadExampleData 'Загрузить демо-данные' () {
+    // Справочники жанров
+    IF NOT genreByName('Детектив') THEN NEW gDetective = Genre { name(gDetective) <- 'Детектив'; };
+    IF NOT genreByName('Социальная') THEN NEW gSocial = Genre { name(gSocial) <- 'Социальная'; };
+    IF NOT genreByName('Выживание') THEN NEW gSurvival = Genre { name(gSurvival) <- 'Выживание'; };
+    IF NOT genreByName('Стратегия') THEN NEW gStrategy = Genre { name(gStrategy) <- 'Стратегия'; };
+    IF NOT genreByName('Кооператив') THEN NEW gCoop = Genre { name(gCoop) <- 'Кооператив'; };
 
-    NEW catanGmbh = Publisher {
-        name(catanGmbh) <- 'Catan Studio';
-        website(catanGmbh) <- 'https://www.catan.com';
-        country(catanGmbh) <- 'Germany';
+    // Справочники издательств
+    IF NOT publisherByName('Hobby World') THEN {
+        NEW pHobby = Publisher {
+            name(pHobby) <- 'Hobby World';
+            website(pHobby) <- 'https://hobbyworld.ru';
+            country(pHobby) <- 'Россия';
+        }
     }
-    NEW zman = Publisher {
-        name(zman) <- 'Z-Man Games';
-        website(zman) <- 'https://www.zmangames.com';
-        country(zman) <- 'USA';
+    IF NOT publisherByName('Экономикус') THEN {
+        NEW pEcon = Publisher {
+            name(pEcon) <- 'Экономикус';
+            website(pEcon) <- 'https://economicus.ru';
+            country(pEcon) <- 'Россия';
+        }
     }
-    NEW czech = Publisher {
-        name(czech) <- 'Czech Games Edition';
-        website(czech) <- 'https://cge.cz';
-        country(czech) <- 'Czech Republic';
-    }
-    NEW daysOfWonder = Publisher {
-        name(daysOfWonder) <- 'Days of Wonder';
-        country(daysOfWonder) <- 'USA';
+    IF NOT publisherByName('GaGa Games') THEN {
+        NEW pGaga = Publisher {
+            name(pGaga) <- 'GaGa Games';
+            website(pGaga) <- 'https://gaga.ru';
+            country(pGaga) <- 'Россия';
+        }
     }
 
-    NEW owner1 = Owner { name(owner1) <- 'John Doe'; contacts(owner1) <- 'john@example.com'; }
-    NEW owner2 = Owner { name(owner2) <- 'Jane Smith'; contacts(owner2) <- 'jane@example.com'; }
-
-    NEW diceRolling = Mechanic { name(diceRolling) <- 'Dice Rolling'; }
-    NEW tilePlacement = Mechanic { name(tilePlacement) <- 'Tile Placement'; }
-    NEW trading = Mechanic { name(trading) <- 'Trading'; }
-    NEW wordGame = Mechanic { name(wordGame) <- 'Word Game'; }
-    NEW handManagement = Mechanic { name(handManagement) <- 'Hand Management'; }
-
-    NEW catan = BoardGame {
-        name(catan) <- 'Catan';
-        description(catan) <- 'Trade, build and settle the island of Catan.';
-        minPlayers(catan) <- 3;
-        maxPlayers(catan) <- 4;
-        durationMinutes(catan) <- 60;
-        minAge(catan) <- 10;
-        available(catan) <- TRUE;
+    // Справочники владельцев
+    IF NOT ownerByName('Клуб Настолка') THEN {
+        NEW oClub = Owner { name(oClub) <- 'Клуб Настолка'; contacts(oClub) <- '+7 900 000-00-01'; }
     }
-    genre(catan) <- genreByName('Strategy');
-    publisher(catan) <- publisherByName('Catan Studio');
-    owner(catan) <- ownerByName('John Doe');
-    hasMechanic(catan, mechanicByName('Dice Rolling')) <- TRUE;
-    hasMechanic(catan, mechanicByName('Trading')) <- TRUE;
-
-    NEW carcassonne = BoardGame {
-        name(carcassonne) <- 'Carcassonne';
-        description(carcassonne) <- 'Tile-placement game set in medieval France.';
-        minPlayers(carcassonne) <- 2;
-        maxPlayers(carcassonne) <- 5;
-        durationMinutes(carcassonne) <- 45;
-        minAge(carcassonne) <- 8;
-        available(carcassonne) <- TRUE;
+    IF NOT ownerByName('Анна Петрова') THEN {
+        NEW oAnna = Owner { name(oAnna) <- 'Анна Петрова'; contacts(oAnna) <- 'anna@example.com'; }
     }
-    genre(carcassonne) <- genreByName('Strategy');
-    publisher(carcassonne) <- publisherByName('Z-Man Games');
-    owner(carcassonne) <- ownerByName('John Doe');
-    hasMechanic(carcassonne, mechanicByName('Tile Placement')) <- TRUE;
-
-    NEW codenames = BoardGame {
-        name(codenames) <- 'Codenames';
-        description(codenames) <- 'Word association party game for two teams.';
-        minPlayers(codenames) <- 4;
-        maxPlayers(codenames) <- 8;
-        durationMinutes(codenames) <- 15;
-        minAge(codenames) <- 12;
-        available(codenames) <- TRUE;
+    IF NOT ownerByName('Иван Смирнов') THEN {
+        NEW oIvan = Owner { name(oIvan) <- 'Иван Смирнов'; contacts(oIvan) <- 'ivan@example.com'; }
     }
-    genre(codenames) <- genreByName('Party');
-    publisher(codenames) <- publisherByName('Czech Games Edition');
-    owner(codenames) <- ownerByName('Jane Smith');
-    hasMechanic(codenames, mechanicByName('Word Game')) <- TRUE;
 
-    NEW ticketToRide = BoardGame {
-        name(ticketToRide) <- 'Ticket to Ride';
-        description(ticketToRide) <- 'Collect train cards and claim railway routes.';
-        minPlayers(ticketToRide) <- 2;
-        maxPlayers(ticketToRide) <- 5;
-        durationMinutes(ticketToRide) <- 60;
-        minAge(ticketToRide) <- 8;
-        available(ticketToRide) <- TRUE;
-    }
-    genre(ticketToRide) <- genreByName('Family');
-    publisher(ticketToRide) <- publisherByName('Days of Wonder');
-    owner(ticketToRide) <- ownerByName('John Doe');
-    hasMechanic(ticketToRide, mechanicByName('Hand Management')) <- TRUE;
+    // Дополнительный справочник механик (используется только в админке)
+    IF NOT mechanicByName('Блеф') THEN NEW mBluff = Mechanic { name(mBluff) <- 'Блеф'; };
+    IF NOT mechanicByName('Командная игра') THEN NEW mTeam = Mechanic { name(mTeam) <- 'Командная игра'; };
+    IF NOT mechanicByName('Переговоры') THEN NEW mTalk = Mechanic { name(mTalk) <- 'Переговоры'; };
+    IF NOT mechanicByName('Скрытые роли') THEN NEW mHiddenRoles = Mechanic { name(mHiddenRoles) <- 'Скрытые роли'; };
+    IF NOT mechanicByName('Кооперация') THEN NEW mCoop = Mechanic { name(mCoop) <- 'Кооперация'; };
 
-    NEW splendor = BoardGame {
-        name(splendor) <- 'Splendor';
-        description(splendor) <- 'Collect gems and develop Renaissance merchant guilds.';
-        minPlayers(splendor) <- 2;
-        maxPlayers(splendor) <- 4;
-        durationMinutes(splendor) <- 30;
-        minAge(splendor) <- 10;
-        available(splendor) <- TRUE;
-    }
-    genre(splendor) <- genreByName('Euro');
-    publisher(splendor) <- publisherByName('Days of Wonder');
-    owner(splendor) <- ownerByName('Jane Smith');
-    hasMechanic(splendor, mechanicByName('Hand Management')) <- TRUE;
+    // Обязательные игры по ТЗ: Мафия, Шпион, Бункер
+    IF NOT boardGameByName('Мафия') THEN NEW mafia = BoardGame { name(mafia) <- 'Мафия'; };
+    description(boardGameByName('Мафия')) <- 'Классическая игра на скрытые роли, где мирные жители ищут мафию.';
+    genre(boardGameByName('Мафия')) <- genreByName('Социальная');
+    minPlayers(boardGameByName('Мафия')) <- 6;
+    maxPlayers(boardGameByName('Мафия')) <- 16;
+    durationMinutes(boardGameByName('Мафия')) <- 40;
+    minAge(boardGameByName('Мафия')) <- 12;
+    publisher(boardGameByName('Мафия')) <- publisherByName('Hobby World');
+    owner(boardGameByName('Мафия')) <- ownerByName('Клуб Настолка');
+    available(boardGameByName('Мафия')) <- TRUE;
+    hasMechanic(boardGameByName('Мафия'), mechanicByName('Скрытые роли')) <- TRUE;
+    hasMechanic(boardGameByName('Мафия'), mechanicByName('Блеф')) <- TRUE;
 
-    printToLog('Example data loaded: 5 games, 4 genres, 4 publishers, 2 owners, 5 mechanics');
-    MESSAGE 'Загружены демо-данные: 5 игр, 4 жанра, 4 издательства, 2 владельца, 5 механик.';
+    IF NOT boardGameByName('Шпион') THEN NEW spy = BoardGame { name(spy) <- 'Шпион'; };
+    description(boardGameByName('Шпион')) <- 'Игроки задают вопросы и вычисляют шпиона, который не знает локацию.';
+    genre(boardGameByName('Шпион')) <- genreByName('Детектив');
+    minPlayers(boardGameByName('Шпион')) <- 3;
+    maxPlayers(boardGameByName('Шпион')) <- 8;
+    durationMinutes(boardGameByName('Шпион')) <- 20;
+    minAge(boardGameByName('Шпион')) <- 12;
+    publisher(boardGameByName('Шпион')) <- publisherByName('GaGa Games');
+    owner(boardGameByName('Шпион')) <- ownerByName('Анна Петрова');
+    available(boardGameByName('Шпион')) <- TRUE;
+    hasMechanic(boardGameByName('Шпион'), mechanicByName('Блеф')) <- TRUE;
+    hasMechanic(boardGameByName('Шпион'), mechanicByName('Переговоры')) <- TRUE;
+
+    IF NOT boardGameByName('Бункер') THEN NEW bunker = BoardGame { name(bunker) <- 'Бункер'; };
+    description(boardGameByName('Бункер')) <- 'Постапокалиптическая игра о выборе тех, кто попадёт в бункер.';
+    genre(boardGameByName('Бункер')) <- genreByName('Выживание');
+    minPlayers(boardGameByName('Бункер')) <- 4;
+    maxPlayers(boardGameByName('Бункер')) <- 16;
+    durationMinutes(boardGameByName('Бункер')) <- 60;
+    minAge(boardGameByName('Бункер')) <- 18;
+    publisher(boardGameByName('Бункер')) <- publisherByName('Экономикус');
+    owner(boardGameByName('Бункер')) <- ownerByName('Иван Смирнов');
+    available(boardGameByName('Бункер')) <- TRUE;
+    hasMechanic(boardGameByName('Бункер'), mechanicByName('Переговоры')) <- TRUE;
+    hasMechanic(boardGameByName('Бункер'), mechanicByName('Скрытые роли')) <- TRUE;
+
+    // Дополнительные игры для более наглядной проверки скоринга
+    IF NOT boardGameByName('Экивоки') THEN NEW equivoki = BoardGame { name(equivoki) <- 'Экивоки'; };
+    description(boardGameByName('Экивоки')) <- 'Командная игра на ассоциации, объяснение слов и взаимодействие.';
+    genre(boardGameByName('Экивоки')) <- genreByName('Социальная');
+    minPlayers(boardGameByName('Экивоки')) <- 4;
+    maxPlayers(boardGameByName('Экивоки')) <- 12;
+    durationMinutes(boardGameByName('Экивоки')) <- 45;
+    minAge(boardGameByName('Экивоки')) <- 12;
+    publisher(boardGameByName('Экивоки')) <- publisherByName('Hobby World');
+    owner(boardGameByName('Экивоки')) <- ownerByName('Клуб Настолка');
+    available(boardGameByName('Экивоки')) <- TRUE;
+    hasMechanic(boardGameByName('Экивоки'), mechanicByName('Командная игра')) <- TRUE;
+
+    IF NOT boardGameByName('Пандемия') THEN NEW pandemic = BoardGame { name(pandemic) <- 'Пандемия'; };
+    description(boardGameByName('Пандемия')) <- 'Кооперативная стратегия, где игроки вместе спасают мир от эпидемий.';
+    genre(boardGameByName('Пандемия')) <- genreByName('Кооператив');
+    minPlayers(boardGameByName('Пандемия')) <- 2;
+    maxPlayers(boardGameByName('Пандемия')) <- 4;
+    durationMinutes(boardGameByName('Пандемия')) <- 45;
+    minAge(boardGameByName('Пандемия')) <- 10;
+    publisher(boardGameByName('Пандемия')) <- publisherByName('Hobby World');
+    owner(boardGameByName('Пандемия')) <- ownerByName('Анна Петрова');
+    available(boardGameByName('Пандемия')) <- TRUE;
+    hasMechanic(boardGameByName('Пандемия'), mechanicByName('Кооперация')) <- TRUE;
+
+    IF NOT boardGameByName('Колонизаторы') THEN NEW settlers = BoardGame { name(settlers) <- 'Колонизаторы'; };
+    description(boardGameByName('Колонизаторы')) <- 'Экономическая стратегия с обменом ресурсами и развитием поселений.';
+    genre(boardGameByName('Колонизаторы')) <- genreByName('Стратегия');
+    minPlayers(boardGameByName('Колонизаторы')) <- 3;
+    maxPlayers(boardGameByName('Колонизаторы')) <- 4;
+    durationMinutes(boardGameByName('Колонизаторы')) <- 75;
+    minAge(boardGameByName('Колонизаторы')) <- 10;
+    publisher(boardGameByName('Колонизаторы')) <- publisherByName('Hobby World');
+    owner(boardGameByName('Колонизаторы')) <- ownerByName('Иван Смирнов');
+    available(boardGameByName('Колонизаторы')) <- TRUE;
+    hasMechanic(boardGameByName('Колонизаторы'), mechanicByName('Переговоры')) <- TRUE;
+
+    printToLog('Демо-данные загружены: обязательные игры Мафия, Шпион, Бункер и дополнительные записи.');
+    MESSAGE 'Демо-данные обновлены: добавлены/проверены Мафия, Шпион, Бункер и связанные справочники.';
 }
 
 autoLoadExampleData() {
-    IF hasCatan() = 0 OR NOT hasCatan() THEN {
-        printToLog('Auto-loading example board games (DB is empty)');
+    // Автозагрузка только если обязательный набор ещё не сформирован.
+    IF hasRequiredDemoGames() < 3 THEN {
+        printToLog('Автозагрузка демо-данных: отсутствуют обязательные игры.');
         loadExampleData();
     } ELSE {
-        printToLog(CONCAT ' ', 'Skipping example data autoload; Catan exists, BoardGame count =', boardGameCount());
+        printToLog(CONCAT ' ', 'Автозагрузка не требуется; игр в базе =', boardGameCount());
     }
 }
 

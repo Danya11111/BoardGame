@@ -1,5 +1,5 @@
 // =============================================================================
-// BoardGameDomain.lsf — доменная модель (ТЗ: настольные игры, жанры, издатели, владельцы)
+// BoardGameDomain.lsf — доменная модель системы рекомендаций настольных игр
 // =============================================================================
 
 MODULE BoardGameDomain;
@@ -8,7 +8,7 @@ REQUIRE System, Utils;
 
 NAMESPACE BoardGame;
 
-// Веса скоринга рекомендаций (логика в BoardGameLogic)
+// Веса скоринга рекомендаций (используются в BoardGameLogic)
 SCORE_GENRE_MATCH = 3;
 SCORE_PLAYER_RANGE_OVERLAP = 2;
 SCORE_AGE_DIFFERENCE_WITHIN_RANGE = 1;
@@ -36,7 +36,7 @@ TABLE owner (Owner);
 name 'Имя' = DATA ISTRING[100] (Owner) CHARWIDTH 20 IN id;
 contacts 'Контакты' = DATA STRING[255] (Owner) CHARWIDTH 25;
 
-// --- Механики (дополнительно к ТЗ; связь many-to-many с игрой) ---
+// --- Механики (дополнительный справочник; связь many-to-many с игрой) ---
 CLASS Mechanic 'Механика';
 TABLE mechanic (Mechanic);
 
@@ -59,7 +59,10 @@ minAge 'Минимальный возраст' = DATA INTEGER (BoardGame) CHARWI
 publisher 'Издательство' = DATA Publisher (BoardGame) CHARWIDTH 15;
 owner 'Владелец' = DATA Owner (BoardGame) CHARWIDTH 15;
 available 'Наличие' = DATA BOOLEAN (BoardGame) CHARWIDTH 5;
-image 'Изображение' = DATA IMAGEFILE (BoardGame);
+// Поле image хранится в формате IMAGE согласно ТЗ.
+image 'Изображение' = DATA IMAGE (BoardGame);
+// Совместимость именования с ТЗ: isAvailable дублирует смысл поля available.
+isAvailable 'В наличии' (BoardGame g) = available(g);
 
 playerRange 'Игроки' (BoardGame g) = CONCAT '', minPlayers(g), '-', maxPlayers(g) CHARWIDTH 8;
 
@@ -69,3 +72,14 @@ genreByName (ISTRING[100] n) = GROUP LAST Genre g ORDER g WHERE name(g) = n;
 publisherByName (ISTRING[100] n) = GROUP LAST Publisher p ORDER p WHERE name(p) = n;
 ownerByName (ISTRING[100] n) = GROUP LAST Owner o ORDER o WHERE name(o) = n;
 mechanicByName (ISTRING[50] n) = GROUP LAST Mechanic m ORDER m WHERE name(m) = n;
+boardGameByName (ISTRING[100] n) = GROUP LAST BoardGame b ORDER b WHERE name(b) = n;
+
+// Базовые проверки качества данных для карточки игры.
+CONSTRAINT SETCHANGED(minPlayers(BoardGame g)) AND minPlayers(g) < 1
+    MESSAGE 'Минимальное количество игроков должно быть не меньше 1.';
+CONSTRAINT SETCHANGED(maxPlayers(BoardGame g)) AND maxPlayers(g) < minPlayers(g)
+    MESSAGE 'Максимальное количество игроков не может быть меньше минимального.';
+CONSTRAINT SETCHANGED(minAge(BoardGame g)) AND minAge(g) < 0
+    MESSAGE 'Минимальный возраст не может быть отрицательным.';
+CONSTRAINT SETCHANGED(durationMinutes(BoardGame g)) AND durationMinutes(g) <= 0
+    MESSAGE 'Длительность игры должна быть больше 0 минут.';

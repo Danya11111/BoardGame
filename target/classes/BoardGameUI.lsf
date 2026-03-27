@@ -1,10 +1,10 @@
 // =============================================================================
-// BoardGameUI.lsf — формы: просмотр для пользователя, CRUD для администратора
+// BoardGameUI.lsf — формы: просмотр для пользователя, редактирование для администратора
 // =============================================================================
 
 MODULE BoardGameUI;
 
-REQUIRE BoardGameDomain, BoardGameLogic, BoardGameSecurity, BoardGameExampleData, BoardGameTest, Utils, Security, Authentication;
+REQUIRE BoardGameDomain, BoardGameLogic, BoardGameSecurity, BoardGameExampleData, Utils, Security, Authentication;
 
 NAMESPACE BoardGame;
 
@@ -26,10 +26,10 @@ FORM recommendationsForm 'Рекомендации по похожим игра�
 ;
 
 getRecommendations 'Показать топ-3 рекомендаций' (BoardGame g) {
-    printToLog(CONCAT ' ', 'Recommendations for', name(g));
+    printToLog(CONCAT ' ', 'Рекомендации для игры', name(g));
     FOR iterate(i, 1, 3) DO {
         IF topRecommendedGame(g, i) IS BoardGame THEN {
-            printToLog(CONCAT ' ', '#', i, ':', name(topRecommendedGame(g, i)), 'score=', topRecommendedScore(g, i));
+            printToLog(CONCAT ' ', '#', i, ':', name(topRecommendedGame(g, i)), 'балл=', topRecommendedScore(g, i));
         }
     }
     SHOW recommendationsForm OBJECTS g = g;
@@ -39,7 +39,7 @@ getRecommendations 'Показать топ-3 рекомендаций' (BoardGa
 
 FORM gameDetail 'Карточка игры'
     OBJECTS g = BoardGame PANEL
-    PROPERTIES(g) READONLY name, description, genre, minPlayers, maxPlayers, durationMinutes, minAge, publisher, owner, available, image, mechanicsList
+    PROPERTIES(g) READONLY name, description, genre, minPlayers, maxPlayers, durationMinutes, minAge, publisher, owner, isAvailable, image
     PROPERTIES(g) NEWSESSION getRecommendations
 ;
 
@@ -51,7 +51,7 @@ openGameCard 'Открыть карточку игры' (BoardGame g) {
 
 FORM gamesList 'Список настольных игр'
     OBJECTS g = BoardGame
-    PROPERTIES(g) READONLY name, genre, playerRange, durationMinutes, minAge, publisher, available, mechanicsList
+    PROPERTIES(g) READONLY name, genre, playerRange, durationMinutes, minAge, publisher, isAvailable
     PROPERTIES(g) NEWSESSION openGameCard, getRecommendations
     USERFILTERS name(g), genre(g)
     ORDERS name(g)
@@ -180,7 +180,6 @@ NAVIGATOR {
             NEW publishersAdmin;
             NEW ownersAdmin;
             NEW mechanicsAdmin;
-            NEW ACTION runAllTests;
         }
     }
 }

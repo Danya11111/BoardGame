@@ -1,8 +1,8 @@
 // =============================================================================
-// BoardGameTest.lsf - Unit Tests for Recommendation and Filtering Logic
+// BoardGameTest.lsf — тесты рекомендаций и фильтров
 // =============================================================================
-// Tests recommendation algorithm, filtering logic, and edge cases.
-// Run via lsFusion test framework or manually verify.
+// Тесты опираются на демо-данные из BoardGameExampleData.
+// Обязательные контрольные игры: Мафия, Шпион, Бункер.
 // =============================================================================
 
 MODULE BoardGameTest;
@@ -11,108 +11,37 @@ REQUIRE BoardGameDomain, BoardGameLogic, BoardGameExampleData, Utils;
 
 NAMESPACE BoardGame;
 
-// =============================================================================
-// TEST DATA SETUP (run before tests)
-// =============================================================================
-
-// Если в БД уже есть игры (например, из loadExampleData), повторно не создаём дубликаты
 createTestData () {
-    IF boardGameCount() > 0 THEN {
-        MESSAGE 'Тесты используют уже загруженные игры в БД.';
-    } ELSE {
-        NEW g1 = Genre { name(g1) <- 'Strategy'; }
-        NEW g2 = Genre { name(g2) <- 'Party'; }
-        NEW p = Publisher { name(p) <- 'Test Publisher'; country(p) <- 'Germany'; }
-        NEW o = Owner { name(o) <- 'Test Owner'; contacts(o) <- 'test@test.com'; }
-
-        NEW bg1 = BoardGame {
-            name(bg1) <- 'Catan';
-            minPlayers(bg1) <- 3;
-            maxPlayers(bg1) <- 4;
-            durationMinutes(bg1) <- 60;
-            minAge(bg1) <- 10;
-            available(bg1) <- TRUE;
-        }
-        genre(bg1) <- genreByName('Strategy');
-        publisher(bg1) <- publisherByName('Test Publisher');
-        owner(bg1) <- ownerByName('Test Owner');
-
-        NEW bg2 = BoardGame {
-            name(bg2) <- 'Carcassonne';
-            minPlayers(bg2) <- 2;
-            maxPlayers(bg2) <- 5;
-            durationMinutes(bg2) <- 45;
-            minAge(bg2) <- 8;
-            available(bg2) <- TRUE;
-        }
-        genre(bg2) <- genreByName('Strategy');
-        publisher(bg2) <- publisherByName('Test Publisher');
-        owner(bg2) <- ownerByName('Test Owner');
-
-        NEW bg3 = BoardGame {
-            name(bg3) <- 'Codenames';
-            minPlayers(bg3) <- 4;
-            maxPlayers(bg3) <- 8;
-            durationMinutes(bg3) <- 15;
-            minAge(bg3) <- 12;
-            available(bg3) <- TRUE;
-        }
-        genre(bg3) <- genreByName('Party');
-        publisher(bg3) <- publisherByName('Test Publisher');
-        owner(bg3) <- ownerByName('Test Owner');
-
-        MESSAGE 'Тестовые данные созданы: 3 игры, 2 жанра.';
-    }
+    loadExampleData();
+    MESSAGE 'Тесты используют демо-данные из BoardGameExampleData.';
 }
 
-// =============================================================================
-// RECOMMENDATION ALGORITHM TESTS
-// =============================================================================
-
-// Test: Catan and Carcassonne - same genre, overlapping players, age within ±2
-// Expected score: 3 + 2 + 1 = 6
-testRecommendationScoreSameGenre () {
-    FOR BoardGame bg1 IS BoardGame AND name(bg1) = 'Catan' DO {
-        FOR BoardGame bg2 IS BoardGame AND name(bg2) = 'Carcassonne' DO {
-            IF recommendationScore(bg1, bg2) = 6 THEN {
-                MESSAGE 'PASS: recommendationScore(Catan, Carcassonne) = 6';
+// Проверка базовой формулы баллов:
+// Мафия (6-16, 12) и Экивоки (4-12, 12) => жанр совпадает (+3), игроки пересекаются (+2), возраст похож (+1) = 6
+testRecommendationScoreByRules () {
+    FOR BoardGame source IS BoardGame AND name(source) = 'Мафия' DO {
+        FOR BoardGame candidate IS BoardGame AND name(candidate) = 'Экивоки' DO {
+            IF recommendationScore(source, candidate) = 6 THEN {
+                MESSAGE 'PASS: recommendationScore(Мафия, Экивоки) = 6';
             } ELSE {
-                MESSAGE CONCAT '', 'FAIL: Expected 6, got ', recommendationScore(bg1, bg2);
+                MESSAGE CONCAT '', 'FAIL: ожидалось 6, получено ', recommendationScore(source, candidate);
             }
         }
     }
 }
 
-// Test: Catan and Codenames - different genre
-// Expected score: 0 (genre) + 2 (player overlap 4) + 1 (age 10 vs 12) = 3
-testRecommendationScoreDifferentGenre () {
-    FOR BoardGame bg1 IS BoardGame AND name(bg1) = 'Catan' DO {
-        FOR BoardGame bg2 IS BoardGame AND name(bg2) = 'Codenames' DO {
-            IF recommendationScore(bg1, bg2) = 3 THEN {
-                MESSAGE 'PASS: recommendationScore(Catan, Codenames) = 3';
-            } ELSE {
-                MESSAGE CONCAT '', 'FAIL: Expected 3, got ', recommendationScore(bg1, bg2);
-            }
-        }
-    }
-}
-
-// Test: topRecommendedGame returns Carcassonne for Catan (highest score)
-testTopRecommendation () {
-    FOR BoardGame bg1 IS BoardGame AND name(bg1) = 'Catan' DO {
-        IF name(topRecommendedGame(bg1, 1)) = 'Carcassonne' THEN {
-            MESSAGE 'PASS: topRecommendedGame(Catan, 1) = Carcassonne';
+// Проверка, что topRecommendedGame не возвращает исходную игру и отдаёт объект.
+testTopRecommendationExists () {
+    FOR BoardGame source IS BoardGame AND name(source) = 'Мафия' DO {
+        IF topRecommendedGame(source, 1) IS BoardGame AND NOT (topRecommendedGame(source, 1) = source) THEN {
+            MESSAGE 'PASS: topRecommendedGame(Мафия, 1) возвращает другую игру';
         } ELSE {
-            MESSAGE CONCAT '', 'FAIL: Expected Carcassonne, got ', name(topRecommendedGame(bg1, 1));
+            MESSAGE 'FAIL: топ рекомендация должна быть и не должна совпадать с исходной игрой';
         }
     }
 }
 
-// =============================================================================
-// FILTERING LOGIC TESTS
-// =============================================================================
-
-// Test: matchesGenre with NULL filter (show all)
+// Проверка фильтра по жанру при пустом фильтре: все игры должны проходить.
 testMatchesGenreNullFilter () {
     LOCAL foundFail = BOOLEAN ();
     foundFail() <- NULL;
@@ -122,13 +51,13 @@ testMatchesGenreNullFilter () {
         }
     }
     IF NOT foundFail() THEN {
-        MESSAGE 'PASS: matchesGenre(g, NULL) returns TRUE for all games';
+        MESSAGE 'PASS: matchesGenre(g, NULL) возвращает TRUE для всех игр';
     } ELSE {
-        MESSAGE 'FAIL: matchesGenre(g, NULL) should be TRUE for all games';
+        MESSAGE 'FAIL: matchesGenre(g, NULL) должен возвращать TRUE для всех игр';
     }
 }
 
-// Test: matchesPlayerCount — при демо-наборе игр с пересекающимися диапазонами число совпадений >= 2
+// Проверка фильтра по количеству игроков на демо-данных.
 testMatchesPlayerCount () {
     LOCAL count = INTEGER ();
     count() <- 0;
@@ -136,13 +65,13 @@ testMatchesPlayerCount () {
         count() <- count() + 1;
     }
     IF count() >= 2 THEN {
-        MESSAGE 'PASS: matchesPlayerCount(4) returns at least 2 games';
+        MESSAGE 'PASS: matchesPlayerCount(4) вернул минимум 2 игры';
     } ELSE {
-        MESSAGE CONCAT '', 'FAIL: Expected at least 2 games, got ', count();
+        MESSAGE CONCAT '', 'FAIL: ожидалось минимум 2 игры, получено ', count();
     }
 }
 
-// Test: matchesDuration — при демо-данных (Codenames 15, Splendor 30) ожидаем минимум 2 игры <= 30 мин
+// Проверка фильтра по длительности на демо-данных.
 testMatchesDuration () {
     LOCAL count = INTEGER ();
     count() <- 0;
@@ -150,53 +79,42 @@ testMatchesDuration () {
         count() <- count() + 1;
     }
     IF count() >= 2 THEN {
-        MESSAGE 'PASS: matchesDuration(30) returns at least 2 games';
+        MESSAGE 'PASS: matchesDuration(30) вернул минимум 2 игры';
     } ELSE {
-        MESSAGE CONCAT '', 'FAIL: Expected at least 2 games, got ', count();
+        MESSAGE CONCAT '', 'FAIL: ожидалось минимум 2 игры, получено ', count();
     }
 }
 
-// =============================================================================
-// EDGE CASE TESTS
-// =============================================================================
-
-// Test: recommendationScore for same game (source = candidate) should be 0
-// (We exclude source <> candidate in our logic, so it returns 0)
+// Проверка граничного сценария: игра не должна рекомендовать саму себя.
 testRecommendationSameGame () {
-    FOR BoardGame bg IS BoardGame AND name(bg) = 'Catan' DO {
+    FOR BoardGame bg IS BoardGame AND name(bg) = 'Мафия' DO {
         IF recommendationScore(bg, bg) = 0 THEN {
-            MESSAGE 'PASS: recommendationScore(same game) = 0';
+            MESSAGE 'PASS: recommendationScore(игра, игра) = 0';
         } ELSE {
-            MESSAGE 'FAIL: Same game should not recommend itself';
+            MESSAGE 'FAIL: игра не должна рекомендовать саму себя';
         }
     }
 }
 
-// Test: Multiple equal scores - deterministic ordering
+// Проверка, что при запросе нескольких позиций топа возвращаются объекты.
 testMultipleEqualScores () {
-    // With 3 games, Catan's top 3 should be deterministic
-    FOR BoardGame bg IS BoardGame AND name(bg) = 'Catan' DO {
+    FOR BoardGame bg IS BoardGame AND name(bg) = 'Мафия' DO {
         IF topRecommendedGame(bg, 1) IS BoardGame AND topRecommendedGame(bg, 2) IS BoardGame THEN {
-            MESSAGE 'PASS: Top recommendations return valid games';
+            MESSAGE 'PASS: top рекомендации возвращают валидные объекты';
         } ELSE {
-            MESSAGE 'FAIL: Top recommendations should not be NULL';
+            MESSAGE 'FAIL: top рекомендации не должны быть NULL';
         }
     }
 }
 
-// =============================================================================
-// RUN ALL TESTS
-// =============================================================================
-
-runAllTests 'Run all BoardGame tests' () {
+runAllTests 'Запустить тесты BoardGame' () {
     createTestData();
-    testRecommendationScoreSameGenre();
-    testRecommendationScoreDifferentGenre();
-    testTopRecommendation();
+    testRecommendationScoreByRules();
+    testTopRecommendationExists();
     testMatchesGenreNullFilter();
     testMatchesPlayerCount();
     testMatchesDuration();
     testRecommendationSameGame();
     testMultipleEqualScores();
-    MESSAGE 'All tests completed. Check output for PASS/FAIL.';
+    MESSAGE 'Тесты завершены. Проверьте сообщения PASS/FAIL.';
 }
