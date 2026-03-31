@@ -14,7 +14,7 @@ NAMESPACE BoardGame;
 boardGameCount() = GROUP SUM 1 IF BoardGame b;
 hasRequiredDemoGames() = GROUP SUM 1 IF BoardGame b AND (name(b) = 'Мафия' OR name(b) = 'Шпион' OR name(b) = 'Бункер');
 
-loadExampleData 'Загрузить демо-данные' () {
+loadExampleData 'Загрузить или обновить демо-данные' () {
     // Справочники жанров
     IF NOT genreByName('Детектив') THEN NEW gDetective = Genre { name(gDetective) <- 'Детектив'; };
     IF NOT genreByName('Социальная') THEN NEW gSocial = Genre { name(gSocial) <- 'Социальная'; };

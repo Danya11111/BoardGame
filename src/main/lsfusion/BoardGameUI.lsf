@@ -208,7 +208,7 @@ FORM gameDetail 'Карточка игры'
 
 // --- Администрирование: карточка игры (объявить до расширения gameDetail) ---
 
-FORM gameEdit 'Редактирование игры'
+FORM gameEdit 'Карточка игры (редактирование)'
     OBJECTS g = BoardGame PANEL
     PROPERTIES(g) name, description, genre, minPlayers, maxPlayers, durationMinutes, minAge, publisher, owner, available, image
     EDIT BoardGame OBJECT g
@@ -218,6 +218,35 @@ EXTEND FORM gameEdit
     OBJECTS m = Mechanic
     PROPERTIES(g, m) hasMechanic
 ;
+
+DESIGN gameEdit {
+    NEW geMain FIRST {
+        vertical = TRUE;
+        fill = 1;
+        MOVE PROPERTY(name(g));
+        MOVE PROPERTY(description(g));
+        MOVE PROPERTY(image(g));
+    }
+    NEW gePlay {
+        vertical = TRUE;
+        MOVE PROPERTY(genre(g));
+        MOVE PROPERTY(minPlayers(g));
+        MOVE PROPERTY(maxPlayers(g));
+        MOVE PROPERTY(durationMinutes(g));
+        MOVE PROPERTY(minAge(g));
+        MOVE PROPERTY(available(g));
+    }
+    NEW geClub {
+        vertical = TRUE;
+        MOVE PROPERTY(publisher(g));
+        MOVE PROPERTY(owner(g));
+        MOVE PROPERTY(gameEditOwnerHint());
+    }
+    NEW geMech {
+        vertical = TRUE;
+        MOVE PROPERTY(hasMechanic(g, m));
+    }
+}
 
 openGameCard 'Открыть карточку игры' (BoardGame g) {
     SHOW gameDetail OBJECTS g = g;
@@ -281,6 +310,29 @@ DESIGN gamesLibrary {
     }
 }
 
+// --- Тексты административного контура (только UX, без бизнес-логики) ---
+
+adminGamesCatalogLead ' ' () =
+    'Полный каталог игр клуба. «Создать» — новая игра, «Изменить» — карточка со всеми полями и картинкой.' CHARWIDTH 95;
+
+adminGamesCatalogSubLead ' ' () =
+    'Ручные похожие для рекомендаций настраиваются отдельно в «Похожие игры для рекомендаций». Жанры, издательства и владельцы экземпляров — в разделе «Справочники».' CHARWIDTH 95;
+
+gameEditOwnerHint ' ' () =
+    'Владелец экземпляра — запись в справочнике клуба (чья физическая копия на полке), это не логин участника сайта.' CHARWIDTH 92;
+
+manualSimilarLead1 ' ' () =
+    'Выберите игру слева. В таблице отметьте, на какие другие игры из каталога она похожа — участникам это усилит подсказки «найти похожую».' CHARWIDTH 95;
+
+manualSimilarLead2 ' ' () =
+    'Снятая галочка убирает связь. Игра не может быть похожа сама на себя.' CHARWIDTH 95;
+
+clubUsersLead1 ' ' () =
+    'Здесь все зарегистрированные участники. Колонка «Администратор» показывает, кто может править каталог и назначать роли.' CHARWIDTH 95;
+
+clubUsersLead2 ' ' () =
+    'Первого администратора сервер может выдать автоматически по email из настройки boardgame.initialAdminEmail; остальных назначаете здесь. Нельзя снять права с себя и с последнего администратора.' CHARWIDTH 95;
+
 // --- Справочники: только администратор ---
 
 FORM genresView 'Справочник жанров'
@@ -303,21 +355,45 @@ FORM ownersView 'Владельцы экземпляров (справочник
 
 // --- Администрирование: игры ---
 
-FORM gamesAdmin 'Управление играми'
+FORM gamesAdmin 'Игры клуба'
+    PROPERTIES()
+        READONLY adminGamesCatalogLead PANEL, adminGamesCatalogSubLead PANEL
     OBJECTS g = BoardGame
     PROPERTIES(g) READONLY name, genre, playerRange, durationMinutes, minAge, publisher, available
     PROPERTIES(g) NEWSESSION NEW, EDIT, DELETE SHOWIF canEdit()
+    USERFILTERS name(g), genre(g)
     EDIT BoardGame OBJECT g
 ;
 
-FORM manualSimilarAdmin 'Похожие игры (вручную)'
+DESIGN gamesAdmin {
+    NEW gamesAdminIntro FIRST {
+        vertical = TRUE;
+        fill = 1;
+        MOVE PROPERTY(adminGamesCatalogLead());
+        MOVE PROPERTY(adminGamesCatalogSubLead());
+    }
+}
+
+FORM manualSimilarAdmin 'Похожие игры для рекомендаций'
+    PROPERTIES()
+        READONLY manualSimilarLead1 PANEL, manualSimilarLead2 PANEL
     OBJECTS
         src = BoardGame PANEL,
         cand = BoardGame
+    PROPERTIES(src) READONLY name
     PROPERTIES(src, cand) manualSimilarTo
     FILTERS NOT (src = cand)
     EDIT BoardGame OBJECT src
 ;
+
+DESIGN manualSimilarAdmin {
+    NEW manualSimilarIntro FIRST {
+        vertical = TRUE;
+        fill = 1;
+        MOVE PROPERTY(manualSimilarLead1());
+        MOVE PROPERTY(manualSimilarLead2());
+    }
+}
 
 FORM gameMechanics 'Механики в игре'
     OBJECTS
@@ -329,13 +405,24 @@ FORM gameMechanics 'Механики в игре'
 
 // --- Администрирование: участники ---
 
-FORM clubUsersAdmin 'Участники и администраторы'
+FORM clubUsersAdmin 'Участники и роли'
+    PROPERTIES()
+        READONLY clubUsersLead1 PANEL, clubUsersLead2 PANEL
     OBJECTS u = CustomUser
-    PROPERTIES(u) READONLY login, email, name, clubUserIsAdmin
+    PROPERTIES(u) READONLY login, email, name, clubUserIsAdmin 'Администратор'
     PROPERTIES(u) NEWSESSION setUserIsAdmin SHOWIF isAdmin() AND NOT clubUserIsAdmin(u)
     PROPERTIES(u) NEWSESSION clearUserIsAdmin SHOWIF isAdmin() AND clubUserIsAdmin(u)
     LIST CustomUser OBJECT u
 ;
+
+DESIGN clubUsersAdmin {
+    NEW clubUsersIntro FIRST {
+        vertical = TRUE;
+        fill = 1;
+        MOVE PROPERTY(clubUsersLead1());
+        MOVE PROPERTY(clubUsersLead2());
+    }
+}
 
 // --- Администрирование: справочники ---
 
@@ -397,15 +484,23 @@ NAVIGATOR {
     NEW welcomeLanding SHOWIF isClubGuest();
     NEW userHomeHub SHOWIF NOT isClubGuest() AND (currentUser() IS CustomUser);
     NEW FOLDER administration 'Администрирование' SHOWIF isAdmin() {
-        NEW ACTION loadExampleData;
-        NEW clubUsersAdmin;
-        NEW gamesAdmin;
-        NEW manualSimilarAdmin;
-        NEW genresAdmin;
-        NEW publishersAdmin;
-        NEW ownersAdmin;
-        NEW mechanicsAdmin;
-        NEW FOLDER referencesReadonly 'Справочники (просмотр)' {
+        NEW FOLDER adminCatalog 'Каталог игр' {
+            NEW gamesAdmin;
+            NEW manualSimilarAdmin;
+        }
+        NEW FOLDER adminMembers 'Участники и роли' {
+            NEW clubUsersAdmin;
+        }
+        NEW FOLDER adminRef 'Справочники' {
+            NEW genresAdmin;
+            NEW publishersAdmin;
+            NEW ownersAdmin;
+            NEW mechanicsAdmin;
+        }
+        NEW FOLDER adminDemo 'Демо и проверка' {
+            NEW ACTION loadExampleData;
+        }
+        NEW FOLDER referencesReadonly 'Справочники: только просмотр' {
             NEW genresView;
             NEW publishersView;
             NEW ownersView;
