@@ -74,7 +74,9 @@ $passThrough = @(
     "db.server", "db.name", "db.user", "db.password", "db.connectTimeout",
     "rmi.port", "rmi.exportName", "http.port",
     "boardgame.initialAdminEmail",
-    "boardgame.registrationUrl"
+    "boardgame.registrationUrl",
+    "settings.enableUI",
+    "settings.enableAPI"
 )
 
 $jvmArgs = New-Object System.Collections.Generic.List[string]

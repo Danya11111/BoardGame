@@ -487,9 +487,10 @@ FORM mechanicsAdmin 'Механики'
 ;
 
 // --- Навигатор ---
+// Для гостя первая видимая точка — welcomeLanding (ключ FIRST в элементе навигатора).
 
 NAVIGATOR {
-    NEW welcomeLanding SHOWIF isClubGuest();
+    NEW welcomeLanding FIRST SHOWIF isClubGuest();
     NEW userHomeHub SHOWIF NOT isClubGuest() AND (currentUser() IS CustomUser);
     NEW FOLDER administration 'Администрирование' SHOWIF isAdmin() {
         NEW FOLDER adminCatalog 'Каталог игр' {

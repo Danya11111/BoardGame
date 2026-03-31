@@ -189,6 +189,8 @@ copy lsfusion.properties.example lsfusion.properties
 | `psql` не найден | Добавьте в PATH каталог `bin` PostgreSQL (часто `C:\Program Files\PostgreSQL\<версия>\bin`) или вызывайте полный путь: `"C:\Program Files\PostgreSQL\16\bin\psql.exe" -U postgres -f scripts\postgres-init.sql` |
 | `Port already in use: 7652` | Уже запущен другой экземпляр сервера. Закройте лишний `java.exe` (или второе окно `run.ps1`). В cmd/PowerShell: сначала `netstat -ano`, найдите строку с `:7652` и PID в последнем столбце, затем `taskkill /PID <номер> /F`. Либо в `lsfusion.properties`: `rmi.port=7653` |
 | Ошибка при `download-server.ps1`: JAR занят другим процессом | Остановите запущенный lsFusion / закройте IDE, держащую `lib\lsfusion-server-6.1.jar`, затем снова `.\download-server.ps1` |
+| Сразу экран логина вместо приветствия | В `lsfusion.properties` (локально) или на сервере логики должны быть `settings.enableUI=2` и `settings.enableAPI=1` (см. `lsfusion.properties.example` и `docker/logics/entrypoint.sh`). Перезапустите сервер логики. |
+| `UnknownHostException: logics` у веб-клиента | Хост `logics` виден только внутри compose. См. раздел **«Веб-клиент: UnknownHostException: logics»** выше; для Tomcat на хосте используйте `127.0.0.1`. |
 
 ---
 
@@ -204,6 +206,15 @@ copy lsfusion.properties.example lsfusion.properties
 - **Защита** — нельзя снять роль с себя и с единственного администратора в системе (сообщения в интерфейсе объясняют причину).
 
 **Регистрация для участников:** опционально `boardgame.registrationUrl` — полный URL страницы регистрации в браузере; кнопка «Зарегистрироваться» на приветствии откроет его. Если URL не задан, показывается понятное сообщение участнику и подсказка администратору. В Docker: `BOARDGAME_REGISTRATION_URL`.
+
+### Приветствие до логина (локальный сервер и Docker)
+
+По умолчанию lsFusion открывает **экран логина** до навигатора (`settings.enableUI=1`). В проекте для сценария «сначала приветственная страница клуба» задано **`settings.enableUI=2`** (анонимный доступ к UI) и **`settings.enableAPI=1`** (без анонимного API).
+
+- **Локально:** строки в `lsfusion.properties` (см. `lsfusion.properties.example`); `run.ps1` пробрасывает `settings.*` в JVM.
+- **Docker:** те же значения добавлены в `docker/logics/entrypoint.sh` для сервиса **logics**.
+
+Кнопка **«Войти»** на приветствии вызывает стандартный диалог авторизации. Полный сценарий «гость без авто-админа» проверяйте с **`LSFUSION_DEVMODE=false`** (см. ниже).
 
 ## Docker (веб-интерфейс на http://localhost:8080)
 
@@ -240,7 +251,15 @@ docker compose up --build
 
 Остановка: `Ctrl+C` или `docker compose down`. Данные PostgreSQL сохраняются в volume `postgres_data`; полный сброс БД в Docker: `docker compose down -v`.
 
-Структура: `docker-compose.yml`, `docker/logics/` (Dockerfile + entrypoint), `docker/web/` (Tomcat + WAR + `lsfusion-context.xml` с `host=logics` для RMI внутри сети compose).
+Структура: `docker-compose.yml`, `docker/logics/` (Dockerfile + entrypoint), `docker/web/` (Tomcat + WAR). Адрес RMI для веб-клиента задаётся при старте контейнера **web** переменными **`LSFUSION_LOGICS_HOST`** и **`LSFUSION_LOGICS_PORT`** (по умолчанию `logics` и `7652` внутри сети compose). Если Tomcat запущен **на вашей машине**, а сервер логики — тоже локально, в конфиге контекста нужен **`localhost`** / **`127.0.0.1`**, а не имя docker-сервиса.
+
+### Веб-клиент: `UnknownHostException: logics`
+
+Ошибка **`Application server [logics:7652] is not available`** возникает, когда процесс Tomcat (или другой веб-клиент) резолвит хост **`logics`**, доступный только **внутри** сети Docker Compose. Исправления:
+
+- **Все в Docker:** оставьте `LSFUSION_LOGICS_HOST=logics` (по умолчанию в `.env.example` / compose).
+- **Web в Docker, logics на хосте:** в `.env` задайте `LSFUSION_LOGICS_HOST=host.docker.internal` (Windows/macOS; на Linux может понадобиться `extra_hosts`).
+- **Tomcat на хосте, logics на хосте:** host в дескрипторе контекста — **`127.0.0.1`** (порт тот же, что `rmi.port`, обычно 7652).
 
 ---
 

@@ -10,8 +10,12 @@ RUN mkdir -p /opt/lsfusion /usr/local/tomcat/conf/Catalina/localhost \
   && curl -fsSL "https://download.lsfusion.org/java/lsfusion-client-6.1.war" -o /opt/lsfusion/lsfusion-client.war \
   && rm -rf /usr/local/tomcat/webapps/*
 
-COPY lsfusion-context.xml /usr/local/tomcat/conf/Catalina/localhost/lsfusion.xml
+COPY lsfusion-context.template.xml /usr/local/tomcat/conf/Catalina/localhost/lsfusion-context.template.xml
+COPY docker-entrypoint-web.sh /usr/local/bin/docker-entrypoint-web.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint-web.sh
 
 ENV CATALINA_OPTS="--add-opens=java.base/java.util=ALL-UNNAMED"
 
 EXPOSE 8080
+
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint-web.sh"]

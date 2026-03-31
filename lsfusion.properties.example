@@ -1,0 +1,23 @@
+# Пример конфигурации сервера логики (скопируйте в lsfusion.properties в корне проекта).
+# Файл lsfusion.properties в .gitignore — не коммитьте пароли.
+
+db.server=localhost:5432
+db.name=boardgame
+db.user=postgres
+db.password=CHANGE_ME
+
+# Необязательно — если порты заняты:
+# rmi.port=7652
+# http.port=7651
+
+# Первый администратор по email (необязательно):
+# boardgame.initialAdminEmail=admin@example.com
+
+# URL страницы регистрации для кнопки «Зарегистрироваться» на приветствии (необязательно):
+# boardgame.registrationUrl=https://example.com/register
+
+# Доступ к UI без предварительного логина: гость видит приветственную страницу, вход только по кнопке «Войти».
+# 2 — разрешить анонимный UI; 1 — только после авторизации (стандартная форма логина при открытии клиента).
+# API для анонимов оставляем закрытым (1) — каталог недоступен без входа.
+settings.enableUI=2
+settings.enableAPI=1

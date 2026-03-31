@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Шаблон контекста Tomcat: host/port подставляются entrypoint-скриптом (см. docker-entrypoint-web.sh). -->
+<Context docBase="/opt/lsfusion/lsfusion-client.war">
+  <Parameter name="host" value="@LOGICS_HOST@"/>
+  <Parameter name="port" value="@LOGICS_PORT@"/>
+  <Parameter name="exportName" value="default"/>
+</Context>

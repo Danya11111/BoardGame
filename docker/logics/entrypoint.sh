@@ -24,6 +24,10 @@ if [ -n "${BOARDGAME_REGISTRATION_URL:-}" ]; then
   JAVA_FLAGS="$JAVA_FLAGS -Dboardgame.registrationUrl=${BOARDGAME_REGISTRATION_URL}"
 fi
 
+# Приветствие до логина: анонимный доступ к UI (навигатор с welcomeLanding), без открытого API для гостей.
+# Явно задаём и при devmode, и без него — чтобы при LSFUSION_DEVMODE=false логин не был первым экраном.
+JAVA_FLAGS="$JAVA_FLAGS -Dsettings.enableUI=2 -Dsettings.enableAPI=1"
+
 exec java $JAVA_FLAGS \
   -Ddb.server=postgres:5432 \
   -Ddb.name=boardgame \

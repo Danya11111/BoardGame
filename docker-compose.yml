@@ -3,6 +3,7 @@
 # Usage:
 #   docker compose up --build
 #   Optional: copy .env.example .env and set POSTGRES_PASSWORD (default in compose: boardgame_dev)
+#   Web → logics RMI: LSFUSION_LOGICS_HOST (default logics); if web cannot resolve "logics", set host.docker.internal or 127.0.0.1
 #   Open http://localhost:8080/lsfusion
 #
 # First start of "logics" can take 1–2 minutes (DB sync).
@@ -50,6 +51,10 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - logics
+    environment:
+      # RMI к серверу логики: внутри compose — имя сервиса; web в Docker + logics на хосте — host.docker.internal
+      LSFUSION_LOGICS_HOST: ${LSFUSION_LOGICS_HOST:-logics}
+      LSFUSION_LOGICS_PORT: ${LSFUSION_LOGICS_PORT:-7652}
     ports:
       - "8080:8080"
 

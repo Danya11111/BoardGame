@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Context docBase="/opt/lsfusion/lsfusion-client.war">
-  <Parameter name="host" value="logics" override="false"/>
-  <Parameter name="port" value="7652" override="false"/>
-  <Parameter name="exportName" value="default" override="false"/>
-</Context>

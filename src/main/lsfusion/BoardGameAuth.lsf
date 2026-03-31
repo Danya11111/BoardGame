@@ -87,13 +87,14 @@ onFinallyStarted() + {
     importRegistrationUrlFromJvm();
 }
 
-// Кнопка «Зарегистрироваться» на приветствии: браузер, если URL задан, иначе короткая подсказка.
+// Кнопка «Зарегистрироваться» на приветствии: десктоп — системный браузер; веб-клиент — текст со ссылкой (Desktop часто недоступен).
 openClubRegistrationPage 'Зарегистрироваться' () {
     IF NOT trim(cachedRegistrationUrl()) THEN {
         MESSAGE 'Самостоятельная регистрация в системе пока не настроена — это нормально: так часто делают небольшие клубы. Попросите у администратора клуба логин и пароль, затем нажмите «Войти». Если вы администратор и хотите дать участникам ссылку на регистрацию в браузере, задайте в настройках сервера параметр boardgame.registrationUrl.';
         RETURN;
     }
     browseCachedRegistrationUrl();
+    MESSAGE CONCAT ' ', 'Откройте регистрацию в браузере по ссылке (во веб-клиенте системный браузер может не открыться автоматически):', trim(cachedRegistrationUrl());
 }
 
 configuredInitialAdminEmailLower () = lower(trim(cachedInitialAdminEmail()));
