@@ -77,6 +77,10 @@ matchesGenre (BoardGame g, Genre genreFilter) =
 matchesPlayerCount (BoardGame g, INTEGER players) =
     (minPlayers(g) <= players AND maxPlayers(g) >= players) OR NOT players;
 
+// Каталог библиотеки: «под наш стол»; пустое значение или 0 — показываем все игры (без ограничения по составу).
+libraryMatchesPlayerCountFilter (BoardGame g, INTEGER atTable) =
+    NOT atTable OR atTable <= 0 OR (minPlayers(g) <= atTable AND maxPlayers(g) >= atTable);
+
 matchesDuration (BoardGame g, INTEGER maxDuration) =
     (durationMinutes(g) <= maxDuration) OR NOT maxDuration;
 

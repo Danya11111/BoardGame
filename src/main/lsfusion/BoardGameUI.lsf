@@ -44,8 +44,15 @@ similarFinderStep3 ' ' () =
 similarFinderSearchHint ' ' () =
     'Совет: над таблицей есть фильтры — введите несколько букв из названия в поле названия игры, список сразу сузится. При желании можно отфильтровать по жанру или наличию.' CHARWIDTH 95;
 
+// Библиотека: вводный блок без «табличного» тона (только тексты для формы).
 gamesLibraryLead ' ' () =
-    'Полный список игр клуба. Фильтры сверху помогут сузить выбор; из таблицы откройте карточку или сразу запросите похожие игры.' CHARWIDTH 95;
+    'Здесь собраны все настолки, которые есть в клубе. Листайте список или сузьте его под себя.' CHARWIDTH 95;
+
+gamesLibrarySubLead ' ' () =
+    'Выберите строку: можно открыть карточку с описанием или сразу посмотреть похожие игры — так же, как в сценарии «Найти похожую».' CHARWIDTH 95;
+
+gamesLibraryFiltersHint ' ' () =
+    'Фильтры над таблицей: название, жанр, наличие. Поле «Сколько играет человек» ниже сужает список под ваш состав (например 4). Пусто или 0 — снова все игры.' CHARWIDTH 95;
 
 // --- Приветствие (гость) ---
 
@@ -192,9 +199,10 @@ getRecommendations 'Показать похожие игры' (BoardGame g) {
 
 // --- Карточка игры ---
 
+// Сначала то, что помогает решить «во что сесть за стол», затем описание и учётные поля клуба.
 FORM gameDetail 'Карточка игры'
     OBJECTS g = BoardGame PANEL
-    PROPERTIES(g) READONLY name, description, genre, minPlayers, maxPlayers, durationMinutes, minAge, publisher, owner, isAvailable, image
+    PROPERTIES(g) READONLY name, image, genre, playerRange, durationMinutes, minAge, isAvailable, description, publisher, owner
     PROPERTIES(g) NEWSESSION getRecommendations
 ;
 
@@ -247,17 +255,31 @@ DESIGN similarGamesFinder {
     }
 }
 
-// --- Библиотека ---
+// --- Библиотека (каталог клуба: те же действия рекомендаций и карточки, что и в подборе похожих) ---
 
 FORM gamesLibrary 'Библиотека настольных игр'
     PROPERTIES()
-        READONLY gamesLibraryLead PANEL
-    OBJECTS g = BoardGame
-    PROPERTIES(g) READONLY name, genre, playerRange, durationMinutes, minAge, publisher, isAvailable
-    PROPERTIES(g) NEWSESSION openGameCard, getRecommendations
-    USERFILTERS name(g), genre(g), publisher(g), isAvailable(g)
+        READONLY gamesLibraryLead PANEL, gamesLibrarySubLead PANEL, gamesLibraryFiltersHint PANEL
+    OBJECTS
+        libFilter = (playersAtTable 'Сколько играет человек' = INTEGER) PANEL,
+        g = BoardGame
+    PROPERTIES(libFilter) VALUE(playersAtTable)
+    PROPERTIES(g) READONLY name, genre, playerRange, durationMinutes, isAvailable
+    PROPERTIES(g) NEWSESSION getRecommendations, openGameCard
+    FILTERS libraryMatchesPlayerCountFilter(g, playersAtTable)
+    USERFILTERS name(g), genre(g), isAvailable(g)
     ORDERS name(g)
 ;
+
+DESIGN gamesLibrary {
+    NEW gamesLibIntro FIRST {
+        vertical = TRUE;
+        fill = 1;
+        MOVE PROPERTY(gamesLibraryLead());
+        MOVE PROPERTY(gamesLibrarySubLead());
+        MOVE PROPERTY(gamesLibraryFiltersHint());
+    }
+}
 
 // --- Справочники: только администратор ---
 
