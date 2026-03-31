@@ -21,6 +21,9 @@ welcomeExample ' ' () =
 welcomeLibraryHint ' ' () =
     'Не обязано разбираться в жанрах и издателях: дальше подскажем по шагам. Чтобы продолжить, войдите или зарегистрируйтесь.' CHARWIDTH 92;
 
+welcomeLoginHint ' ' () =
+    'После «Войти» откроется «Главная»: там можно найти похожую игру по уже понравившейся или открыть библиотеку всех настолок клуба.' CHARWIDTH 92;
+
 hubTitle ' ' () = 'С чего начнём?' CHARWIDTH 50;
 
 hubSubtitle ' ' () = 'Оба пункта доступны в любой момент — выберите то, что сейчас ближе.' CHARWIDTH 85;
@@ -58,7 +61,7 @@ gamesLibraryFiltersHint ' ' () =
 
 FORM welcomeLanding 'Клуб настольных игр'
     PROPERTIES()
-        READONLY welcomeHeadline PANEL, welcomeLead PANEL, welcomeExample PANEL, welcomeLibraryHint PANEL
+        READONLY welcomeHeadline PANEL, welcomeLead PANEL, welcomeExample PANEL, welcomeLibraryHint PANEL, welcomeLoginHint PANEL
     PROPERTIES()
         welcomeLogin 'Войти' = reloginLoginUser[],
         welcomeRegister 'Зарегистрироваться' = openClubRegistrationPage[]
@@ -72,6 +75,7 @@ DESIGN welcomeLanding {
         MOVE PROPERTY(welcomeLead());
         MOVE PROPERTY(welcomeExample());
         MOVE PROPERTY(welcomeLibraryHint());
+        MOVE PROPERTY(welcomeLoginHint());
     }
     NEW welcomeButtons {
         horizontal = TRUE;
@@ -333,6 +337,9 @@ clubUsersLead1 ' ' () =
 clubUsersLead2 ' ' () =
     'Первого администратора сервер может выдать автоматически по email из настройки boardgame.initialAdminEmail; остальных назначаете здесь. Нельзя снять права с себя и с последнего администратора.' CHARWIDTH 95;
 
+clubUsersLead3 ' ' () =
+    'На этом экране можно назначить администратора или снять права. С себя снять нельзя; у единственного администратора в системе — тоже (сначала назначьте другого).' CHARWIDTH 95;
+
 // --- Справочники: только администратор ---
 
 FORM genresView 'Справочник жанров'
@@ -407,7 +414,7 @@ FORM gameMechanics 'Механики в игре'
 
 FORM clubUsersAdmin 'Участники и роли'
     PROPERTIES()
-        READONLY clubUsersLead1 PANEL, clubUsersLead2 PANEL
+        READONLY clubUsersLead1 PANEL, clubUsersLead2 PANEL, clubUsersLead3 PANEL
     OBJECTS u = CustomUser
     PROPERTIES(u) READONLY login, email, name, clubUserIsAdmin 'Администратор'
     PROPERTIES(u) NEWSESSION setUserIsAdmin SHOWIF isAdmin() AND NOT clubUserIsAdmin(u)
@@ -421,6 +428,7 @@ DESIGN clubUsersAdmin {
         fill = 1;
         MOVE PROPERTY(clubUsersLead1());
         MOVE PROPERTY(clubUsersLead2());
+        MOVE PROPERTY(clubUsersLead3());
     }
 }
 

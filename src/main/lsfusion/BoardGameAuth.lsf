@@ -1,9 +1,10 @@
 // =============================================================================
 // BoardGameAuth.lsf — стартовый администратор по email и ограничения на роли
 // =============================================================================
-// Email задаётся в lsfusion.properties как boardgame.initialAdminEmail и пробрасывается
-// в JVM как -Dboardgame.initialAdminEmail=... (run.ps1, Docker entrypoint).
-// При регистрации или смене email, если адрес совпадает, пользователю выдаётся роль admin.
+// Email задаётся в lsfusion.properties как boardgame.initialAdminEmail (проброс -D в run.ps1 / Docker).
+// Роль admin синхронизируется с этим адресом: при регистрации, при каждом входе (если поддерживает
+// сборка lsFusion — см. onUserLogin ниже), при смене email. Назначение и снятие ролей в интерфейсе —
+// в форме «Участники и роли».
 // =============================================================================
 
 MODULE BoardGameAuth;
@@ -89,7 +90,7 @@ onFinallyStarted() + {
 // Кнопка «Зарегистрироваться» на приветствии: браузер, если URL задан, иначе короткая подсказка.
 openClubRegistrationPage 'Зарегистрироваться' () {
     IF NOT trim(cachedRegistrationUrl()) THEN {
-        MESSAGE 'Регистрацию настраивает клуб. Если отдельная страница регистрации не подключена, попросите администратора выдать логин и пароль, затем нажмите «Войти».';
+        MESSAGE 'Самостоятельная регистрация в системе пока не настроена — это нормально: так часто делают небольшие клубы. Попросите у администратора клуба логин и пароль, затем нажмите «Войти». Если вы администратор и хотите дать участникам ссылку на регистрацию в браузере, задайте в настройках сервера параметр boardgame.registrationUrl.';
         RETURN;
     }
     browseCachedRegistrationUrl();
@@ -113,6 +114,13 @@ onUserRegister(User user) + {
     }
 }
 
+// Каждый успешный вход: повторно проверяем соответствие email конфигу (идемпотентно).
+onUserLogin(User user) + {
+    IF user IS CustomUser THEN {
+        ensureInitialAdminRole(user AS CustomUser);
+    }
+}
+
 WHEN SETCHANGED(email(CustomUser cu)) DO {
     ensureInitialAdminRole(cu);
 }
@@ -122,28 +130,28 @@ WHEN SETCHANGED(email(CustomUser cu)) DO {
 
 adminUsersCount () = GROUP SUM 1 IF CustomUser u AND has(u, userRoleSID('admin'));
 
-setUserIsAdmin '{Назначить администратором}' (CustomUser u) {
+setUserIsAdmin 'Назначить администратором' (CustomUser u) {
     IF NOT isAdmin() THEN {
-        MESSAGE 'Назначать администраторов может только администратор.';
+        MESSAGE 'Назначать администраторов могут только пользователи с правами администратора.';
         RETURN;
     }
     in(u, userRoleSID('admin')) <- TRUE;
-    MESSAGE CONCAT ' ', 'Пользователь', logName(u), 'назначен администратором.';
+    MESSAGE CONCAT ' ', 'Готово:', logName(u), 'теперь может администрировать каталог и роли.';
 }
 
-clearUserIsAdmin '{Снять права администратора}' (CustomUser u) {
+clearUserIsAdmin 'Снять права администратора' (CustomUser u) {
     IF NOT isAdmin() THEN {
-        MESSAGE 'Изменять роли может только администратор.';
+        MESSAGE 'Менять роли участников могут только администраторы.';
         RETURN;
     }
     IF u == currentUser() THEN {
-        MESSAGE 'Нельзя снять права администратора с текущего пользователя.';
+        MESSAGE 'С себя права администратора снять нельзя — попросите другого администратора или оставьте как есть.';
         RETURN;
     }
     IF has(u, userRoleSID('admin')) AND adminUsersCount() <= 1 THEN {
-        MESSAGE 'Нельзя снять права у последнего администратора в системе.';
+        MESSAGE 'Это единственный администратор в системе — сначала назначьте другого, иначе никто не сможет управлять настройками.';
         RETURN;
     }
     in(u, userRoleSID('admin')) <- NULL;
-    MESSAGE CONCAT ' ', 'С пользователя', logName(u), 'сняты права администратора.';
+    MESSAGE CONCAT ' ', 'Права администратора сняты у', logName(u), '.';
 }
