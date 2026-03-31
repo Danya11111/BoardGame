@@ -36,7 +36,7 @@ hubHintLibrary ' ' () =
 
 // Текст виден только администратору (SHOWIF canEdit() на панели формы «Главная»).
 hubAdminLead ' ' () =
-    'Быстрый вход в каталог: кнопка ниже. На экране списка нажмите «Создать» на панели над таблицей. Тот же путь: «Администрирование» → «Игры: список и создание».' CHARWIDTH 58;
+    'Чтобы ввести название и поля карточки, нажмите «Добавить новую игру» — откроется форма с полями. Кнопка «Каталог игр» открывает список (там же можно Add). Экран «Связи для рекомендаций» не для создания игр.' CHARWIDTH 92;
 
 // Пошаговый сценарий «понравилась игра → похожие» без лишней терминологии.
 similarFinderStep1 ' ' () =
@@ -318,13 +318,13 @@ DESIGN gamesLibrary {
 // --- Тексты административного контура (только UX, без бизнес-логики) ---
 
 adminGamesCatalogLead ' ' () =
-    'Как добавить игру: на панели над таблицей нажмите кнопку создания новой записи (в веб-клиенте часто «Add» / «+»; в других клиентах — «Создать»). Откроется карточка со всеми полями: название, описание, жанр, игроки и т.д. Сохраните через «Ок» или «Save» / «Сохранить».' CHARWIDTH 98;
+    'Самый простой способ: кнопка «Создать игру — форма с полями» ниже — сразу откроется карточка (название, описание, жанр, игроки и т.д.). Альтернатива: кнопка создания записи над таблицей («Add» / «+» / «Создать»). Сохранение — «Ок» или «Save» / «Сохранить».' CHARWIDTH 98;
 
 adminGamesCatalogSubLead ' ' () =
-    'После сохранения новой игры можно открыть «Теги механики для игры» (то же действие в панели над таблицей для выбранной строки). Изменить или удалить: выберите строку → «Изменить» / «Удалить». Ручные похожие — «Похожие игры для рекомендаций»; жанры — «Справочники».' CHARWIDTH 98;
+    'После сохранения можно открыть «Теги механики для игры» (действие над таблицей для строки). Изменить или удалить: выберите строку → «Изменить» / «Удалить». Связи «похожие» для алгоритма — в «Администрирование» → «Связи для рекомендаций» (не для ввода новой игры). Жанры — «Справочники».' CHARWIDTH 98;
 
 manualSimilarLead1 ' ' () =
-    'Слева — список игр каталога: выделите строку с нужной игрой (это не поле для ввода текста). Справа — остальные игры; галочки «Похожа на (вручную)» отмечают связи. Пустой каталог сначала заполните: «Игры клуба — список и создание».' CHARWIDTH 98;
+    'Здесь нельзя создать игру и ввести название: только отметить, какие уже существующие игры похожи друг на друга (галочки). Новая игра: «Главная» или «Каталог игр» → «Создать игру — форма с полями». Слева выберите игру-источник, справа отметьте кандидатов. Пустой каталог — сначала создайте игры там.' CHARWIDTH 98;
 
 manualSimilarLead2 ' ' () =
     'Снятая галочка убирает связь. Игра не может быть похожа сама на себя.' CHARWIDTH 95;
@@ -360,9 +360,25 @@ FORM ownersView 'Владельцы экземпляров (справочник
 
 // --- Администрирование: игры ---
 
+// Объявлено до FORM gamesAdmin: на форме есть кнопка, вызывающая это действие.
+openNewGameForm 'Создать новую игру' () {
+    IF NOT canEdit() THEN {
+        MESSAGE 'Добавлять игры может только администратор клуба.';
+        RETURN;
+    }
+    // SHOW с передачей созданного объекта — внутри блока NEW (см. документацию lsFusion: In_an_interactive_view).
+    NEWSESSION {
+        NEW g = BoardGame {
+            SHOW gameEdit OBJECTS g = g;
+        }
+    }
+}
+
 FORM gamesAdmin 'Игры клуба — список и создание'
     PROPERTIES()
         READONLY adminGamesCatalogLead PANEL, adminGamesCatalogSubLead PANEL
+    PROPERTIES()
+        openNewGameDirect 'Создать игру — форма с полями' = openNewGameForm[] SHOWIF canEdit()
     OBJECTS g = BoardGame
     PROPERTIES(g) READONLY name, genre, playerRange, durationMinutes, minAge, publisher, available
     PROPERTIES(g) NEWSESSION NEW, EDIT, DELETE, editGameMechanicTags SHOWIF canEdit()
@@ -376,6 +392,7 @@ DESIGN gamesAdmin {
         fill = 1;
         MOVE PROPERTY(adminGamesCatalogLead());
         MOVE PROPERTY(adminGamesCatalogSubLead());
+        MOVE PROPERTY(openNewGameDirect);
     }
 }
 
@@ -411,7 +428,9 @@ FORM userHomeHub 'Главная'
     PROPERTIES()
         READONLY hubAdminLead PANEL SHOWIF canEdit()
     PROPERTIES()
-        hubOpenGamesAdmin 'Каталог игр — добавить или изменить' = openGamesAdminFlow[] SHOWIF canEdit()
+        hubOpenNewGame 'Добавить новую игру (поля карточки)' = openNewGameForm[] SHOWIF canEdit()
+    PROPERTIES()
+        hubOpenGamesAdmin 'Каталог игр — список и правки' = openGamesAdminFlow[] SHOWIF canEdit()
 ;
 
 DESIGN userHomeHub {
@@ -438,12 +457,13 @@ DESIGN userHomeHub {
             fill = 1;
             caption = 'Администратору';
             MOVE PROPERTY(hubAdminLead());
+            MOVE PROPERTY(hubOpenNewGame);
             MOVE PROPERTY(hubOpenGamesAdmin);
         }
     }
 }
 
-FORM manualSimilarAdmin 'Похожие игры для рекомендаций'
+FORM manualSimilarAdmin 'Связи «похожие» для рекомендаций'
     PROPERTIES()
         READONLY manualSimilarLead1 PANEL, manualSimilarLead2 PANEL
     OBJECTS
@@ -454,8 +474,10 @@ FORM manualSimilarAdmin 'Похожие игры для рекомендаций
     PROPERTIES(src, cand) manualSimilarTo
     FILTERS NOT (src = cand)
     LIST BoardGame OBJECT src
-    ORDERS name(src), name(cand)
-    USERFILTERS name(src), name(cand)
+    ORDERS name(src)
+    ORDERS name(cand)
+    // Для cand не задаём USERFILTERS: при двух объектах BoardGame платформа ругалась «property name is not found».
+    USERFILTERS name(src)
     EDIT BoardGame OBJECT src
 ;
 
@@ -553,8 +575,11 @@ NAVIGATOR {
     NEW userHomeHub FIRST SHOWIF NOT isClubGuest() AND (currentUser() IS CustomUser);
     NEW welcomeLanding FIRST SHOWIF isClubGuest();
     NEW FOLDER administration 'Администрирование' SHOWIF isAdmin() {
-        NEW FOLDER adminCatalog 'Игры: список и создание' {
+        // Каталог и ручные связи разнесены: иначе открывали второй пункт и ждали полей ввода новой игры.
+        NEW FOLDER adminCatalog 'Каталог игр' {
             NEW gamesAdmin;
+        }
+        NEW FOLDER adminManualSimilar 'Связи для рекомендаций' {
             NEW manualSimilarAdmin;
         }
         NEW FOLDER adminMembers 'Участники и роли' {
