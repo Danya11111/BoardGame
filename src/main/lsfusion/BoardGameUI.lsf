@@ -177,9 +177,36 @@ FORM gameDetail 'Карточка игры'
 gameEditOwnerHint ' ' () =
     'Владелец экземпляра — запись в справочнике клуба (чья физическая копия на полке), это не логин участника сайта.' CHARWIDTH 92;
 
-// Сводка для админа: откуда пришли и что делать (механики часто путают с «добавлением игры»).
+// Отдельная форма тегов (не внутри gameEdit): иначе веб-клиент открывает только модалку таблицы механик без полей карточки.
+gameMechanicsIntro ' ' () =
+    'Отметьте теги для этой игры в колонке справа. Слева — названия тегов из справочника. Если таблица пустая, сначала создайте теги: «Администрирование» → «Справочники» → «Теги механик (справочник)».' CHARWIDTH 98;
+
+FORM gameMechanics 'Теги механик для игры'
+    PROPERTIES()
+        READONLY gameMechanicsIntro PANEL
+    OBJECTS
+        g = BoardGame PANEL,
+        m = Mechanic
+    PROPERTIES(m) READONLY name
+    PROPERTIES(g, m) hasMechanic
+    EDIT BoardGame OBJECT g
+;
+
+DESIGN gameMechanics {
+    NEW gmIntro FIRST {
+        horizontal = FALSE;
+        fill = 1;
+        MOVE PROPERTY(gameMechanicsIntro());
+    }
+}
+
+editGameMechanicTags 'Теги механики для игры' (BoardGame g) {
+    SHOW gameMechanics OBJECTS g = g;
+}
+
+// Сводка для админа: теги механик вынесены в отдельное окно — иначе веб-клиент открывает их модалкой без полей карточки.
 gameEditFlowHint ' ' () =
-    'Добавление или правка игры: сначала заполните название, жанр, игроков, время, наличие и остальные поля в блоках выше. Внизу — таблица тегов механик (блеф, кооперация…): отметьте галочками только то, что относится к игре; этот блок можно пропустить. Завершение — кнопки «Сохранить» или «Ок» на нижней панели.' CHARWIDTH 98;
+    'Заполните все поля карточки: название, описание, жанр, число игроков, длительность, возраст, издательство, владелец экземпляра, наличие, при желании изображение. Затем нажмите «Ок» или «Сохранить». Теги механик (блеф, кооперация…) настраиваются отдельно: в списке игр выберите строку и действие «Теги механики», либо кнопка на этой форме.' CHARWIDTH 98;
 
 FORM gameEdit 'Карточка игры (редактирование)'
     OBJECTS g = BoardGame PANEL
@@ -188,12 +215,8 @@ FORM gameEdit 'Карточка игры (редактирование)'
     PROPERTIES()
         READONLY gameEditOwnerHint PANEL
     PROPERTIES(g) name, description, genre, minPlayers, maxPlayers, durationMinutes, minAge, publisher, owner, available, image
+    PROPERTIES(g) NEWSESSION editGameMechanicTags SHOWIF canEdit()
     EDIT BoardGame OBJECT g
-;
-
-EXTEND FORM gameEdit
-    OBJECTS m = Mechanic
-    PROPERTIES(g, m) hasMechanic
 ;
 
 DESIGN gameEdit {
@@ -224,12 +247,9 @@ DESIGN gameEdit {
         MOVE PROPERTY(owner(g));
         MOVE PROPERTY(gameEditOwnerHint());
     }
-    NEW geMech {
+    NEW geMechAction {
         horizontal = FALSE;
-        fill = 1;
-        caption = 'Теги механик (необязательно)';
-        // hasMechanic отображается в GRID объекта m — переносим контейнер таблицы, не PROPERTY.
-        MOVE BOX(m);
+        MOVE PROPERTY(editGameMechanicTags(g));
     }
 }
 
@@ -298,10 +318,10 @@ DESIGN gamesLibrary {
 // --- Тексты административного контура (только UX, без бизнес-логики) ---
 
 adminGamesCatalogLead ' ' () =
-    'Как добавить игру: нажмите кнопку «Создать» на верхней панели над таблицей (значок «+» / надпись «Создать» в зависимости от клиента). Откроется карточка — заполните поля сверху вниз, затем «Ок» или «Сохранить».' CHARWIDTH 98;
+    'Как добавить игру: на панели над таблицей нажмите кнопку создания новой записи (в веб-клиенте часто «Add» / «+»; в других клиентах — «Создать»). Откроется карточка со всеми полями: название, описание, жанр, игроки и т.д. Сохраните через «Ок» или «Save» / «Сохранить».' CHARWIDTH 98;
 
 adminGamesCatalogSubLead ' ' () =
-    'Чтобы изменить или удалить игру: выберите строку в таблице, затем «Изменить» или «Удалить» на той же панели. Ручные похожие — в «Похожие игры для рекомендаций»; жанры и издательства — в «Справочники» слева в админ-меню.' CHARWIDTH 98;
+    'После сохранения новой игры можно открыть «Теги механики для игры» (то же действие в панели над таблицей для выбранной строки). Изменить или удалить: выберите строку → «Изменить» / «Удалить». Ручные похожие — «Похожие игры для рекомендаций»; жанры — «Справочники».' CHARWIDTH 98;
 
 manualSimilarLead1 ' ' () =
     'Выберите игру слева. В таблице отметьте, на какие другие игры из каталога она похожа — участникам это усилит подсказки «найти похожую».' CHARWIDTH 95;
@@ -345,7 +365,7 @@ FORM gamesAdmin 'Игры клуба — список и создание'
         READONLY adminGamesCatalogLead PANEL, adminGamesCatalogSubLead PANEL
     OBJECTS g = BoardGame
     PROPERTIES(g) READONLY name, genre, playerRange, durationMinutes, minAge, publisher, available
-    PROPERTIES(g) NEWSESSION NEW, EDIT, DELETE SHOWIF canEdit()
+    PROPERTIES(g) NEWSESSION NEW, EDIT, DELETE, editGameMechanicTags SHOWIF canEdit()
     USERFILTERS name(g), genre(g)
     EDIT BoardGame OBJECT g
 ;
@@ -443,14 +463,6 @@ DESIGN manualSimilarAdmin {
         MOVE PROPERTY(manualSimilarLead2());
     }
 }
-
-FORM gameMechanics 'Теги механик (привязка к игре)'
-    OBJECTS
-        g = BoardGame PANEL,
-        m = Mechanic
-    PROPERTIES(g, m) hasMechanic
-    EDIT BoardGame OBJECT g
-;
 
 // --- Администрирование: участники ---
 
