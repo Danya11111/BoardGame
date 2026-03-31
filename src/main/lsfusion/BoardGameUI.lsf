@@ -31,11 +31,18 @@ hubHintSimilar ' ' () =
 hubHintLibrary ' ' () =
     'Когда хочется спокойно пролистать всё, что есть в клубе, и отфильтровать по игрокам, времени или наличию.' CHARWIDTH 58;
 
-similarFinderLead1 ' ' () =
-    'Сузьте список фильтром по названию (или по жанру и наличию), выберите строку с игрой, которая вам откликается.' CHARWIDTH 95;
+// Пошаговый сценарий «понравилась игра → похожие» без лишней терминологии.
+similarFinderStep1 ' ' () =
+    '1. Найдите игру, которая вам понравилась — чаще всего проще всего начать с названия.' CHARWIDTH 95;
 
-similarFinderLead2 ' ' () =
-    'Дальше: «Похожие игры из каталога клуба» — сразу подбор; или «Открыть карточку игры», если хотите сначала описание.' CHARWIDTH 95;
+similarFinderStep2 ' ' () =
+    '2. Выберите в таблице одну строку с нужной игрой (щелчок по строке).' CHARWIDTH 95;
+
+similarFinderStep3 ' ' () =
+    '3. Нажмите «Показать похожие игры». Карточку с описанием можно открыть отдельно, если сначала нужны подробности.' CHARWIDTH 95;
+
+similarFinderSearchHint ' ' () =
+    'Совет: над таблицей есть фильтры — введите несколько букв из названия в поле названия игры, список сразу сузится. При желании можно отфильтровать по жанру или наличию.' CHARWIDTH 95;
 
 gamesLibraryLead ' ' () =
     'Полный список игр клуба. Фильтры сверху помогут сузить выбор; из таблицы откройте карточку или сразу запросите похожие игры.' CHARWIDTH 95;
@@ -113,22 +120,67 @@ DESIGN userHomeHub {
 
 // --- Рекомендации по выбранной игре ---
 
-FORM recommendationsForm 'Похожие игры из каталога клуба'
+// Короткий контекст и сообщение при пустом топе (только подписи для формы, логика — в BoardGameLogic).
+recommendationsContext (BoardGame g) =
+    CONCAT 'Подобрали похожие варианты к игре «', name(g), '» из каталога клуба.' CHARWIDTH 110;
+
+recommendationsEmptyHint (BoardGame g) =
+    IF topRecommendedGame(g, 1) IS BoardGame THEN ''
+    ELSE 'Подходящих игр в каталоге не нашлось — попробуйте другую игру или загляните в библиотеку.' CHARWIDTH 110;
+
+FORM recommendationsForm 'Похожие игры'
     OBJECTS g = BoardGame PANEL
-    PROPERTIES(g) READONLY name
+    PROPERTIES(g) READONLY recommendationsContext PANEL, recommendationsEmptyHint PANEL, name
     PROPERTIES
         rec1Name '1. Игра' = name(topRecommendedGame(g, 1)),
-        rec1Score '1. Балл' = topRecommendedScore(g, 1),
-        rec1Why '1. Почему рекомендована' = recommendationExplanationTrimmed(g, topRecommendedGame(g, 1)),
+        rec1Score '1. Насколько близко (чем выше, тем ближе)' = topRecommendedScore(g, 1),
+        rec1Facts '1. Игроки, время, возраст' = recommendationQuickFacts(g, 1),
+        rec1Why '1. Почему похожа' = recommendationExplanationTrimmed(g, topRecommendedGame(g, 1)),
         rec2Name '2. Игра' = name(topRecommendedGame(g, 2)),
-        rec2Score '2. Балл' = topRecommendedScore(g, 2),
-        rec2Why '2. Почему рекомендована' = recommendationExplanationTrimmed(g, topRecommendedGame(g, 2)),
+        rec2Score '2. Насколько близко (чем выше, тем ближе)' = topRecommendedScore(g, 2),
+        rec2Facts '2. Игроки, время, возраст' = recommendationQuickFacts(g, 2),
+        rec2Why '2. Почему похожа' = recommendationExplanationTrimmed(g, topRecommendedGame(g, 2)),
         rec3Name '3. Игра' = name(topRecommendedGame(g, 3)),
-        rec3Score '3. Балл' = topRecommendedScore(g, 3),
-        rec3Why '3. Почему рекомендована' = recommendationExplanationTrimmed(g, topRecommendedGame(g, 3))
+        rec3Score '3. Насколько близко (чем выше, тем ближе)' = topRecommendedScore(g, 3),
+        rec3Facts '3. Игроки, время, возраст' = recommendationQuickFacts(g, 3),
+        rec3Why '3. Почему похожа' = recommendationExplanationTrimmed(g, topRecommendedGame(g, 3))
 ;
 
-getRecommendations 'Похожие игры из каталога клуба (топ-3)' (BoardGame g) {
+DESIGN recommendationsForm {
+    NEW recIntro FIRST {
+        vertical = TRUE;
+        fill = 1;
+        MOVE PROPERTY(recommendationsContext(g));
+        MOVE PROPERTY(recommendationsEmptyHint(g));
+    }
+    NEW recSource {
+        vertical = TRUE;
+        MOVE PROPERTY(name(g));
+    }
+    NEW recFirst {
+        vertical = TRUE;
+        MOVE PROPERTY(rec1Name(g));
+        MOVE PROPERTY(rec1Score(g));
+        MOVE PROPERTY(rec1Facts(g));
+        MOVE PROPERTY(rec1Why(g));
+    }
+    NEW recSecond {
+        vertical = TRUE;
+        MOVE PROPERTY(rec2Name(g));
+        MOVE PROPERTY(rec2Score(g));
+        MOVE PROPERTY(rec2Facts(g));
+        MOVE PROPERTY(rec2Why(g));
+    }
+    NEW recThird {
+        vertical = TRUE;
+        MOVE PROPERTY(rec3Name(g));
+        MOVE PROPERTY(rec3Score(g));
+        MOVE PROPERTY(rec3Facts(g));
+        MOVE PROPERTY(rec3Why(g));
+    }
+}
+
+getRecommendations 'Показать похожие игры' (BoardGame g) {
     printToLog(CONCAT ' ', 'Рекомендации для игры', name(g));
     FOR iterate(i, 1, 3) DO {
         IF topRecommendedGame(g, i) IS BoardGame THEN {
@@ -176,13 +228,24 @@ EXTEND FORM gameDetail
 // Подбор опорной игры: сначала список с фильтром по названию, затем карточка или рекомендации.
 FORM similarGamesFinder 'Найти похожую игру'
     PROPERTIES()
-        READONLY similarFinderLead1 PANEL, similarFinderLead2 PANEL
+        READONLY similarFinderStep1 PANEL, similarFinderStep2 PANEL, similarFinderStep3 PANEL, similarFinderSearchHint PANEL
     OBJECTS g = BoardGame
-    PROPERTIES(g) READONLY name, playerRange, isAvailable
-    PROPERTIES(g) NEWSESSION openGameCard, getRecommendations
+    PROPERTIES(g) READONLY name, genre, playerRange, isAvailable
+    PROPERTIES(g) NEWSESSION getRecommendations, openGameCard
     USERFILTERS name(g), genre(g), isAvailable(g)
     ORDERS name(g)
 ;
+
+DESIGN similarGamesFinder {
+    NEW similarFinderIntro FIRST {
+        vertical = TRUE;
+        fill = 1;
+        MOVE PROPERTY(similarFinderStep1());
+        MOVE PROPERTY(similarFinderStep2());
+        MOVE PROPERTY(similarFinderStep3());
+        MOVE PROPERTY(similarFinderSearchHint());
+    }
+}
 
 // --- Библиотека ---
 

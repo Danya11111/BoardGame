@@ -39,13 +39,15 @@ recommendationScore (BoardGame source, BoardGame candidate) =
     playerRangeOverlapScore(source, candidate) +
     ageDifferenceScore(source, candidate);
 
-explanationManualPart (BoardGame source, BoardGame candidate) = 'Рекомендовано клубом' IF manualSimilarityScore(source, candidate) > 0;
-explanationGenrePart (BoardGame source, BoardGame candidate) = 'Тот же жанр' IF genreMatchScore(source, candidate) > 0;
-explanationPlayerPart (BoardGame source, BoardGame candidate) = 'Пересечение по числу игроков' IF playerRangeOverlapScore(source, candidate) > 0;
-explanationAgePart (BoardGame source, BoardGame candidate) = 'Близкий мин. возраст' IF ageDifferenceScore(source, candidate) > 0;
+// Короткие фразы для пользователя (без канцелярита и «отладочного» тона).
+explanationManualPart (BoardGame source, BoardGame candidate) = 'клуб отметил как похожую' IF manualSimilarityScore(source, candidate) > 0;
+explanationGenrePart (BoardGame source, BoardGame candidate) = 'похожий тип игры' IF genreMatchScore(source, candidate) > 0;
+explanationPlayerPart (BoardGame source, BoardGame candidate) = 'подходит по числу игроков за столом' IF playerRangeOverlapScore(source, candidate) > 0;
+explanationAgePart (BoardGame source, BoardGame candidate) = 'похожие требования по возрасту' IF ageDifferenceScore(source, candidate) > 0;
 
+// Склеиваем только непустые части через запятую — читается как список причин «почему похожа».
 recommendationExplanation (BoardGame source, BoardGame candidate) =
-    CONCAT '; ', explanationManualPart(source, candidate), explanationGenrePart(source, candidate), explanationPlayerPart(source, candidate), explanationAgePart(source, candidate) CHARWIDTH 100;
+    CONCAT ', ', explanationManualPart(source, candidate), explanationGenrePart(source, candidate), explanationPlayerPart(source, candidate), explanationAgePart(source, candidate) CHARWIDTH 120;
 
 recommendationExplanationTrimmed (BoardGame source, BoardGame candidate) =
     trim(recommendationExplanation(source, candidate));
@@ -60,6 +62,12 @@ topRecommendedGame (BoardGame source, INTEGER rank) =
 
 topRecommendedScore (BoardGame source, INTEGER rank) =
     recommendationScore(source, topRecommendedGame(source, rank));
+
+// Одна строка для карточки рекомендации в UI: игроки, длительность, возраст (пусто, если места в топе нет).
+recommendationQuickFacts (BoardGame source, INTEGER rank) =
+    IF topRecommendedGame(source, rank) IS BoardGame THEN
+        CONCAT ' · ', playerRange(topRecommendedGame(source, rank)), CONCAT '', durationMinutes(topRecommendedGame(source, rank)), ' мин · от ', minAge(topRecommendedGame(source, rank)), ' лет'
+    ELSE '';
 
 // --- Вспомогательные фильтры для формы списка игр ---
 
