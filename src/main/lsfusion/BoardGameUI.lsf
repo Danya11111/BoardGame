@@ -1,31 +1,134 @@
 // =============================================================================
-// BoardGameUI.lsf — формы: просмотр для пользователя, редактирование для администратора
+// BoardGameUI.lsf — сценарии гостя, участника клуба и администратора
 // =============================================================================
 
 MODULE BoardGameUI;
 
-REQUIRE BoardGameDomain, BoardGameLogic, BoardGameSecurity, BoardGameExampleData, Utils, Security, Authentication;
+REQUIRE BoardGameDomain, BoardGameLogic, BoardGameSecurity, BoardGameAuth, BoardGameExampleData, Utils, Security, Authentication;
 
 NAMESPACE BoardGame;
 
+// --- Тексты приветствия и главного экрана (только UX, без доменной логики) ---
+
+welcomeHeadline ' ' () = 'Не знаете, во что поиграть на игротеке?' CHARWIDTH 72;
+
+welcomeLead ' ' () =
+    'Здесь каталог настолок вашего клуба: можно просто посмотреть, что на полках, или подобрать игру, похожую на ту, что вам уже зашла.' CHARWIDTH 92;
+
+welcomeExample ' ' () =
+    'Например, полюбилась Уно — найдите её в списке (или другое знакомое имя), и мы подскажем похожие варианты вроде «Свинтус» или «Лунаси», если они есть в базе клуба.' CHARWIDTH 92;
+
+welcomeLibraryHint ' ' () =
+    'Не обязано разбираться в жанрах и издателях: дальше подскажем по шагам. Чтобы продолжить, войдите или зарегистрируйтесь.' CHARWIDTH 92;
+
+hubTitle ' ' () = 'С чего начнём?' CHARWIDTH 50;
+
+hubSubtitle ' ' () = 'Оба пункта доступны в любой момент — выберите то, что сейчас ближе.' CHARWIDTH 85;
+
+hubHintSimilar ' ' () =
+    'Когда уже есть игра, которая зашла, и хочется «ещё такого же духа» из того, что есть у клуба.' CHARWIDTH 58;
+
+hubHintLibrary ' ' () =
+    'Когда хочется спокойно пролистать всё, что есть в клубе, и отфильтровать по игрокам, времени или наличию.' CHARWIDTH 58;
+
+similarFinderLead1 ' ' () =
+    'Сузьте список фильтром по названию (или по жанру и наличию), выберите строку с игрой, которая вам откликается.' CHARWIDTH 95;
+
+similarFinderLead2 ' ' () =
+    'Дальше: «Похожие игры из каталога клуба» — сразу подбор; или «Открыть карточку игры», если хотите сначала описание.' CHARWIDTH 95;
+
+gamesLibraryLead ' ' () =
+    'Полный список игр клуба. Фильтры сверху помогут сузить выбор; из таблицы откройте карточку или сразу запросите похожие игры.' CHARWIDTH 95;
+
+// --- Приветствие (гость) ---
+
+FORM welcomeLanding 'Клуб настольных игр'
+    PROPERTIES()
+        READONLY welcomeHeadline PANEL, welcomeLead PANEL, welcomeExample PANEL, welcomeLibraryHint PANEL
+    PROPERTIES()
+        welcomeLogin 'Войти' = reloginLoginUser[],
+        welcomeRegister 'Зарегистрироваться' = openClubRegistrationPage[]
+;
+
+DESIGN welcomeLanding {
+    NEW welcomeCopy FIRST {
+        vertical = TRUE;
+        fill = 1;
+        MOVE PROPERTY(welcomeHeadline());
+        MOVE PROPERTY(welcomeLead());
+        MOVE PROPERTY(welcomeExample());
+        MOVE PROPERTY(welcomeLibraryHint());
+    }
+    NEW welcomeButtons {
+        horizontal = TRUE;
+        MOVE PROPERTY(welcomeLogin());
+        MOVE PROPERTY(welcomeRegister());
+    }
+}
+
+// --- Главная участника клуба (после входа) ---
+
+openSimilarGamesFlow 'Найти похожую игру' () {
+    SHOW similarGamesFinder;
+}
+
+openGamesLibraryFlow 'Библиотека настольных игр' () {
+    SHOW gamesLibrary;
+}
+
+FORM userHomeHub 'Главная'
+    PROPERTIES()
+        READONLY hubTitle PANEL, hubSubtitle PANEL
+    PROPERTIES()
+        openSimilarGamesFlow
+    PROPERTIES()
+        READONLY hubHintSimilar PANEL
+    PROPERTIES()
+        openGamesLibraryFlow
+    PROPERTIES()
+        READONLY hubHintLibrary PANEL
+;
+
+DESIGN userHomeHub {
+    NEW hubIntro FIRST {
+        vertical = TRUE;
+        fill = 1;
+        MOVE PROPERTY(hubTitle());
+        MOVE PROPERTY(hubSubtitle());
+    }
+    NEW hubActions {
+        horizontal = TRUE;
+        NEW hubColSimilar {
+            vertical = TRUE;
+            MOVE PROPERTY(openSimilarGamesFlow());
+            MOVE PROPERTY(hubHintSimilar());
+        }
+        NEW hubColLibrary {
+            vertical = TRUE;
+            MOVE PROPERTY(openGamesLibraryFlow());
+            MOVE PROPERTY(hubHintLibrary());
+        }
+    }
+}
+
 // --- Рекомендации по выбранной игре ---
 
-FORM recommendationsForm 'Рекомендации по похожим играм'
+FORM recommendationsForm 'Похожие игры из каталога клуба'
     OBJECTS g = BoardGame PANEL
     PROPERTIES(g) READONLY name
     PROPERTIES
-        rec1Name = name(topRecommendedGame(g, 1)),
-        rec1Score = topRecommendedScore(g, 1),
-        rec1Why = recommendationExplanationTrimmed(g, topRecommendedGame(g, 1)),
-        rec2Name = name(topRecommendedGame(g, 2)),
-        rec2Score = topRecommendedScore(g, 2),
-        rec2Why = recommendationExplanationTrimmed(g, topRecommendedGame(g, 2)),
-        rec3Name = name(topRecommendedGame(g, 3)),
-        rec3Score = topRecommendedScore(g, 3),
-        rec3Why = recommendationExplanationTrimmed(g, topRecommendedGame(g, 3))
+        rec1Name '1. Игра' = name(topRecommendedGame(g, 1)),
+        rec1Score '1. Балл' = topRecommendedScore(g, 1),
+        rec1Why '1. Почему рекомендована' = recommendationExplanationTrimmed(g, topRecommendedGame(g, 1)),
+        rec2Name '2. Игра' = name(topRecommendedGame(g, 2)),
+        rec2Score '2. Балл' = topRecommendedScore(g, 2),
+        rec2Why '2. Почему рекомендована' = recommendationExplanationTrimmed(g, topRecommendedGame(g, 2)),
+        rec3Name '3. Игра' = name(topRecommendedGame(g, 3)),
+        rec3Score '3. Балл' = topRecommendedScore(g, 3),
+        rec3Why '3. Почему рекомендована' = recommendationExplanationTrimmed(g, topRecommendedGame(g, 3))
 ;
 
-getRecommendations 'Показать топ-3 рекомендаций' (BoardGame g) {
+getRecommendations 'Похожие игры из каталога клуба (топ-3)' (BoardGame g) {
     printToLog(CONCAT ' ', 'Рекомендации для игры', name(g));
     FOR iterate(i, 1, 3) DO {
         IF topRecommendedGame(g, i) IS BoardGame THEN {
@@ -35,7 +138,7 @@ getRecommendations 'Показать топ-3 рекомендаций' (BoardGa
     SHOW recommendationsForm OBJECTS g = g;
 }
 
-// --- Пользователь: карточка игры (только просмотр; объявить до действий, которые делают SHOW) ---
+// --- Карточка игры ---
 
 FORM gameDetail 'Карточка игры'
     OBJECTS g = BoardGame PANEL
@@ -43,21 +146,57 @@ FORM gameDetail 'Карточка игры'
     PROPERTIES(g) NEWSESSION getRecommendations
 ;
 
+// --- Администрирование: карточка игры (объявить до расширения gameDetail) ---
+
+FORM gameEdit 'Редактирование игры'
+    OBJECTS g = BoardGame PANEL
+    PROPERTIES(g) name, description, genre, minPlayers, maxPlayers, durationMinutes, minAge, publisher, owner, available, image
+    EDIT BoardGame OBJECT g
+;
+
+EXTEND FORM gameEdit
+    OBJECTS m = Mechanic
+    PROPERTIES(g, m) hasMechanic
+;
+
 openGameCard 'Открыть карточку игры' (BoardGame g) {
     SHOW gameDetail OBJECTS g = g;
 }
 
-// --- Пользователь: список игр ---
+editGameFromCard 'Редактировать игру' (BoardGame g) {
+    SHOW gameEdit OBJECTS g = g;
+}
 
-FORM gamesList 'Список настольных игр'
+EXTEND FORM gameDetail
+    PROPERTIES(g) NEWSESSION editGameFromCard SHOWIF canEdit()
+;
+
+// --- Подбор по названию ---
+
+// Подбор опорной игры: сначала список с фильтром по названию, затем карточка или рекомендации.
+FORM similarGamesFinder 'Найти похожую игру'
+    PROPERTIES()
+        READONLY similarFinderLead1 PANEL, similarFinderLead2 PANEL
     OBJECTS g = BoardGame
-    PROPERTIES(g) READONLY name, genre, playerRange, durationMinutes, minAge, publisher, isAvailable
+    PROPERTIES(g) READONLY name, playerRange, isAvailable
     PROPERTIES(g) NEWSESSION openGameCard, getRecommendations
-    USERFILTERS name(g), genre(g)
+    USERFILTERS name(g), genre(g), isAvailable(g)
     ORDERS name(g)
 ;
 
-// --- Пользователь: справочники (только просмотр) ---
+// --- Библиотека ---
+
+FORM gamesLibrary 'Библиотека настольных игр'
+    PROPERTIES()
+        READONLY gamesLibraryLead PANEL
+    OBJECTS g = BoardGame
+    PROPERTIES(g) READONLY name, genre, playerRange, durationMinutes, minAge, publisher, isAvailable
+    PROPERTIES(g) NEWSESSION openGameCard, getRecommendations
+    USERFILTERS name(g), genre(g), publisher(g), isAvailable(g)
+    ORDERS name(g)
+;
+
+// --- Справочники: только администратор ---
 
 FORM genresView 'Справочник жанров'
     OBJECTS gen = Genre
@@ -71,7 +210,7 @@ FORM publishersView 'Справочник издательств'
     LIST Publisher OBJECT p
 ;
 
-FORM ownersView 'Справочник владельцев'
+FORM ownersView 'Владельцы экземпляров (справочник)'
     OBJECTS o = Owner
     PROPERTIES(o) READONLY name, contacts
     LIST Owner OBJECT o
@@ -79,17 +218,20 @@ FORM ownersView 'Справочник владельцев'
 
 // --- Администрирование: игры ---
 
-FORM gameEdit 'Редактирование игры'
-    OBJECTS g = BoardGame PANEL
-    PROPERTIES(g) name, description, genre, minPlayers, maxPlayers, durationMinutes, minAge, publisher, owner, available, image
-    EDIT BoardGame OBJECT g
-;
-
-FORM gamesAdmin 'Игры (администрирование)'
+FORM gamesAdmin 'Управление играми'
     OBJECTS g = BoardGame
     PROPERTIES(g) READONLY name, genre, playerRange, durationMinutes, minAge, publisher, available
     PROPERTIES(g) NEWSESSION NEW, EDIT, DELETE SHOWIF canEdit()
     EDIT BoardGame OBJECT g
+;
+
+FORM manualSimilarAdmin 'Похожие игры (вручную)'
+    OBJECTS
+        src = BoardGame PANEL,
+        cand = BoardGame
+    PROPERTIES(src, cand) manualSimilarTo
+    FILTERS NOT (src = cand)
+    EDIT BoardGame OBJECT src
 ;
 
 FORM gameMechanics 'Механики в игре'
@@ -100,12 +242,17 @@ FORM gameMechanics 'Механики в игре'
     EDIT BoardGame OBJECT g
 ;
 
-EXTEND FORM gameEdit
-    OBJECTS m = Mechanic
-    PROPERTIES(g, m) hasMechanic
+// --- Администрирование: участники ---
+
+FORM clubUsersAdmin 'Участники и администраторы'
+    OBJECTS u = CustomUser
+    PROPERTIES(u) READONLY login, email, name, clubUserIsAdmin
+    PROPERTIES(u) NEWSESSION setUserIsAdmin SHOWIF isAdmin() AND NOT clubUserIsAdmin(u)
+    PROPERTIES(u) NEWSESSION clearUserIsAdmin SHOWIF isAdmin() AND clubUserIsAdmin(u)
+    LIST CustomUser OBJECT u
 ;
 
-// --- Администрирование: жанры ---
+// --- Администрирование: справочники ---
 
 FORM genreEdit 'Редактирование жанра'
     OBJECTS gen = Genre PANEL
@@ -113,14 +260,12 @@ FORM genreEdit 'Редактирование жанра'
     EDIT Genre OBJECT gen
 ;
 
-FORM genresAdmin 'Жанры (администрирование)'
+FORM genresAdmin 'Жанры'
     OBJECTS gen = Genre
     PROPERTIES(gen) READONLY name
     PROPERTIES(gen) NEWSESSION NEW, EDIT, DELETE SHOWIF canEdit()
     EDIT Genre OBJECT gen
 ;
-
-// --- Администрирование: издательства ---
 
 FORM publisherEdit 'Редактирование издательства'
     OBJECTS p = Publisher PANEL
@@ -128,22 +273,20 @@ FORM publisherEdit 'Редактирование издательства'
     EDIT Publisher OBJECT p
 ;
 
-FORM publishersAdmin 'Издательства (администрирование)'
+FORM publishersAdmin 'Издательства'
     OBJECTS p = Publisher
     PROPERTIES(p) READONLY name, website, country
     PROPERTIES(p) NEWSESSION NEW, EDIT, DELETE SHOWIF canEdit()
     EDIT Publisher OBJECT p
 ;
 
-// --- Администрирование: владельцы ---
-
-FORM ownerEdit 'Редактирование владельца'
+FORM ownerEdit 'Редактирование владельца экземпляра'
     OBJECTS o = Owner PANEL
     PROPERTIES(o) name, contacts
     EDIT Owner OBJECT o
 ;
 
-FORM ownersAdmin 'Владельцы (администрирование)'
+FORM ownersAdmin 'Владельцы экземпляров'
     OBJECTS o = Owner
     PROPERTIES(o) READONLY name, contacts
     PROPERTIES(o) NEWSESSION NEW, EDIT, DELETE SHOWIF canEdit()
@@ -156,7 +299,7 @@ FORM mechanicEdit 'Редактирование механики'
     EDIT Mechanic OBJECT m
 ;
 
-FORM mechanicsAdmin 'Механики (администрирование)'
+FORM mechanicsAdmin 'Механики'
     OBJECTS m = Mechanic
     PROPERTIES(m) READONLY name
     PROPERTIES(m) NEWSESSION NEW, EDIT, DELETE SHOWIF canEdit()
@@ -166,20 +309,21 @@ FORM mechanicsAdmin 'Механики (администрирование)'
 // --- Навигатор ---
 
 NAVIGATOR {
-    NEW FOLDER boardGames 'Настольные игры' {
-        NEW gamesList;
-        NEW FOLDER references 'Справочники' {
+    NEW welcomeLanding SHOWIF isClubGuest();
+    NEW userHomeHub SHOWIF NOT isClubGuest() AND (currentUser() IS CustomUser);
+    NEW FOLDER administration 'Администрирование' SHOWIF isAdmin() {
+        NEW ACTION loadExampleData;
+        NEW clubUsersAdmin;
+        NEW gamesAdmin;
+        NEW manualSimilarAdmin;
+        NEW genresAdmin;
+        NEW publishersAdmin;
+        NEW ownersAdmin;
+        NEW mechanicsAdmin;
+        NEW FOLDER referencesReadonly 'Справочники (просмотр)' {
             NEW genresView;
             NEW publishersView;
             NEW ownersView;
-        }
-        NEW FOLDER administration 'Администрирование' SHOWIF IF isAdmin() THEN TRUE {
-            NEW ACTION loadExampleData;
-            NEW gamesAdmin;
-            NEW genresAdmin;
-            NEW publishersAdmin;
-            NEW ownersAdmin;
-            NEW mechanicsAdmin;
         }
     }
 }

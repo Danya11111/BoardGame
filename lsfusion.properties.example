@@ -13,3 +13,11 @@ db.password=CHANGE_ME
 # Необязательно — если порты заняты другим процессом lsFusion:
 # rmi.port=7652
 # http.port=7651
+
+# Email первого администратора: при регистрации или смене email пользователь с этим адресом (без учёта регистра)
+# получит роль admin. Пробрасывается в JVM как -Dboardgame.initialAdminEmail (run.ps1 / run.sh / Docker).
+# boardgame.initialAdminEmail=admin@example.com
+
+# Полный URL страницы регистрации в браузере (веб-клиент lsFusion). Если задан — кнопка «Зарегистрироваться» на приветствии откроет его.
+# Пример: http://localhost:8080/lsfusion/registration
+# boardgame.registrationUrl=http://localhost:8080/lsfusion/registration

@@ -37,6 +37,9 @@ CONSTRAINT SETCHANGED(available(BoardGame b)) AND nonAdminInteractiveUser() MESS
 CONSTRAINT SETCHANGED(image(BoardGame b)) AND nonAdminInteractiveUser() MESSAGE editDeniedMessage();
 CONSTRAINT SETCHANGED(hasMechanic(BoardGame b, Mechanic m)) AND nonAdminInteractiveUser() MESSAGE editDeniedMessage();
 
+// --- Ручные связи «похожа на» ---
+CONSTRAINT SETCHANGED(manualSimilarTo(BoardGame s, BoardGame c)) AND nonAdminInteractiveUser() MESSAGE editDeniedMessage();
+
 // --- Genre ---
 CONSTRAINT DROPPED(Genre g IS Genre) AND nonAdminInteractiveUser() MESSAGE editDeniedMessage();
 CONSTRAINT SETCHANGED(name(Genre g)) AND nonAdminInteractiveUser() MESSAGE editDeniedMessage();

@@ -1,0 +1,149 @@
+// =============================================================================
+// BoardGameAuth.lsf — стартовый администратор по email и ограничения на роли
+// =============================================================================
+// Email задаётся в lsfusion.properties как boardgame.initialAdminEmail и пробрасывается
+// в JVM как -Dboardgame.initialAdminEmail=... (run.ps1, Docker entrypoint).
+// При регистрации или смене email, если адрес совпадает, пользователю выдаётся роль admin.
+// =============================================================================
+
+MODULE BoardGameAuth;
+
+REQUIRE BoardGameSecurity, Service, Utils;
+
+NAMESPACE BoardGame;
+
+// Гость: нет интерактивной сессии участника клуба (CustomUser).
+isClubGuest () = NOT (currentUser() IS CustomUser);
+
+// Признак роли admin у пользователя (для формы управления участниками).
+clubUserIsAdmin (CustomUser u) = has(u, userRoleSID('admin'));
+
+// Кэш значения из System.getProperty (заполняется при старте логики).
+cachedInitialAdminEmail = DATA STRING[400] ();
+
+// URL страницы самостоятельной регистрации (веб-клиент), проброс -Dboardgame.registrationUrl.
+cachedRegistrationUrl = DATA STRING[1000] ();
+
+// Читает -Dboardgame.initialAdminEmail и сохраняет в cachedInitialAdminEmail для использования в LSF.
+importInitialAdminEmailFromJvm INTERNAL <{
+    String v = System.getProperty("boardgame.initialAdminEmail");
+    if (v != null) {
+        v = v.trim();
+        if (!v.isEmpty()) {
+            try {
+                context.findProperty("cachedInitialAdminEmail[]").change(v, context);
+            } catch (Exception e) {
+                try {
+                    context.findProperty("BoardGame.cachedInitialAdminEmail[]").change(v, context);
+                } catch (Exception e2) {
+                    context.delayLog("BoardGameAuth: cachedInitialAdminEmail: " + e.getMessage() + " | " + e2.getMessage());
+                }
+            }
+        }
+    }
+}>;
+
+// Подгружает URL регистрации из -Dboardgame.registrationUrl в cachedRegistrationUrl.
+importRegistrationUrlFromJvm INTERNAL <{
+    String v = System.getProperty("boardgame.registrationUrl");
+    if (v != null) {
+        v = v.trim();
+        if (!v.isEmpty()) {
+            try {
+                context.findProperty("cachedRegistrationUrl[]").change(v, context);
+            } catch (Exception e) {
+                try {
+                    context.findProperty("BoardGame.cachedRegistrationUrl[]").change(v, context);
+                } catch (Exception e2) {
+                    context.delayLog("BoardGameAuth: cachedRegistrationUrl: " + e.getMessage() + " | " + e2.getMessage());
+                }
+            }
+        }
+    }
+}>;
+
+// Открывает URL регистрации во внешнем браузере (десктоп; на сервере без GUI может не сработать).
+browseCachedRegistrationUrl INTERNAL <{
+    try {
+        Object raw = context.findProperty("cachedRegistrationUrl[]").read(context);
+        if (raw == null) {
+            return;
+        }
+        String u = raw.toString().trim();
+        if (u.isEmpty()) {
+            return;
+        }
+        if (java.awt.Desktop.isDesktopSupported()) {
+            java.awt.Desktop.getDesktop().browse(new java.net.URI(u));
+        }
+    } catch (Exception e) {
+        context.delayLog("BoardGameAuth: browse registration URL: " + e.getMessage());
+    }
+}>;
+
+onFinallyStarted() + {
+    importInitialAdminEmailFromJvm();
+    importRegistrationUrlFromJvm();
+}
+
+// Кнопка «Зарегистрироваться» на приветствии: браузер, если URL задан, иначе короткая подсказка.
+openClubRegistrationPage 'Зарегистрироваться' () {
+    IF NOT trim(cachedRegistrationUrl()) THEN {
+        MESSAGE 'Регистрацию настраивает клуб. Если отдельная страница регистрации не подключена, попросите администратора выдать логин и пароль, затем нажмите «Войти».';
+        RETURN;
+    }
+    browseCachedRegistrationUrl();
+}
+
+configuredInitialAdminEmailLower () = lower(trim(cachedInitialAdminEmail()));
+
+emailMatchesInitialAdmin (CustomUser cu) =
+    configuredInitialAdminEmailLower() AND lower(trim(email(cu))) == configuredInitialAdminEmailLower();
+
+// Идемпотентно назначает роль admin при совпадении email с конфигом.
+ensureInitialAdminRole (CustomUser cu) {
+    IF emailMatchesInitialAdmin(cu) AND NOT has(cu, userRoleSID('admin')) THEN {
+        in(cu, userRoleSID('admin')) <- TRUE;
+    }
+}
+
+onUserRegister(User user) + {
+    IF user IS CustomUser THEN {
+        ensureInitialAdminRole(user AS CustomUser);
+    }
+}
+
+WHEN SETCHANGED(email(CustomUser cu)) DO {
+    ensureInitialAdminRole(cu);
+}
+
+// Назначение ролей через интерфейс: форма clubUsersAdmin (только isAdmin) и стандартные формы Security для админов.
+// Глобальный CONSTRAINT на in(CustomUser, UserRole) здесь не используется — иначе блокируется выдача ролей при регистрации.
+
+adminUsersCount () = GROUP SUM 1 IF CustomUser u AND has(u, userRoleSID('admin'));
+
+setUserIsAdmin '{Назначить администратором}' (CustomUser u) {
+    IF NOT isAdmin() THEN {
+        MESSAGE 'Назначать администраторов может только администратор.';
+        RETURN;
+    }
+    in(u, userRoleSID('admin')) <- TRUE;
+    MESSAGE CONCAT ' ', 'Пользователь', logName(u), 'назначен администратором.';
+}
+
+clearUserIsAdmin '{Снять права администратора}' (CustomUser u) {
+    IF NOT isAdmin() THEN {
+        MESSAGE 'Изменять роли может только администратор.';
+        RETURN;
+    }
+    IF u == currentUser() THEN {
+        MESSAGE 'Нельзя снять права администратора с текущего пользователя.';
+        RETURN;
+    }
+    IF has(u, userRoleSID('admin')) AND adminUsersCount() <= 1 THEN {
+        MESSAGE 'Нельзя снять права у последнего администратора в системе.';
+        RETURN;
+    }
+    in(u, userRoleSID('admin')) <- NULL;
+    MESSAGE CONCAT ' ', 'С пользователя', logName(u), 'сняты права администратора.';
+}

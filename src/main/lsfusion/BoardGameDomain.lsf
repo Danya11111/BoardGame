@@ -12,6 +12,8 @@ NAMESPACE BoardGame;
 SCORE_GENRE_MATCH = 3;
 SCORE_PLAYER_RANGE_OVERLAP = 2;
 SCORE_AGE_DIFFERENCE_WITHIN_RANGE = 1;
+// +5: явная связь «похожа на», заданная администратором клуба (сильнее любого одного фактора алгоритма).
+SCORE_MANUAL_SIMILARITY = 5;
 RECOMMENDATION_TOP_COUNT = 3;
 AGE_DIFFERENCE_THRESHOLD = 2;
 
@@ -29,8 +31,8 @@ name 'Название' = DATA ISTRING[100] (Publisher) CHARWIDTH 20 IN id;
 website 'Сайт' = DATA TEXT (Publisher) CHARWIDTH 30;
 country 'Страна' = DATA ISTRING[50] (Publisher) CHARWIDTH 12;
 
-// --- Владелец (BoardGame -> Owner: many-to-one) ---
-CLASS Owner 'Владелец';
+// --- Владелец экземпляра игры в клубе (не путать с зарегистрированным пользователем CustomUser) ---
+CLASS Owner 'Владелец экземпляра';
 TABLE owner (Owner);
 
 name 'Имя' = DATA ISTRING[100] (Owner) CHARWIDTH 20 IN id;
@@ -57,10 +59,14 @@ maxPlayers 'Кол-во игроков (до)' = DATA INTEGER (BoardGame) CHARWI
 durationMinutes 'Длительность (мин.)' = DATA INTEGER (BoardGame) CHARWIDTH 8;
 minAge 'Минимальный возраст' = DATA INTEGER (BoardGame) CHARWIDTH 5;
 publisher 'Издательство' = DATA Publisher (BoardGame) CHARWIDTH 15;
-owner 'Владелец' = DATA Owner (BoardGame) CHARWIDTH 15;
+owner 'Владелец экземпляра' = DATA Owner (BoardGame) CHARWIDTH 15;
 available 'Наличие' = DATA BOOLEAN (BoardGame) CHARWIDTH 5;
-// Поле image хранится в формате IMAGE согласно ТЗ.
-image 'Изображение' = DATA IMAGE (BoardGame);
+
+// --- Ручные рекомендации «похожа на» (источник -> кандидат), только для пар в каталоге клуба ---
+TABLE boardGameManualSimilar (BoardGame, BoardGame);
+manualSimilarTo 'Похожа на (вручную)' = DATA BOOLEAN (BoardGame source, BoardGame candidate) CHARWIDTH 3;
+// В lsFusion 6.1 используется тип IMAGEFILE; функционально это поле изображения игры по ТЗ.
+image 'Изображение' = DATA IMAGEFILE (BoardGame);
 // Совместимость именования с ТЗ: isAvailable дублирует смысл поля available.
 isAvailable 'В наличии' (BoardGame g) = available(g);
 
@@ -83,3 +89,6 @@ CONSTRAINT SETCHANGED(minAge(BoardGame g)) AND minAge(g) < 0
     MESSAGE 'Минимальный возраст не может быть отрицательным.';
 CONSTRAINT SETCHANGED(durationMinutes(BoardGame g)) AND durationMinutes(g) <= 0
     MESSAGE 'Длительность игры должна быть больше 0 минут.';
+
+CONSTRAINT SETCHANGED(manualSimilarTo(BoardGame s, BoardGame c)) AND s = c
+    MESSAGE 'Игра не может быть похожа сама на себя.';

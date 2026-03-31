@@ -116,6 +116,9 @@ loadExampleData 'Загрузить демо-данные' () {
     available(boardGameByName('Экивоки')) <- TRUE;
     hasMechanic(boardGameByName('Экивоки'), mechanicByName('Командная игра')) <- TRUE;
 
+    // Ручная рекомендация клуба: «похоже на» для демонстрации сценария и тестов скоринга.
+    manualSimilarTo(boardGameByName('Мафия'), boardGameByName('Экивоки')) <- TRUE;
+
     IF NOT boardGameByName('Пандемия') THEN NEW pandemic = BoardGame { name(pandemic) <- 'Пандемия'; };
     description(boardGameByName('Пандемия')) <- 'Кооперативная стратегия, где игроки вместе спасают мир от эпидемий.';
     genre(boardGameByName('Пандемия')) <- genreByName('Кооператив');

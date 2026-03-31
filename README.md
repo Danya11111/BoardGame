@@ -2,6 +2,11 @@
 
 A production-grade Board Game Recommendation System built on **lsFusion** — a declarative platform for information systems development.
 
+## Финальная инструкция по запуску и демонстрации
+
+Подробный сценарий запуска, UX-проверки и проверки ролей находится в `docs/RUNBOOK.md`.
+Примечание по версии платформы: в lsFusion 6.1 поле изображения хранится типом `IMAGEFILE`.
+
 ## Features
 
 - **Database of board games** with full domain model
@@ -66,6 +71,7 @@ A production-grade Board Game Recommendation System built on **lsFusion** — a 
 
 | Criterion | Points | Condition |
 |-----------|--------|------------|
+| Club manual «similar» | +5 | Admin-marked pair `manualSimilarTo` |
 | Genre match | +3 | Same genre as source game |
 | Player range overlap | +2 | minPlayers ≤ candidate.max AND candidate.min ≤ source.max |
 | Age similarity | +1 | |minAge(source) - minAge(candidate)| ≤ 2 |
@@ -80,6 +86,7 @@ A production-grade Board Game Recommendation System built on **lsFusion** — a 
 Modify constants in `BoardGameDomain.lsf`:
 
 ```lsf
+SCORE_MANUAL_SIMILARITY = 5;
 SCORE_GENRE_MATCH = 3;
 SCORE_PLAYER_RANGE_OVERLAP = 2;
 SCORE_AGE_DIFFERENCE_WITHIN_RANGE = 1;
@@ -143,6 +150,7 @@ BoardGame/
 │   ├── BoardGameDomain.lsf    # Domain entities
 │   ├── BoardGameLogic.lsf     # Recommendation & filtering logic
 │   ├── BoardGameSecurity.lsf  # Role checks
+│   ├── BoardGameAuth.lsf      # Bootstrap admin email, участники
 │   └── BoardGameUI.lsf        # Forms, actions, navigator
 ├── src/test/
 │   └── ...                    # Test modules
@@ -183,6 +191,12 @@ copy lsfusion.properties.example lsfusion.properties
 | Ошибка при `download-server.ps1`: JAR занят другим процессом | Остановите запущенный lsFusion / закройте IDE, держащую `lib\lsfusion-server-6.1.jar`, затем снова `.\download-server.ps1` |
 
 ---
+
+## Первый администратор по email
+
+В `lsfusion.properties` (и при запуске через `run.ps1` / `run.sh`) можно задать `boardgame.initialAdminEmail`. Пользователь с таким email получит роль `admin` при регистрации или при смене email. В Docker: переменная окружения `BOARDGAME_INITIAL_ADMIN_EMAIL` (см. `.env.example`).
+
+Опционально: `boardgame.registrationUrl` — полный URL страницы регистрации в браузере; кнопка «Зарегистрироваться» на приветствии откроет его. В Docker: `BOARDGAME_REGISTRATION_URL`.
 
 ## Docker (веб-интерфейс на http://localhost:8080)
 

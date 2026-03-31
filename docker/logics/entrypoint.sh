@@ -15,6 +15,15 @@ if [ -n "${LSFUSION_INITIAL_ADMIN_PASSWORD:-}" ]; then
   JAVA_FLAGS="$JAVA_FLAGS -Dlogics.initialAdminPassword=${LSFUSION_INITIAL_ADMIN_PASSWORD}"
 fi
 
+# Email для автоназначения роли admin при регистрации (совпадение с email учётной записи).
+if [ -n "${BOARDGAME_INITIAL_ADMIN_EMAIL:-}" ]; then
+  JAVA_FLAGS="$JAVA_FLAGS -Dboardgame.initialAdminEmail=${BOARDGAME_INITIAL_ADMIN_EMAIL}"
+fi
+
+if [ -n "${BOARDGAME_REGISTRATION_URL:-}" ]; then
+  JAVA_FLAGS="$JAVA_FLAGS -Dboardgame.registrationUrl=${BOARDGAME_REGISTRATION_URL}"
+fi
+
 exec java $JAVA_FLAGS \
   -Ddb.server=postgres:5432 \
   -Ddb.name=boardgame \

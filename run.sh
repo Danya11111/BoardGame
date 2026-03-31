@@ -20,7 +20,11 @@ if [[ ! -f "$PROPS" ]]; then
 fi
 
 # Bootstrap uses /lsfusion.properties (filesystem root), not this folder — same -D workaround as run.ps1.
-read_prop() { grep -E "^[[:space:]]*$1[[:space:]]*=" "$PROPS" | tail -n1 | cut -d= -f2-; }
+read_prop() {
+  local v
+  v=$(grep -E "^[[:space:]]*$1[[:space:]]*=" "$PROPS" 2>/dev/null | tail -n1 | cut -d= -f2- | tr -d '\r') || true
+  printf '%s' "$v"
+}
 
 DB_SERVER="$(read_prop db.server)"
 DB_NAME="$(read_prop db.name)"
@@ -36,10 +40,19 @@ case "$DB_PASS" in CHANGE_ME|yourpassword) echo "Set a real db.password in lsfus
 mvn -q clean compile
 
 CP="$JAR:$ROOT/target/classes"
-exec java \
-  "-Ddb.server=$DB_SERVER" \
-  "-Ddb.name=$DB_NAME" \
-  "-Ddb.user=$DB_USER" \
-  "-Ddb.password=$DB_PASS" \
-  -cp "$CP" \
-  lsfusion.server.logics.BusinessLogicsBootstrap
+JAVA_OPTS=(
+  "-Ddb.server=$DB_SERVER"
+  "-Ddb.name=$DB_NAME"
+  "-Ddb.user=$DB_USER"
+  "-Ddb.password=$DB_PASS"
+)
+RMI_PORT="$(read_prop rmi.port)"
+HTTP_PORT="$(read_prop http.port)"
+INIT_ADMIN_EMAIL="$(read_prop boardgame.initialAdminEmail)"
+REG_URL="$(read_prop boardgame.registrationUrl)"
+[[ -n "$RMI_PORT" ]] && JAVA_OPTS+=("-Drmi.port=$RMI_PORT")
+[[ -n "$HTTP_PORT" ]] && JAVA_OPTS+=("-Dhttp.port=$HTTP_PORT")
+[[ -n "$INIT_ADMIN_EMAIL" ]] && JAVA_OPTS+=("-Dboardgame.initialAdminEmail=$INIT_ADMIN_EMAIL")
+[[ -n "$REG_URL" ]] && JAVA_OPTS+=("-Dboardgame.registrationUrl=$REG_URL")
+
+exec java "${JAVA_OPTS[@]}" -cp "$CP" lsfusion.server.logics.BusinessLogicsBootstrap

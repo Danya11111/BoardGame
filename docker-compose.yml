@@ -34,6 +34,9 @@ services:
       LSFUSION_DEVMODE: ${LSFUSION_DEVMODE:-true}
       # Optional: only applied on FIRST start with an empty DB volume
       # LSFUSION_INITIAL_ADMIN_PASSWORD: ${LSFUSION_INITIAL_ADMIN_PASSWORD:-}
+      # Optional: user with this email gets admin role on registration / email change
+      BOARDGAME_INITIAL_ADMIN_EMAIL: ${BOARDGAME_INITIAL_ADMIN_EMAIL:-}
+      BOARDGAME_REGISTRATION_URL: ${BOARDGAME_REGISTRATION_URL:-}
     depends_on:
       postgres:
         condition: service_healthy

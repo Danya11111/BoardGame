@@ -72,7 +72,9 @@ if ($listeners) {
 
 $passThrough = @(
     "db.server", "db.name", "db.user", "db.password", "db.connectTimeout",
-    "rmi.port", "rmi.exportName", "http.port"
+    "rmi.port", "rmi.exportName", "http.port",
+    "boardgame.initialAdminEmail",
+    "boardgame.registrationUrl"
 )
 
 $jvmArgs = New-Object System.Collections.Generic.List[string]

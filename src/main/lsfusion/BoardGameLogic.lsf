@@ -16,27 +16,36 @@ REQUIRE BoardGameDomain, Utils;
 NAMESPACE BoardGame;
 
 genreMatchScore (BoardGame source, BoardGame candidate) =
-    IF genre(source) = genre(candidate) AND NOT (source = candidate) THEN SCORE_GENRE_MATCH ELSE 0;
+    // +3: совпадение жанра.
+    IF genre(source) = genre(candidate) AND NOT (source = candidate) THEN 3 ELSE 0;
 
 playerRangeOverlapScore (BoardGame source, BoardGame candidate) =
+    // +2: пересечение диапазона игроков.
     IF NOT (source = candidate) AND minPlayers(source) <= maxPlayers(candidate) AND minPlayers(candidate) <= maxPlayers(source)
-    THEN SCORE_PLAYER_RANGE_OVERLAP ELSE 0;
+    THEN 2 ELSE 0;
 
 ageDifferenceScore (BoardGame source, BoardGame candidate) =
-    IF NOT (source = candidate) AND abs(minAge(source) - minAge(candidate)) <= AGE_DIFFERENCE_THRESHOLD
-    THEN SCORE_AGE_DIFFERENCE_WITHIN_RANGE ELSE 0;
+    // +1: близкий минимальный возраст (разница не более 2 лет).
+    IF NOT (source = candidate) AND abs(minAge(source) - minAge(candidate)) <= 2
+    THEN 1 ELSE 0;
+
+// +5: ручная связь «похожа на» от администратора клуба.
+manualSimilarityScore (BoardGame source, BoardGame candidate) =
+    IF NOT (source = candidate) AND manualSimilarTo(source, candidate) THEN SCORE_MANUAL_SIMILARITY ELSE 0;
 
 recommendationScore (BoardGame source, BoardGame candidate) =
+    manualSimilarityScore(source, candidate) +
     genreMatchScore(source, candidate) +
     playerRangeOverlapScore(source, candidate) +
     ageDifferenceScore(source, candidate);
 
+explanationManualPart (BoardGame source, BoardGame candidate) = 'Рекомендовано клубом' IF manualSimilarityScore(source, candidate) > 0;
 explanationGenrePart (BoardGame source, BoardGame candidate) = 'Тот же жанр' IF genreMatchScore(source, candidate) > 0;
 explanationPlayerPart (BoardGame source, BoardGame candidate) = 'Пересечение по числу игроков' IF playerRangeOverlapScore(source, candidate) > 0;
 explanationAgePart (BoardGame source, BoardGame candidate) = 'Близкий мин. возраст' IF ageDifferenceScore(source, candidate) > 0;
 
 recommendationExplanation (BoardGame source, BoardGame candidate) =
-    CONCAT '; ', explanationGenrePart(source, candidate), explanationPlayerPart(source, candidate), explanationAgePart(source, candidate) CHARWIDTH 100;
+    CONCAT '; ', explanationManualPart(source, candidate), explanationGenrePart(source, candidate), explanationPlayerPart(source, candidate), explanationAgePart(source, candidate) CHARWIDTH 100;
 
 recommendationExplanationTrimmed (BoardGame source, BoardGame candidate) =
     trim(recommendationExplanation(source, candidate));
@@ -68,3 +77,7 @@ matchesMinAge (BoardGame g, INTEGER age) =
 
 matchesAvailable (BoardGame g, BOOLEAN availableOnly) =
     (available(g) = TRUE) OR NOT availableOnly;
+
+// Поиск по подстроке в названии (для сценария «знаю примерно название»).
+matchesNameSearch (BoardGame g, STRING needle) =
+    NOT trim(needle) OR STRING(name(g)) LIKE ('%' + trim(needle) + '%');

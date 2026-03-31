@@ -16,15 +16,28 @@ createTestData () {
     MESSAGE 'Тесты используют демо-данные из BoardGameExampleData.';
 }
 
-// Проверка базовой формулы баллов:
-// Мафия (6-16, 12) и Экивоки (4-12, 12) => жанр совпадает (+3), игроки пересекаются (+2), возраст похож (+1) = 6
+// Проверка суммы алгоритма и ручной связи:
+// Мафия — Экивоки: ручная «похожа» (+5) + жанр (+3) + игроки (+2) + возраст (+1) = 11 (см. демо-данные).
 testRecommendationScoreByRules () {
     FOR BoardGame source IS BoardGame AND name(source) = 'Мафия' DO {
         FOR BoardGame candidate IS BoardGame AND name(candidate) = 'Экивоки' DO {
-            IF recommendationScore(source, candidate) = 6 THEN {
-                MESSAGE 'PASS: recommendationScore(Мафия, Экивоки) = 6';
+            IF recommendationScore(source, candidate) = 11 THEN {
+                MESSAGE 'PASS: recommendationScore(Мафия, Экивоки) = 11';
             } ELSE {
-                MESSAGE CONCAT '', 'FAIL: ожидалось 6, получено ', recommendationScore(source, candidate);
+                MESSAGE CONCAT '', 'FAIL: ожидалось 11, получено ', recommendationScore(source, candidate);
+            }
+        }
+    }
+}
+
+// Только алгоритм: Мафия — Шпион (без ручной связи в демо): игроки +2, возраст +1 = 3.
+testAlgorithmicScoreMafiaSpy () {
+    FOR BoardGame source IS BoardGame AND name(source) = 'Мафия' DO {
+        FOR BoardGame candidate IS BoardGame AND name(candidate) = 'Шпион' DO {
+            IF recommendationScore(source, candidate) = 3 THEN {
+                MESSAGE 'PASS: recommendationScore(Мафия, Шпион) = 3 (только алгоритм)';
+            } ELSE {
+                MESSAGE CONCAT '', 'FAIL: ожидалось 3, получено ', recommendationScore(source, candidate);
             }
         }
     }
@@ -110,6 +123,7 @@ testMultipleEqualScores () {
 runAllTests 'Запустить тесты BoardGame' () {
     createTestData();
     testRecommendationScoreByRules();
+    testAlgorithmicScoreMafiaSpy();
     testTopRecommendationExists();
     testMatchesGenreNullFilter();
     testMatchesPlayerCount();
