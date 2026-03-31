@@ -52,6 +52,7 @@
 3. Для проверки ручных рекомендаций: в демо задана связь **Мафия → Экивоки** («Рекомендовано клубом» в пояснении).
 
 ## 8. Docker
+- Перед `docker compose build` должен лежать **`lib/lsfusion-server-6.1.jar`** (скрипт `download-server.ps1` в корне репозитория). Иначе сборка сервиса **logics** завершится ошибкой: образ намеренно не качает JAR при каждой сборке.
 - В `.env`: `BOARDGAME_INITIAL_ADMIN_EMAIL` → `-Dboardgame.initialAdminEmail=...`
 - В `.env`: `BOARDGAME_REGISTRATION_URL` → `-Dboardgame.registrationUrl=...` (см. `docker/logics/entrypoint.sh`, `docker-compose.yml`).
 - В `.env`: **`LSFUSION_LOGICS_HOST`** / **`LSFUSION_LOGICS_PORT`** — хост и порт RMI для контейнера **web** (по умолчанию `logics` и `7652` внутри compose). Если веб-клиент не в той же docker-сети, что logics, задайте, например, `host.docker.internal` или `127.0.0.1` по ситуации (см. `README.md`).

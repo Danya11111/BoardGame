@@ -86,7 +86,14 @@ foreach ($k in $passThrough) {
     }
 }
 
+# Как в Docker: tess4j и зависимости из Maven (target/server-lib после mvn compile).
 $cp = "lib/lsfusion-server-6.1.jar;target/classes"
+$serverLib = Join-Path $Root "target\server-lib"
+if (Test-Path -LiteralPath $serverLib) {
+    Get-ChildItem -LiteralPath $serverLib -Filter "*.jar" -ErrorAction SilentlyContinue | ForEach-Object {
+        $cp = "$cp;$($_.FullName)"
+    }
+}
 $jvmArgs.Add("-cp")
 $jvmArgs.Add($cp)
 $jvmArgs.Add("lsfusion.server.logics.BusinessLogicsBootstrap")

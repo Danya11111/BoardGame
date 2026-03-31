@@ -222,18 +222,20 @@ copy lsfusion.properties.example lsfusion.properties
 
 1. Освободите порты **8080**, **7651**, **7652** (остановите локальный `.\run.ps1`, если он уже слушает эти порты).
 
-2. (Необязательно) Создайте `.env` рядом с `docker-compose.yml` — скопируйте `.env.example` и задайте свой `POSTGRES_PASSWORD`.  
+2. **Обязательно для сборки `logics`:** в корне проекта должен быть файл **`lib/lsfusion-server-6.1.jar`** (тот же, что для `run.ps1`). Если его нет — один раз выполните **`.\download-server.ps1`**. Образ **не** качает JAR из интернета при каждой сборке (это долго и часто даёт ошибку `curl: Transferred a partial file`).
+
+3. (Необязательно) Создайте `.env` рядом с `docker-compose.yml` — скопируйте `.env.example` и задайте свой `POSTGRES_PASSWORD`.  
    Если `.env` нет, используется пароль по умолчанию **`boardgame_dev`** (только для локальной разработки).
 
-3. Из корня репозитория:
+4. Из корня репозитория:
 
 ```powershell
 docker compose up --build
 ```
 
-Первый запуск **logics** может занять 1–2 минуты (сборка образа + синхронизация БД).
+Первый запуск **logics** после смены кода может занять около минуты (**mvn compile** + синхронизация БД); повторные сборки без изменения `src` кэшируются.
 
-4. Откройте в браузере: **http://localhost:8080/lsfusion**
+5. Откройте в браузере: **http://localhost:8080/lsfusion**
 
 ### Логин / пароль в Docker
 
@@ -260,6 +262,14 @@ docker compose up --build
 - **Все в Docker:** оставьте `LSFUSION_LOGICS_HOST=logics` (по умолчанию в `.env.example` / compose).
 - **Web в Docker, logics на хосте:** в `.env` задайте `LSFUSION_LOGICS_HOST=host.docker.internal` (Windows/macOS; на Linux может понадобиться `extra_hosts`).
 - **Tomcat на хосте, logics на хосте:** host в дескрипторе контекста — **`127.0.0.1`** (порт тот же, что `rmi.port`, обычно 7652).
+
+### После входа пустой экран (нет «Главной» и пунктов навигатора)
+
+У корневого элемента навигатора с **`FIRST`** был только **`welcomeLanding`** (виден гостю). После входа он скрывается (`SHOWIF isClubGuest`), а **`userHomeHub`** не был стартовым — платформа не открывала форму по умолчанию. В **`BoardGameUI.lsf`** у **`userHomeHub`** добавлен **`FIRST`**, пункт объявлен **раньше** приветствия, чтобы для вошедшего `CustomUser` открывалась главная участника.
+
+### Веб-клиент: `localhost:7652` — Connection refused (контейнер web)
+
+В `lsfusion-client-*.war` в `web.xml` зашиты `host=localhost` и `port=7652`. У параметров контекста Tomcat по умолчанию **`override=true`**, поэтому значения из **web.xml перекрывают** наш `lsfusion.xml`: Tomcat в Docker подключается к **localhost:7652 внутри контейнера web**, где ничего не слушает. В шаблоне `docker/web/lsfusion-context.template.xml` для `host` / `port` / `exportName` задано **`override="false"`**, чтобы использовались `LSFUSION_LOGICS_HOST` / `LSFUSION_LOGICS_PORT`.
 
 ---
 

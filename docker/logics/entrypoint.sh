@@ -28,6 +28,16 @@ fi
 # Явно задаём и при devmode, и без него — чтобы при LSFUSION_DEVMODE=false логин не был первым экраном.
 JAVA_FLAGS="$JAVA_FLAGS -Dsettings.enableUI=2 -Dsettings.enableAPI=1"
 
+# tess4j и зависимости (Maven → target/server-lib) подключаем к classpath сервера.
+CP="/app/lsfusion-server-6.1.jar:/app/classes"
+if [ -d /app/server-lib ]; then
+  for j in /app/server-lib/*.jar; do
+    if [ -f "$j" ]; then
+      CP="${CP}:${j}"
+    fi
+  done
+fi
+
 exec java $JAVA_FLAGS \
   -Ddb.server=postgres:5432 \
   -Ddb.name=boardgame \
@@ -36,5 +46,5 @@ exec java $JAVA_FLAGS \
   -Djava.rmi.server.hostname=logics \
   -Drmi.port=7652 \
   -Dhttp.port=7651 \
-  -cp "/app/lsfusion-server-6.1.jar:/app/classes" \
+  -cp "$CP" \
   lsfusion.server.logics.BusinessLogicsBootstrap

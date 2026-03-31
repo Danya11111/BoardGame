@@ -37,6 +37,12 @@
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/lsfusion-server-6.1.jar</systemPath>
         </dependency>
+        <!-- JAR для OCR (платформа при старте инициализирует tess4j — без JAR в classpath пишет ERROR в лог). -->
+        <dependency>
+            <groupId>net.sourceforge.tess4j</groupId>
+            <artifactId>tess4j</artifactId>
+            <version>5.11.0</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -58,6 +64,29 @@
                 <configuration>
                     <release>17</release>
                 </configuration>
+            </plugin>
+            <!-- Собираем classpath-дополнение для Docker logics (tess4j + транзитивные JAR). -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.6.1</version>
+                <executions>
+                    <execution>
+                        <id>copy-server-lib</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/server-lib</outputDirectory>
+                            <excludeScope>system</excludeScope>
+                            <includeScope>runtime</includeScope>
+                            <!-- Тестовые артефакты из дерева tess4j на сервере не нужны. -->
+                            <excludeArtifactIds>junit-jupiter,junit-jupiter-api,junit-jupiter-engine,junit-jupiter-params,junit-platform-commons,junit-platform-engine,apiguardian-api,opentest4j</excludeArtifactIds>
+                            <overWriteReleases>false</overWriteReleases>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

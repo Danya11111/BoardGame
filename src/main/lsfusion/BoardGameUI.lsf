@@ -69,7 +69,7 @@ FORM welcomeLanding 'Клуб настольных игр'
 
 DESIGN welcomeLanding {
     NEW welcomeCopy FIRST {
-        vertical = TRUE;
+        horizontal = FALSE;
         fill = 1;
         MOVE PROPERTY(welcomeHeadline());
         MOVE PROPERTY(welcomeLead());
@@ -79,53 +79,9 @@ DESIGN welcomeLanding {
     }
     NEW welcomeButtons {
         horizontal = TRUE;
-        MOVE PROPERTY(welcomeLogin());
-        MOVE PROPERTY(welcomeRegister());
-    }
-}
-
-// --- Главная участника клуба (после входа) ---
-
-openSimilarGamesFlow 'Найти похожую игру' () {
-    SHOW similarGamesFinder;
-}
-
-openGamesLibraryFlow 'Библиотека настольных игр' () {
-    SHOW gamesLibrary;
-}
-
-FORM userHomeHub 'Главная'
-    PROPERTIES()
-        READONLY hubTitle PANEL, hubSubtitle PANEL
-    PROPERTIES()
-        openSimilarGamesFlow
-    PROPERTIES()
-        READONLY hubHintSimilar PANEL
-    PROPERTIES()
-        openGamesLibraryFlow
-    PROPERTIES()
-        READONLY hubHintLibrary PANEL
-;
-
-DESIGN userHomeHub {
-    NEW hubIntro FIRST {
-        vertical = TRUE;
-        fill = 1;
-        MOVE PROPERTY(hubTitle());
-        MOVE PROPERTY(hubSubtitle());
-    }
-    NEW hubActions {
-        horizontal = TRUE;
-        NEW hubColSimilar {
-            vertical = TRUE;
-            MOVE PROPERTY(openSimilarGamesFlow());
-            MOVE PROPERTY(hubHintSimilar());
-        }
-        NEW hubColLibrary {
-            vertical = TRUE;
-            MOVE PROPERTY(openGamesLibraryFlow());
-            MOVE PROPERTY(hubHintLibrary());
-        }
+        // Действия формы в DESIGN задаются без «()» (имя свойства формы, не вызов).
+        MOVE PROPERTY(welcomeLogin);
+        MOVE PROPERTY(welcomeRegister);
     }
 }
 
@@ -159,35 +115,36 @@ FORM recommendationsForm 'Похожие игры'
 
 DESIGN recommendationsForm {
     NEW recIntro FIRST {
-        vertical = TRUE;
+        horizontal = FALSE;
         fill = 1;
         MOVE PROPERTY(recommendationsContext(g));
         MOVE PROPERTY(recommendationsEmptyHint(g));
     }
     NEW recSource {
-        vertical = TRUE;
+        horizontal = FALSE;
         MOVE PROPERTY(name(g));
     }
     NEW recFirst {
-        vertical = TRUE;
-        MOVE PROPERTY(rec1Name(g));
-        MOVE PROPERTY(rec1Score(g));
-        MOVE PROPERTY(rec1Facts(g));
-        MOVE PROPERTY(rec1Why(g));
+        horizontal = FALSE;
+        // Свойства блока PROPERTIES без OBJECT — это поля формы, в DESIGN без (g).
+        MOVE PROPERTY(rec1Name);
+        MOVE PROPERTY(rec1Score);
+        MOVE PROPERTY(rec1Facts);
+        MOVE PROPERTY(rec1Why);
     }
     NEW recSecond {
-        vertical = TRUE;
-        MOVE PROPERTY(rec2Name(g));
-        MOVE PROPERTY(rec2Score(g));
-        MOVE PROPERTY(rec2Facts(g));
-        MOVE PROPERTY(rec2Why(g));
+        horizontal = FALSE;
+        MOVE PROPERTY(rec2Name);
+        MOVE PROPERTY(rec2Score);
+        MOVE PROPERTY(rec2Facts);
+        MOVE PROPERTY(rec2Why);
     }
     NEW recThird {
-        vertical = TRUE;
-        MOVE PROPERTY(rec3Name(g));
-        MOVE PROPERTY(rec3Score(g));
-        MOVE PROPERTY(rec3Facts(g));
-        MOVE PROPERTY(rec3Why(g));
+        horizontal = FALSE;
+        MOVE PROPERTY(rec3Name);
+        MOVE PROPERTY(rec3Score);
+        MOVE PROPERTY(rec3Facts);
+        MOVE PROPERTY(rec3Why);
     }
 }
 
@@ -212,8 +169,14 @@ FORM gameDetail 'Карточка игры'
 
 // --- Администрирование: карточка игры (объявить до расширения gameDetail) ---
 
+// Подсказка для формы редактирования: должна быть объявлена до DESIGN gameEdit.
+gameEditOwnerHint ' ' () =
+    'Владелец экземпляра — запись в справочнике клуба (чья физическая копия на полке), это не логин участника сайта.' CHARWIDTH 92;
+
 FORM gameEdit 'Карточка игры (редактирование)'
     OBJECTS g = BoardGame PANEL
+    PROPERTIES()
+        READONLY gameEditOwnerHint PANEL
     PROPERTIES(g) name, description, genre, minPlayers, maxPlayers, durationMinutes, minAge, publisher, owner, available, image
     EDIT BoardGame OBJECT g
 ;
@@ -225,14 +188,14 @@ EXTEND FORM gameEdit
 
 DESIGN gameEdit {
     NEW geMain FIRST {
-        vertical = TRUE;
+        horizontal = FALSE;
         fill = 1;
         MOVE PROPERTY(name(g));
         MOVE PROPERTY(description(g));
         MOVE PROPERTY(image(g));
     }
     NEW gePlay {
-        vertical = TRUE;
+        horizontal = FALSE;
         MOVE PROPERTY(genre(g));
         MOVE PROPERTY(minPlayers(g));
         MOVE PROPERTY(maxPlayers(g));
@@ -241,14 +204,16 @@ DESIGN gameEdit {
         MOVE PROPERTY(available(g));
     }
     NEW geClub {
-        vertical = TRUE;
+        horizontal = FALSE;
         MOVE PROPERTY(publisher(g));
         MOVE PROPERTY(owner(g));
         MOVE PROPERTY(gameEditOwnerHint());
     }
     NEW geMech {
-        vertical = TRUE;
-        MOVE PROPERTY(hasMechanic(g, m));
+        horizontal = FALSE;
+        fill = 1;
+        // hasMechanic отображается в GRID объекта m — переносим контейнер таблицы, не PROPERTY.
+        MOVE BOX(m);
     }
 }
 
@@ -279,7 +244,7 @@ FORM similarGamesFinder 'Найти похожую игру'
 
 DESIGN similarGamesFinder {
     NEW similarFinderIntro FIRST {
-        vertical = TRUE;
+        horizontal = FALSE;
         fill = 1;
         MOVE PROPERTY(similarFinderStep1());
         MOVE PROPERTY(similarFinderStep2());
@@ -306,11 +271,57 @@ FORM gamesLibrary 'Библиотека настольных игр'
 
 DESIGN gamesLibrary {
     NEW gamesLibIntro FIRST {
-        vertical = TRUE;
+        horizontal = FALSE;
         fill = 1;
         MOVE PROPERTY(gamesLibraryLead());
         MOVE PROPERTY(gamesLibrarySubLead());
         MOVE PROPERTY(gamesLibraryFiltersHint());
+    }
+}
+
+// --- Главная участника: только после объявления форм similarGamesFinder / gamesLibrary и действий getRecommendations, openGameCard ---
+
+openSimilarGamesFlow 'Найти похожую игру' () {
+    SHOW similarGamesFinder;
+}
+
+openGamesLibraryFlow 'Библиотека настольных игр' () {
+    SHOW gamesLibrary;
+}
+
+FORM userHomeHub 'Главная'
+    PROPERTIES()
+        READONLY hubTitle PANEL, hubSubtitle PANEL
+    PROPERTIES()
+        // Кнопки: локальное имя на форме + вызов глобального действия (как welcomeLogin на приветствии).
+        hubOpenSimilar 'Найти похожую игру' = openSimilarGamesFlow[]
+    PROPERTIES()
+        READONLY hubHintSimilar PANEL
+    PROPERTIES()
+        hubOpenLibrary 'Библиотека настольных игр' = openGamesLibraryFlow[]
+    PROPERTIES()
+        READONLY hubHintLibrary PANEL
+;
+
+DESIGN userHomeHub {
+    NEW hubIntro FIRST {
+        horizontal = FALSE;
+        fill = 1;
+        MOVE PROPERTY(hubTitle());
+        MOVE PROPERTY(hubSubtitle());
+    }
+    NEW hubActions {
+        horizontal = TRUE;
+        NEW hubColSimilar {
+            horizontal = FALSE;
+            MOVE PROPERTY(hubOpenSimilar);
+            MOVE PROPERTY(hubHintSimilar());
+        }
+        NEW hubColLibrary {
+            horizontal = FALSE;
+            MOVE PROPERTY(hubOpenLibrary);
+            MOVE PROPERTY(hubHintLibrary());
+        }
     }
 }
 
@@ -321,9 +332,6 @@ adminGamesCatalogLead ' ' () =
 
 adminGamesCatalogSubLead ' ' () =
     'Ручные похожие для рекомендаций настраиваются отдельно в «Похожие игры для рекомендаций». Жанры, издательства и владельцы экземпляров — в разделе «Справочники».' CHARWIDTH 95;
-
-gameEditOwnerHint ' ' () =
-    'Владелец экземпляра — запись в справочнике клуба (чья физическая копия на полке), это не логин участника сайта.' CHARWIDTH 92;
 
 manualSimilarLead1 ' ' () =
     'Выберите игру слева. В таблице отметьте, на какие другие игры из каталога она похожа — участникам это усилит подсказки «найти похожую».' CHARWIDTH 95;
@@ -374,7 +382,7 @@ FORM gamesAdmin 'Игры клуба'
 
 DESIGN gamesAdmin {
     NEW gamesAdminIntro FIRST {
-        vertical = TRUE;
+        horizontal = FALSE;
         fill = 1;
         MOVE PROPERTY(adminGamesCatalogLead());
         MOVE PROPERTY(adminGamesCatalogSubLead());
@@ -395,7 +403,7 @@ FORM manualSimilarAdmin 'Похожие игры для рекомендаций
 
 DESIGN manualSimilarAdmin {
     NEW manualSimilarIntro FIRST {
-        vertical = TRUE;
+        horizontal = FALSE;
         fill = 1;
         MOVE PROPERTY(manualSimilarLead1());
         MOVE PROPERTY(manualSimilarLead2());
@@ -424,7 +432,7 @@ FORM clubUsersAdmin 'Участники и роли'
 
 DESIGN clubUsersAdmin {
     NEW clubUsersIntro FIRST {
-        vertical = TRUE;
+        horizontal = FALSE;
         fill = 1;
         MOVE PROPERTY(clubUsersLead1());
         MOVE PROPERTY(clubUsersLead2());
@@ -487,11 +495,13 @@ FORM mechanicsAdmin 'Механики'
 ;
 
 // --- Навигатор ---
-// Для гостя первая видимая точка — welcomeLanding (ключ FIRST в элементе навигатора).
+// Оба корневых экрана с FIRST: платформа открывает первый подходящий по порядку объявления.
+// Сначала главная участника (видна после входа), затем приветствие (гость) — иначе при скрытом
+// welcomeLanding не остаётся стартовой формы и экран остаётся пустым.
 
 NAVIGATOR {
+    NEW userHomeHub FIRST SHOWIF NOT isClubGuest() AND (currentUser() IS CustomUser);
     NEW welcomeLanding FIRST SHOWIF isClubGuest();
-    NEW userHomeHub SHOWIF NOT isClubGuest() AND (currentUser() IS CustomUser);
     NEW FOLDER administration 'Администрирование' SHOWIF isAdmin() {
         NEW FOLDER adminCatalog 'Каталог игр' {
             NEW gamesAdmin;

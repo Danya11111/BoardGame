@@ -2,8 +2,8 @@
 // BoardGameAuth.lsf — стартовый администратор по email и ограничения на роли
 // =============================================================================
 // Email задаётся в lsfusion.properties как boardgame.initialAdminEmail (проброс -D в run.ps1 / Docker).
-// Роль admin синхронизируется с этим адресом: при регистрации, при каждом входе (если поддерживает
-// сборка lsFusion — см. onUserLogin ниже), при смене email. Назначение и снятие ролей в интерфейсе —
+// Роль admin синхронизируется с этим адресом: при регистрации и при смене email (см. ниже).
+// Назначение и снятие ролей в интерфейсе —
 // в форме «Участники и роли».
 // =============================================================================
 
@@ -26,18 +26,20 @@ cachedInitialAdminEmail = DATA STRING[400] ();
 cachedRegistrationUrl = DATA STRING[1000] ();
 
 // Читает -Dboardgame.initialAdminEmail и сохраняет в cachedInitialAdminEmail для использования в LSF.
+// Пишем через Object: иначе у LP.change две перегрузки (String/Object) и Janino даёт «ambiguous».
 importInitialAdminEmailFromJvm INTERNAL <{
     String v = System.getProperty("boardgame.initialAdminEmail");
     if (v != null) {
         v = v.trim();
         if (!v.isEmpty()) {
+            Object asObject = v;
             try {
-                context.findProperty("cachedInitialAdminEmail[]").change(v, context);
+                findProperty("cachedInitialAdminEmail[]").change(asObject, context);
             } catch (Exception e) {
                 try {
-                    context.findProperty("BoardGame.cachedInitialAdminEmail[]").change(v, context);
+                    findProperty("BoardGame.cachedInitialAdminEmail[]").change(asObject, context);
                 } catch (Exception e2) {
-                    context.delayLog("BoardGameAuth: cachedInitialAdminEmail: " + e.getMessage() + " | " + e2.getMessage());
+                    System.err.println("BoardGameAuth: cachedInitialAdminEmail: " + e.getMessage() + " | " + e2.getMessage());
                 }
             }
         }
@@ -50,13 +52,14 @@ importRegistrationUrlFromJvm INTERNAL <{
     if (v != null) {
         v = v.trim();
         if (!v.isEmpty()) {
+            Object asObject = v;
             try {
-                context.findProperty("cachedRegistrationUrl[]").change(v, context);
+                findProperty("cachedRegistrationUrl[]").change(asObject, context);
             } catch (Exception e) {
                 try {
-                    context.findProperty("BoardGame.cachedRegistrationUrl[]").change(v, context);
+                    findProperty("BoardGame.cachedRegistrationUrl[]").change(asObject, context);
                 } catch (Exception e2) {
-                    context.delayLog("BoardGameAuth: cachedRegistrationUrl: " + e.getMessage() + " | " + e2.getMessage());
+                    System.err.println("BoardGameAuth: cachedRegistrationUrl: " + e.getMessage() + " | " + e2.getMessage());
                 }
             }
         }
@@ -66,7 +69,7 @@ importRegistrationUrlFromJvm INTERNAL <{
 // Открывает URL регистрации во внешнем браузере (десктоп; на сервере без GUI может не сработать).
 browseCachedRegistrationUrl INTERNAL <{
     try {
-        Object raw = context.findProperty("cachedRegistrationUrl[]").read(context);
+        Object raw = findProperty("cachedRegistrationUrl[]").read(context);
         if (raw == null) {
             return;
         }
@@ -78,7 +81,7 @@ browseCachedRegistrationUrl INTERNAL <{
             java.awt.Desktop.getDesktop().browse(new java.net.URI(u));
         }
     } catch (Exception e) {
-        context.delayLog("BoardGameAuth: browse registration URL: " + e.getMessage());
+        System.err.println("BoardGameAuth: browse registration URL: " + e.getMessage());
     }
 }>;
 
@@ -115,12 +118,8 @@ onUserRegister(User user) + {
     }
 }
 
-// Каждый успешный вход: повторно проверяем соответствие email конфигу (идемпотентно).
-onUserLogin(User user) + {
-    IF user IS CustomUser THEN {
-        ensureInitialAdminRole(user AS CustomUser);
-    }
-}
+// Событие входа в стандартном Authentication для расширения в этой версии платформы не используем —
+// повторная выдача admin по email при входе не требуется, если учётка уже синхронизирована при регистрации/смене email.
 
 WHEN SETCHANGED(email(CustomUser cu)) DO {
     ensureInitialAdminRole(cu);

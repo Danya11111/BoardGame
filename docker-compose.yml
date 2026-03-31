@@ -3,6 +3,7 @@
 # Usage:
 #   docker compose up --build
 #   Optional: copy .env.example .env and set POSTGRES_PASSWORD (default in compose: boardgame_dev)
+#   Смена POSTGRES_PASSWORD без пересоздания тома ломает вход: том хранит старый пароль → docker compose down -v
 #   Web → logics RMI: LSFUSION_LOGICS_HOST (default logics); if web cannot resolve "logics", set host.docker.internal or 127.0.0.1
 #   Open http://localhost:8080/lsfusion
 #
