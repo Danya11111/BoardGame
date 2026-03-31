@@ -324,7 +324,7 @@ adminGamesCatalogSubLead ' ' () =
     'После сохранения новой игры можно открыть «Теги механики для игры» (то же действие в панели над таблицей для выбранной строки). Изменить или удалить: выберите строку → «Изменить» / «Удалить». Ручные похожие — «Похожие игры для рекомендаций»; жанры — «Справочники».' CHARWIDTH 98;
 
 manualSimilarLead1 ' ' () =
-    'Выберите игру слева. В таблице отметьте, на какие другие игры из каталога она похожа — участникам это усилит подсказки «найти похожую».' CHARWIDTH 95;
+    'Слева — список игр каталога: выделите строку с нужной игрой (это не поле для ввода текста). Справа — остальные игры; галочки «Похожа на (вручную)» отмечают связи. Пустой каталог сначала заполните: «Игры клуба — список и создание».' CHARWIDTH 98;
 
 manualSimilarLead2 ' ' () =
     'Снятая галочка убирает связь. Игра не может быть похожа сама на себя.' CHARWIDTH 95;
@@ -447,11 +447,15 @@ FORM manualSimilarAdmin 'Похожие игры для рекомендаций
     PROPERTIES()
         READONLY manualSimilarLead1 PANEL, manualSimilarLead2 PANEL
     OBJECTS
-        src = BoardGame PANEL,
+        // Список слева, а не PANEL: в веб-клиенте панель одного объекта выглядела «пустой», хотя нужно было выбрать игру.
+        src = BoardGame,
         cand = BoardGame
     PROPERTIES(src) READONLY name
     PROPERTIES(src, cand) manualSimilarTo
     FILTERS NOT (src = cand)
+    LIST BoardGame OBJECT src
+    ORDERS name(src), name(cand)
+    USERFILTERS name(src), name(cand)
     EDIT BoardGame OBJECT src
 ;
 
