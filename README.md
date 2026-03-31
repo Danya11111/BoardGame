@@ -160,27 +160,19 @@ BoardGame/
 
 ---
 
-## Quick runbook (локальный старт)
+## Quick runbook (один скрипт)
 
-Выполнять из корня репозитория (рядом с `pom.xml`).
+Из корня репозитория (рядом с `pom.xml`):
 
 ```powershell
-# 1) JAR сервера
-.\download-server.ps1
-
-# 2) БД (один раз)
-psql -U postgres -f scripts/postgres-init.sql
-
-# 3) Конфиг (один раз): скопировать пример и задать пароль PostgreSQL
-copy lsfusion.properties.example lsfusion.properties
-# отредактировать lsfusion.properties — заменить CHANGE_ME на реальный db.password
-
-# 4) Запуск (сборка + java с -Ddb.*)
 .\run.ps1
 ```
 
-Проверка: в `logs/start.log` должны появиться строки `Logics instance has successfully started` и `Server has successfully started`.  
-Не запускайте голый `java -cp ... BusinessLogicsBootstrap` без `-Ddb.*` — пароль из файла в каталоге проекта bootstrap не подхватит (см. шаг 4 в Installation ниже).
+- **С Docker (рекомендуется):** при запущенном Docker Desktop скрипт сам скачает JAR в `lib/`, создаст `.env` из примера при необходимости и выполнит `docker compose up --build`. Веб: **http://localhost:8080/lsfusion**. Подробности и сценарии проверки — **`docs/RUNBOOK.md`**.
+- **Без Docker:** если Docker недоступен, скрипт перейдёт в локальный режим (нужны Java 17, Maven, PostgreSQL). Для принудительного локального старта: **`.\run.ps1 -Local`**.
+
+Проверка (локальный режим): в `logs/start.log` — `Logics instance has successfully started` и `Server has successfully started`.  
+Не запускайте голый `java -cp ... BusinessLogicsBootstrap` без `-Ddb.*` — bootstrap не подхватит пароль из файла в папке проекта (см. Installation ниже).
 
 ### Частые проблемы
 
@@ -188,7 +180,7 @@ copy lsfusion.properties.example lsfusion.properties
 |--------|-------------|
 | `psql` не найден | Добавьте в PATH каталог `bin` PostgreSQL (часто `C:\Program Files\PostgreSQL\<версия>\bin`) или вызывайте полный путь: `"C:\Program Files\PostgreSQL\16\bin\psql.exe" -U postgres -f scripts\postgres-init.sql` |
 | `Port already in use: 7652` | Уже запущен другой экземпляр сервера. Закройте лишний `java.exe` (или второе окно `run.ps1`). В cmd/PowerShell: сначала `netstat -ano`, найдите строку с `:7652` и PID в последнем столбце, затем `taskkill /PID <номер> /F`. Либо в `lsfusion.properties`: `rmi.port=7653` |
-| Ошибка при `download-server.ps1`: JAR занят другим процессом | Остановите запущенный lsFusion / закройте IDE, держащую `lib\lsfusion-server-6.1.jar`, затем снова `.\download-server.ps1` |
+| Не удаётся перезаписать `lib\lsfusion-server-6.1.jar` при загрузке | Файл занят процессом: остановите lsFusion / закройте IDE, держащую JAR, и снова `.\run.ps1` |
 | Сразу экран логина вместо приветствия | В `lsfusion.properties` (локально) или на сервере логики должны быть `settings.enableUI=2` и `settings.enableAPI=1` (см. `lsfusion.properties.example` и `docker/logics/entrypoint.sh`). Перезапустите сервер логики. |
 | `UnknownHostException: logics` у веб-клиента | Хост `logics` виден только внутри compose. См. раздел **«Веб-клиент: UnknownHostException: logics»** выше; для Tomcat на хосте используйте `127.0.0.1`. |
 
@@ -218,24 +210,15 @@ copy lsfusion.properties.example lsfusion.properties
 
 ## Docker (веб-интерфейс на http://localhost:8080)
 
-Нужны **Docker** и **Docker Compose v2** (`docker compose`). Поднимаются три сервиса: **PostgreSQL**, сервер логики lsFusion (**logics**), **Tomcat** с `lsfusion-client-6.1.war`.
+Проще всего: **`.\run.ps1`** при запущенном Docker — скрипт сам поднимает **PostgreSQL**, **logics** и **web** (Tomcat + `lsfusion-client-6.1.war`).
 
-1. Освободите порты **8080**, **7651**, **7652** (остановите локальный `.\run.ps1`, если он уже слушает эти порты).
-
-2. **Обязательно для сборки `logics`:** в корне проекта должен быть файл **`lib/lsfusion-server-6.1.jar`** (тот же, что для `run.ps1`). Если его нет — один раз выполните **`.\download-server.ps1`**. Образ **не** качает JAR из интернета при каждой сборке (это долго и часто даёт ошибку `curl: Transferred a partial file`).
-
-3. (Необязательно) Создайте `.env` рядом с `docker-compose.yml` — скопируйте `.env.example` и задайте свой `POSTGRES_PASSWORD`.  
-   Если `.env` нет, используется пароль по умолчанию **`boardgame_dev`** (только для локальной разработки).
-
-4. Из корня репозитория:
+Ручной запуск теми же сервисами: освободите порты **8080**, **7651**, **7652**, убедитесь, что в **`lib/`** есть **`lsfusion-server-6.1.jar`** (его подтянет **`.\run.ps1`**), при необходимости создайте **`.env`** из **`.env.example`**, затем:
 
 ```powershell
 docker compose up --build
 ```
 
-Первый запуск **logics** после смены кода может занять около минуты (**mvn compile** + синхронизация БД); повторные сборки без изменения `src` кэшируются.
-
-5. Откройте в браузере: **http://localhost:8080/lsfusion**
+Если **`.env` нет**, пароль БД по умолчанию **`boardgame_dev`** (только для локальной разработки). Первый старт **logics** после смены кода может занять около минуты (**mvn compile** в образе + синхронизация БД).
 
 ### Логин / пароль в Docker
 
@@ -284,11 +267,7 @@ docker compose up --build
 
 ### Installation
 
-1. **Download lsFusion server JAR** (обязательно при ошибке Maven dependency):
-   ```powershell
-   .\download-server.ps1
-   ```
-   Или вручную: скачайте [lsfusion-server-6.1.jar](https://download.lsfusion.org/java/lsfusion-server-6.1.jar) и поместите в папку `lib/`.
+1. **JAR сервера lsFusion:** при первом запуске **`.\run.ps1`** сам скачает [lsfusion-server-6.1.jar](https://download.lsfusion.org/java/lsfusion-server-6.1.jar) в `lib/`, если файла ещё нет. Либо положите JAR в `lib/` вручную.
 
 2. **Сборка проекта:**
    ```bash

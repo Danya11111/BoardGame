@@ -2,7 +2,7 @@
 # Сборка из корня репозитория: docker compose build logics
 #
 # JAR не качается внутри образа (медленно и часто рвётся сеть — curl 18 partial file).
-# Один раз на машине: .\download-server.ps1 → появится lib\lsfusion-server-6.1.jar
+# JAR в lib/ нужен до сборки; при отсутствии один раз запустите .\run.ps1 (скачивает JAR) или положите файл вручную.
 
 FROM maven:3.9-eclipse-temurin-17 AS build
 WORKDIR /build

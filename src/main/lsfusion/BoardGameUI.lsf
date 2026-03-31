@@ -34,6 +34,10 @@ hubHintSimilar ' ' () =
 hubHintLibrary ' ' () =
     'Когда хочется спокойно пролистать всё, что есть в клубе, и отфильтровать по игрокам, времени или наличию.' CHARWIDTH 58;
 
+// Текст виден только администратору (SHOWIF canEdit() на панели формы «Главная»).
+hubAdminLead ' ' () =
+    'Быстрый вход в каталог: кнопка ниже. На экране списка нажмите «Создать» на панели над таблицей. Тот же путь: «Администрирование» → «Игры: список и создание».' CHARWIDTH 58;
+
 // Пошаговый сценарий «понравилась игра → похожие» без лишней терминологии.
 similarFinderStep1 ' ' () =
     '1. Найдите игру, которая вам понравилась — чаще всего проще всего начать с названия.' CHARWIDTH 95;
@@ -173,8 +177,14 @@ FORM gameDetail 'Карточка игры'
 gameEditOwnerHint ' ' () =
     'Владелец экземпляра — запись в справочнике клуба (чья физическая копия на полке), это не логин участника сайта.' CHARWIDTH 92;
 
+// Сводка для админа: откуда пришли и что делать (механики часто путают с «добавлением игры»).
+gameEditFlowHint ' ' () =
+    'Добавление или правка игры: сначала заполните название, жанр, игроков, время, наличие и остальные поля в блоках выше. Внизу — таблица тегов механик (блеф, кооперация…): отметьте галочками только то, что относится к игре; этот блок можно пропустить. Завершение — кнопки «Сохранить» или «Ок» на нижней панели.' CHARWIDTH 98;
+
 FORM gameEdit 'Карточка игры (редактирование)'
     OBJECTS g = BoardGame PANEL
+    PROPERTIES()
+        READONLY gameEditFlowHint PANEL
     PROPERTIES()
         READONLY gameEditOwnerHint PANEL
     PROPERTIES(g) name, description, genre, minPlayers, maxPlayers, durationMinutes, minAge, publisher, owner, available, image
@@ -187,7 +197,12 @@ EXTEND FORM gameEdit
 ;
 
 DESIGN gameEdit {
-    NEW geMain FIRST {
+    NEW geFlowHint FIRST {
+        horizontal = FALSE;
+        fill = 1;
+        MOVE PROPERTY(gameEditFlowHint());
+    }
+    NEW geMain {
         horizontal = FALSE;
         fill = 1;
         MOVE PROPERTY(name(g));
@@ -212,6 +227,7 @@ DESIGN gameEdit {
     NEW geMech {
         horizontal = FALSE;
         fill = 1;
+        caption = 'Теги механик (необязательно)';
         // hasMechanic отображается в GRID объекта m — переносим контейнер таблицы, не PROPERTY.
         MOVE BOX(m);
     }
@@ -279,59 +295,13 @@ DESIGN gamesLibrary {
     }
 }
 
-// --- Главная участника: только после объявления форм similarGamesFinder / gamesLibrary и действий getRecommendations, openGameCard ---
-
-openSimilarGamesFlow 'Найти похожую игру' () {
-    SHOW similarGamesFinder;
-}
-
-openGamesLibraryFlow 'Библиотека настольных игр' () {
-    SHOW gamesLibrary;
-}
-
-FORM userHomeHub 'Главная'
-    PROPERTIES()
-        READONLY hubTitle PANEL, hubSubtitle PANEL
-    PROPERTIES()
-        // Кнопки: локальное имя на форме + вызов глобального действия (как welcomeLogin на приветствии).
-        hubOpenSimilar 'Найти похожую игру' = openSimilarGamesFlow[]
-    PROPERTIES()
-        READONLY hubHintSimilar PANEL
-    PROPERTIES()
-        hubOpenLibrary 'Библиотека настольных игр' = openGamesLibraryFlow[]
-    PROPERTIES()
-        READONLY hubHintLibrary PANEL
-;
-
-DESIGN userHomeHub {
-    NEW hubIntro FIRST {
-        horizontal = FALSE;
-        fill = 1;
-        MOVE PROPERTY(hubTitle());
-        MOVE PROPERTY(hubSubtitle());
-    }
-    NEW hubActions {
-        horizontal = TRUE;
-        NEW hubColSimilar {
-            horizontal = FALSE;
-            MOVE PROPERTY(hubOpenSimilar);
-            MOVE PROPERTY(hubHintSimilar());
-        }
-        NEW hubColLibrary {
-            horizontal = FALSE;
-            MOVE PROPERTY(hubOpenLibrary);
-            MOVE PROPERTY(hubHintLibrary());
-        }
-    }
-}
-
 // --- Тексты административного контура (только UX, без бизнес-логики) ---
 
 adminGamesCatalogLead ' ' () =
-    'Полный каталог игр клуба. «Создать» — новая игра, «Изменить» — карточка со всеми полями и картинкой.' CHARWIDTH 95;
+    'Как добавить игру: нажмите кнопку «Создать» на верхней панели над таблицей (значок «+» / надпись «Создать» в зависимости от клиента). Откроется карточка — заполните поля сверху вниз, затем «Ок» или «Сохранить».' CHARWIDTH 98;
 
 adminGamesCatalogSubLead ' ' () =
-    'Ручные похожие для рекомендаций настраиваются отдельно в «Похожие игры для рекомендаций». Жанры, издательства и владельцы экземпляров — в разделе «Справочники».' CHARWIDTH 95;
+    'Чтобы изменить или удалить игру: выберите строку в таблице, затем «Изменить» или «Удалить» на той же панели. Ручные похожие — в «Похожие игры для рекомендаций»; жанры и издательства — в «Справочники» слева в админ-меню.' CHARWIDTH 98;
 
 manualSimilarLead1 ' ' () =
     'Выберите игру слева. В таблице отметьте, на какие другие игры из каталога она похожа — участникам это усилит подсказки «найти похожую».' CHARWIDTH 95;
@@ -370,7 +340,7 @@ FORM ownersView 'Владельцы экземпляров (справочник
 
 // --- Администрирование: игры ---
 
-FORM gamesAdmin 'Игры клуба'
+FORM gamesAdmin 'Игры клуба — список и создание'
     PROPERTIES()
         READONLY adminGamesCatalogLead PANEL, adminGamesCatalogSubLead PANEL
     OBJECTS g = BoardGame
@@ -386,6 +356,70 @@ DESIGN gamesAdmin {
         fill = 1;
         MOVE PROPERTY(adminGamesCatalogLead());
         MOVE PROPERTY(adminGamesCatalogSubLead());
+    }
+}
+
+// Открытие списка игр для админа (кнопка на «Главной» и тот же экран, что в навигаторе).
+openGamesAdminFlow 'Каталог игр — создать или изменить' () {
+    IF NOT canEdit() THEN {
+        MESSAGE 'Добавлять и редактировать игры в каталоге может только администратор клуба.';
+        RETURN;
+    }
+    SHOW gamesAdmin;
+}
+
+// --- Главная участника (после gamesAdmin и openGamesAdminFlow: SHOW gamesAdmin уже известен парсеру) ---
+openSimilarGamesFlow 'Найти похожую игру' () {
+    SHOW similarGamesFinder;
+}
+
+openGamesLibraryFlow 'Библиотека настольных игр' () {
+    SHOW gamesLibrary;
+}
+
+FORM userHomeHub 'Главная'
+    PROPERTIES()
+        READONLY hubTitle PANEL, hubSubtitle PANEL
+    PROPERTIES()
+        hubOpenSimilar 'Найти похожую игру' = openSimilarGamesFlow[]
+    PROPERTIES()
+        READONLY hubHintSimilar PANEL
+    PROPERTIES()
+        hubOpenLibrary 'Библиотека настольных игр' = openGamesLibraryFlow[]
+    PROPERTIES()
+        READONLY hubHintLibrary PANEL
+    PROPERTIES()
+        READONLY hubAdminLead PANEL SHOWIF canEdit()
+    PROPERTIES()
+        hubOpenGamesAdmin 'Каталог игр — добавить или изменить' = openGamesAdminFlow[] SHOWIF canEdit()
+;
+
+DESIGN userHomeHub {
+    NEW hubIntro FIRST {
+        horizontal = FALSE;
+        fill = 1;
+        MOVE PROPERTY(hubTitle());
+        MOVE PROPERTY(hubSubtitle());
+    }
+    NEW hubActions {
+        horizontal = TRUE;
+        NEW hubColSimilar {
+            horizontal = FALSE;
+            MOVE PROPERTY(hubOpenSimilar);
+            MOVE PROPERTY(hubHintSimilar());
+        }
+        NEW hubColLibrary {
+            horizontal = FALSE;
+            MOVE PROPERTY(hubOpenLibrary);
+            MOVE PROPERTY(hubHintLibrary());
+        }
+        NEW hubColAdmin {
+            horizontal = FALSE;
+            fill = 1;
+            caption = 'Администратору';
+            MOVE PROPERTY(hubAdminLead());
+            MOVE PROPERTY(hubOpenGamesAdmin);
+        }
     }
 }
 
@@ -410,7 +444,7 @@ DESIGN manualSimilarAdmin {
     }
 }
 
-FORM gameMechanics 'Механики в игре'
+FORM gameMechanics 'Теги механик (привязка к игре)'
     OBJECTS
         g = BoardGame PANEL,
         m = Mechanic
@@ -487,7 +521,7 @@ FORM mechanicEdit 'Редактирование механики'
     EDIT Mechanic OBJECT m
 ;
 
-FORM mechanicsAdmin 'Механики'
+FORM mechanicsAdmin 'Теги механик (справочник)'
     OBJECTS m = Mechanic
     PROPERTIES(m) READONLY name
     PROPERTIES(m) NEWSESSION NEW, EDIT, DELETE SHOWIF canEdit()
@@ -503,7 +537,7 @@ NAVIGATOR {
     NEW userHomeHub FIRST SHOWIF NOT isClubGuest() AND (currentUser() IS CustomUser);
     NEW welcomeLanding FIRST SHOWIF isClubGuest();
     NEW FOLDER administration 'Администрирование' SHOWIF isAdmin() {
-        NEW FOLDER adminCatalog 'Каталог игр' {
+        NEW FOLDER adminCatalog 'Игры: список и создание' {
             NEW gamesAdmin;
             NEW manualSimilarAdmin;
         }

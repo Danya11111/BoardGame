@@ -1,5 +1,5 @@
 target/
-# Downloaded at build time — see download-server.ps1 / README
+# Скачивается при первом запуске run.ps1 — см. README
 lib/*.jar
 .idea/
 *.iml

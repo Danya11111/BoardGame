@@ -27,9 +27,8 @@
     </repositories>
 
     <dependencies>
-        <!-- lsFusion server: use system scope with local JAR (Maven repo often unavailable).
-             Download lsfusion-server-6.1.jar from https://download.lsfusion.org/java/
-             and place in lib/ folder. -->
+        <!-- lsFusion server: system scope, локальный JAR в lib/ (run.ps1 при отсутствии скачивает его).
+             Вручную: https://download.lsfusion.org/java/lsfusion-server-6.1.jar -->
         <dependency>
             <groupId>lsfusion.platform</groupId>
             <artifactId>server</artifactId>

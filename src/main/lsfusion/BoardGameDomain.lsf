@@ -39,7 +39,7 @@ name 'Имя' = DATA ISTRING[100] (Owner) CHARWIDTH 20 IN id;
 contacts 'Контакты' = DATA STRING[255] (Owner) CHARWIDTH 25;
 
 // --- Механики (дополнительный справочник; связь many-to-many с игрой) ---
-CLASS Mechanic 'Механика';
+CLASS Mechanic 'Тег механики';
 TABLE mechanic (Mechanic);
 
 name 'Наименование' = DATA ISTRING[50] (Mechanic) CHARWIDTH 15 IN id;
@@ -49,7 +49,8 @@ CLASS BoardGame 'Настольная игра';
 TABLE boardGame (BoardGame);
 
 TABLE boardGameMechanic (BoardGame, Mechanic);
-hasMechanic 'Есть механика' = DATA BOOLEAN (BoardGame, Mechanic);
+// В таблице по строкам-механикам: «включено» = у этой игры есть такой тег механики.
+hasMechanic 'Отмечено для игры' = DATA BOOLEAN (BoardGame, Mechanic);
 
 name 'Наименование' = DATA ISTRING[100] (BoardGame) CHARWIDTH 25 IN id;
 description 'Описание' = DATA TEXT (BoardGame) CHARWIDTH 50;
