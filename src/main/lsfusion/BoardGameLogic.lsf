@@ -29,9 +29,9 @@ ageDifferenceScore (BoardGame source, BoardGame candidate) =
     IF NOT (source = candidate) AND abs(minAge(source) - minAge(candidate)) <= 2
     THEN 1 ELSE 0;
 
-// +5: ручная связь «похожа на» от администратора клуба.
+// +5: ручная связь «похожа на» от администратора клуба (вес задан в BoardGameDomain как SCORE_MANUAL_SIMILARITY).
 manualSimilarityScore (BoardGame source, BoardGame candidate) =
-    IF NOT (source = candidate) AND manualSimilarTo(source, candidate) THEN SCORE_MANUAL_SIMILARITY ELSE 0;
+    IF NOT (source = candidate) AND manualSimilarTo(source, candidate) THEN 5 ELSE 0;
 
 recommendationScore (BoardGame source, BoardGame candidate) =
     manualSimilarityScore(source, candidate) +

@@ -4,7 +4,8 @@
 set -e
 HOST="${LSFUSION_LOGICS_HOST:-logics}"
 PORT="${LSFUSION_LOGICS_PORT:-7652}"
-TEMPLATE="/usr/local/tomcat/conf/Catalina/localhost/lsfusion-context.template.xml"
+# Шаблон вне Catalina/localhost — иначе Tomcat разворачивает .xml из этой папки как лишний контекст.
+TEMPLATE="/opt/lsfusion/lsfusion-context.template.xml"
 OUT="/usr/local/tomcat/conf/Catalina/localhost/lsfusion.xml"
 sed -e "s|@LOGICS_HOST@|${HOST}|g" -e "s|@LOGICS_PORT@|${PORT}|g" "$TEMPLATE" > "$OUT"
 exec catalina.sh run

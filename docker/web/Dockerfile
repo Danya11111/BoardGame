@@ -10,9 +10,11 @@ RUN mkdir -p /opt/lsfusion /usr/local/tomcat/conf/Catalina/localhost \
   && curl -fsSL "https://download.lsfusion.org/java/lsfusion-client-6.1.war" -o /opt/lsfusion/lsfusion-client.war \
   && rm -rf /usr/local/tomcat/webapps/*
 
-COPY lsfusion-context.template.xml /usr/local/tomcat/conf/Catalina/localhost/lsfusion-context.template.xml
+COPY lsfusion-context.template.xml /opt/lsfusion/lsfusion-context.template.xml
 COPY docker-entrypoint-web.sh /usr/local/bin/docker-entrypoint-web.sh
-RUN chmod +x /usr/local/bin/docker-entrypoint-web.sh
+# Скрипт с Windows часто в CRLF — в Linux shebang становится /bin/sh\r и контейнер падает с «no such file».
+RUN sed -i 's/\r$//' /usr/local/bin/docker-entrypoint-web.sh \
+  && chmod +x /usr/local/bin/docker-entrypoint-web.sh
 
 ENV CATALINA_OPTS="--add-opens=java.base/java.util=ALL-UNNAMED"
 

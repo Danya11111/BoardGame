@@ -294,9 +294,9 @@ FORM gamesLibrary 'Библиотека настольных игр'
     PROPERTIES()
         READONLY gamesLibraryLead PANEL, gamesLibrarySubLead PANEL, gamesLibraryFiltersHint PANEL
     OBJECTS
-        libFilter = (playersAtTable 'Сколько играет человек' = INTEGER) PANEL,
+        playersAtTable 'Сколько играет человек' = INTEGER PANEL,
         g = BoardGame
-    PROPERTIES(libFilter) VALUE(playersAtTable)
+    PROPERTIES(playersAtTable) VALUE
     PROPERTIES(g) READONLY name, genre, playerRange, durationMinutes, isAvailable
     PROPERTIES(g) NEWSESSION getRecommendations, openGameCard
     FILTERS libraryMatchesPlayerCountFilter(g, playersAtTable)
@@ -416,7 +416,7 @@ FORM clubUsersAdmin 'Участники и роли'
     PROPERTIES()
         READONLY clubUsersLead1 PANEL, clubUsersLead2 PANEL, clubUsersLead3 PANEL
     OBJECTS u = CustomUser
-    PROPERTIES(u) READONLY login, email, name, clubUserIsAdmin 'Администратор'
+    PROPERTIES(u) READONLY login, email, name, clubUserIsAdmin
     PROPERTIES(u) NEWSESSION setUserIsAdmin SHOWIF isAdmin() AND NOT clubUserIsAdmin(u)
     PROPERTIES(u) NEWSESSION clearUserIsAdmin SHOWIF isAdmin() AND clubUserIsAdmin(u)
     LIST CustomUser OBJECT u

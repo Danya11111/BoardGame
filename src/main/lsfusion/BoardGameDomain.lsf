@@ -64,7 +64,8 @@ available 'Наличие' = DATA BOOLEAN (BoardGame) CHARWIDTH 5;
 
 // --- Ручные рекомендации «похожа на» (источник -> кандидат), только для пар в каталоге клуба ---
 TABLE boardGameManualSimilar (BoardGame, BoardGame);
-manualSimilarTo 'Похожа на (вручную)' = DATA BOOLEAN (BoardGame source, BoardGame candidate) CHARWIDTH 3;
+// В объявлении DATA для двух однотипных аргументов имена параметров не задаются (иначе ошибка разбора).
+manualSimilarTo 'Похожа на (вручную)' = DATA BOOLEAN (BoardGame, BoardGame) CHARWIDTH 3;
 // В lsFusion 6.1 используется тип IMAGEFILE; функционально это поле изображения игры по ТЗ.
 image 'Изображение' = DATA IMAGEFILE (BoardGame);
 // Совместимость именования с ТЗ: isAvailable дублирует смысл поля available.

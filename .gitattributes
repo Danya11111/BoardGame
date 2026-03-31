@@ -1,0 +1,2 @@
+# Скрипты для Linux-образов: иначе на Windows в репозиторий попадает CRLF и ломается ENTRYPOINT.
+docker/**/*.sh text eol=lf
