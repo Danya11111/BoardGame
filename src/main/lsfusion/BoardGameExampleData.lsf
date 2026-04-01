@@ -11,16 +11,31 @@ REQUIRE BoardGameDomain, Service;
 
 NAMESPACE BoardGame;
 
-boardGameCount() = GROUP SUM 1 IF BoardGame b;
-hasRequiredDemoGames() = GROUP SUM 1 IF BoardGame b AND (name(b) = 'Мафия' OR name(b) = 'Шпион' OR name(b) = 'Бункер');
+// Полный набор имён из applyExampleData (проверка по имени, см. boardGameNamedExists в домене).
+fullClubDemoCatalogPresent() =
+    boardGameNamedExists('Мафия') AND boardGameNamedExists('Шпион') AND boardGameNamedExists('Бункер')
+    AND boardGameNamedExists('Экивоки') AND boardGameNamedExists('Пандемия') AND boardGameNamedExists('Колонизаторы')
+    AND boardGameNamedExists('Уно') AND boardGameNamedExists('Свинтус') AND boardGameNamedExists('Лунаси')
+    AND boardGameNamedExists('Каркассон') AND boardGameNamedExists('Манчкин') AND boardGameNamedExists('Имаджинариум')
+    AND boardGameNamedExists('Алиас') AND boardGameNamedExists('Диксит') AND boardGameNamedExists('Кодовые имена')
+    AND boardGameNamedExists('7 Чудес') AND boardGameNamedExists('Ticket to Ride') AND boardGameNamedExists('Azul')
+    AND boardGameNamedExists('Монополия');
 
-loadExampleData 'Загрузить или обновить демо-данные' () {
+needsExampleDataBootstrap() = NOT fullClubDemoCatalogPresent();
+
+// Только запись в БД и лог — без MESSAGE (чтобы автозагрузка при старте не блокировала сервер в Docker без UI).
+applyExampleData () {
     // Справочники жанров
     IF NOT genreByName('Детектив') THEN NEW gDetective = Genre { name(gDetective) <- 'Детектив'; };
     IF NOT genreByName('Социальная') THEN NEW gSocial = Genre { name(gSocial) <- 'Социальная'; };
     IF NOT genreByName('Выживание') THEN NEW gSurvival = Genre { name(gSurvival) <- 'Выживание'; };
     IF NOT genreByName('Стратегия') THEN NEW gStrategy = Genre { name(gStrategy) <- 'Стратегия'; };
     IF NOT genreByName('Кооператив') THEN NEW gCoop = Genre { name(gCoop) <- 'Кооператив'; };
+    IF NOT genreByName('Вечеринка') THEN NEW gParty = Genre { name(gParty) <- 'Вечеринка'; };
+    IF NOT genreByName('Семейная') THEN NEW gFamily = Genre { name(gFamily) <- 'Семейная'; };
+    IF NOT genreByName('Абстрактная') THEN NEW gAbstract = Genre { name(gAbstract) <- 'Абстрактная'; };
+    IF NOT genreByName('Приключения') THEN NEW gAdventure = Genre { name(gAdventure) <- 'Приключения'; };
+    IF NOT genreByName('Евро') THEN NEW gEuro = Genre { name(gEuro) <- 'Евро'; };
 
     // Справочники издательств
     IF NOT publisherByName('Hobby World') THEN {
@@ -44,7 +59,48 @@ loadExampleData 'Загрузить или обновить демо-данны�
             country(pGaga) <- 'Россия';
         }
     }
-
+    IF NOT publisherByName('Mattel') THEN {
+        NEW pMattel = Publisher {
+            name(pMattel) <- 'Mattel';
+            website(pMattel) <- 'https://www.mattel.com';
+            country(pMattel) <- 'США';
+        }
+    }
+    IF NOT publisherByName('Repos Production') THEN {
+        NEW pRepos = Publisher {
+            name(pRepos) <- 'Repos Production';
+            website(pRepos) <- 'https://www.reposproduction.com';
+            country(pRepos) <- 'Бельгия';
+        }
+    }
+    IF NOT publisherByName('Libellud') THEN {
+        NEW pLibellud = Publisher {
+            name(pLibellud) <- 'Libellud';
+            website(pLibellud) <- 'https://www.libellud.com';
+            country(pLibellud) <- 'Франция';
+        }
+    }
+    IF NOT publisherByName('Days of Wonder') THEN {
+        NEW pDow = Publisher {
+            name(pDow) <- 'Days of Wonder';
+            website(pDow) <- 'https://www.daysofwonder.com';
+            country(pDow) <- 'США';
+        }
+    }
+    IF NOT publisherByName('Cosmodrome Games') THEN {
+        NEW pCosmo = Publisher {
+            name(pCosmo) <- 'Cosmodrome Games';
+            website(pCosmo) <- 'https://cosmodrome.games';
+            country(pCosmo) <- 'Россия';
+        }
+    }
+    IF NOT publisherByName('Hasbro') THEN {
+        NEW pHasbro = Publisher {
+            name(pHasbro) <- 'Hasbro';
+            website(pHasbro) <- 'https://hasbro.com';
+            country(pHasbro) <- 'США';
+        }
+    }
     // Справочники владельцев
     IF NOT ownerByName('Клуб Настолка') THEN {
         NEW oClub = Owner { name(oClub) <- 'Клуб Настолка'; contacts(oClub) <- '+7 900 000-00-01'; }
@@ -62,6 +118,10 @@ loadExampleData 'Загрузить или обновить демо-данны�
     IF NOT mechanicByName('Переговоры') THEN NEW mTalk = Mechanic { name(mTalk) <- 'Переговоры'; };
     IF NOT mechanicByName('Скрытые роли') THEN NEW mHiddenRoles = Mechanic { name(mHiddenRoles) <- 'Скрытые роли'; };
     IF NOT mechanicByName('Кооперация') THEN NEW mCoop = Mechanic { name(mCoop) <- 'Кооперация'; };
+    IF NOT mechanicByName('Драфт плиток') THEN NEW mTileDraft = Mechanic { name(mTileDraft) <- 'Драфт плиток'; };
+    IF NOT mechanicByName('Маршруты') THEN NEW mRoutes = Mechanic { name(mRoutes) <- 'Маршруты'; };
+    IF NOT mechanicByName('Ассоциации') THEN NEW mAssoc = Mechanic { name(mAssoc) <- 'Ассоциации'; };
+    IF NOT mechanicByName('Слова и объяснения') THEN NEW mWords = Mechanic { name(mWords) <- 'Слова и объяснения'; };
 
     // Обязательные игры по ТЗ: Мафия, Шпион, Бункер
     IF NOT boardGameByName('Мафия') THEN NEW mafia = BoardGame { name(mafia) <- 'Мафия'; };
@@ -143,17 +203,182 @@ loadExampleData 'Загрузить или обновить демо-данны�
     available(boardGameByName('Колонизаторы')) <- TRUE;
     hasMechanic(boardGameByName('Колонизаторы'), mechanicByName('Переговоры')) <- TRUE;
 
-    printToLog('Демо-данные загружены: обязательные игры Мафия, Шпион, Бункер и дополнительные записи.');
-    MESSAGE 'Демо-данные обновлены: добавлены/проверены Мафия, Шпион, Бункер и связанные справочники.';
+    // --- Клубный каталог: популярные настолки (имена — как в каталоге клуба; дубликатов «Catan» нет — только «Колонизаторы») ---
+
+    IF NOT boardGameByName('Уно') THEN NEW uno = BoardGame { name(uno) <- 'Уно'; };
+    description(boardGameByName('Уно')) <- 'Быстрая карточная игра на сброс по цвету и цифре: легко войти в игру за столом.';
+    genre(boardGameByName('Уно')) <- genreByName('Вечеринка');
+    minPlayers(boardGameByName('Уно')) <- 2;
+    maxPlayers(boardGameByName('Уно')) <- 10;
+    durationMinutes(boardGameByName('Уно')) <- 15;
+    minAge(boardGameByName('Уно')) <- 7;
+    publisher(boardGameByName('Уно')) <- publisherByName('Mattel');
+    owner(boardGameByName('Уно')) <- ownerByName('Клуб Настолка');
+    available(boardGameByName('Уно')) <- TRUE;
+
+    IF NOT boardGameByName('Свинтус') THEN NEW svintus = BoardGame { name(svintus) <- 'Свинтус'; };
+    description(boardGameByName('Свинтус')) <- 'Весёлая карточная игра с неожиданными правилами и штрафами — в духе вечеринки.';
+    genre(boardGameByName('Свинтус')) <- genreByName('Вечеринка');
+    minPlayers(boardGameByName('Свинтус')) <- 2;
+    maxPlayers(boardGameByName('Свинтус')) <- 10;
+    durationMinutes(boardGameByName('Свинтус')) <- 20;
+    minAge(boardGameByName('Свинтус')) <- 8;
+    publisher(boardGameByName('Свинтус')) <- publisherByName('Cosmodrome Games');
+    owner(boardGameByName('Свинтус')) <- ownerByName('Клуб Настолка');
+    available(boardGameByName('Свинтус')) <- TRUE;
+
+    IF NOT boardGameByName('Лунаси') THEN NEW lunacy = BoardGame { name(lunacy) <- 'Лунаси'; };
+    description(boardGameByName('Лунаси')) <- 'Тактическая карточная дуэль с фракциями и комбинациями карт.';
+    genre(boardGameByName('Лунаси')) <- genreByName('Семейная');
+    minPlayers(boardGameByName('Лунаси')) <- 2;
+    maxPlayers(boardGameByName('Лунаси')) <- 4;
+    durationMinutes(boardGameByName('Лунаси')) <- 45;
+    minAge(boardGameByName('Лунаси')) <- 10;
+    publisher(boardGameByName('Лунаси')) <- publisherByName('Cosmodrome Games');
+    owner(boardGameByName('Лунаси')) <- ownerByName('Анна Петрова');
+    available(boardGameByName('Лунаси')) <- TRUE;
+
+    IF NOT boardGameByName('Каркассон') THEN NEW carcassonne = BoardGame { name(carcassonne) <- 'Каркассон'; };
+    description(boardGameByName('Каркассон')) <- 'Классика евро: выкладываем плитки местности, строим города и дороги, набираем очки.';
+    genre(boardGameByName('Каркассон')) <- genreByName('Евро');
+    minPlayers(boardGameByName('Каркассон')) <- 2;
+    maxPlayers(boardGameByName('Каркассон')) <- 5;
+    durationMinutes(boardGameByName('Каркассон')) <- 45;
+    minAge(boardGameByName('Каркассон')) <- 8;
+    publisher(boardGameByName('Каркассон')) <- publisherByName('Hobby World');
+    owner(boardGameByName('Каркассон')) <- ownerByName('Клуб Настолка');
+    available(boardGameByName('Каркассон')) <- TRUE;
+    hasMechanic(boardGameByName('Каркассон'), mechanicByName('Драфт плиток')) <- TRUE;
+
+    IF NOT boardGameByName('Манчкин') THEN NEW munchkin = BoardGame { name(munchkin) <- 'Манчкин'; };
+    description(boardGameByName('Манчкин')) <- 'Юмористическое приключение: качаем героя, подставляем соседей и гонимся за десятым уровнем.';
+    genre(boardGameByName('Манчкин')) <- genreByName('Приключения');
+    minPlayers(boardGameByName('Манчкин')) <- 3;
+    maxPlayers(boardGameByName('Манчкин')) <- 6;
+    durationMinutes(boardGameByName('Манчкин')) <- 60;
+    minAge(boardGameByName('Манчкин')) <- 12;
+    publisher(boardGameByName('Манчкин')) <- publisherByName('Hobby World');
+    owner(boardGameByName('Манчкин')) <- ownerByName('Иван Смирнов');
+    available(boardGameByName('Манчкин')) <- TRUE;
+
+    IF NOT boardGameByName('Имаджинариум') THEN NEW imagine = BoardGame { name(imagine) <- 'Имаджинариум'; };
+    description(boardGameByName('Имаджинариум')) <- 'Объясняйте слова одним рисунком — творческая командная игра на ассоциации.';
+    genre(boardGameByName('Имаджинариум')) <- genreByName('Социальная');
+    minPlayers(boardGameByName('Имаджинариум')) <- 3;
+    maxPlayers(boardGameByName('Имаджинариум')) <- 8;
+    durationMinutes(boardGameByName('Имаджинариум')) <- 40;
+    minAge(boardGameByName('Имаджинариум')) <- 12;
+    publisher(boardGameByName('Имаджинариум')) <- publisherByName('Cosmodrome Games');
+    owner(boardGameByName('Имаджинариум')) <- ownerByName('Клуб Настолка');
+    available(boardGameByName('Имаджинариум')) <- TRUE;
+    hasMechanic(boardGameByName('Имаджинариум'), mechanicByName('Ассоциации')) <- TRUE;
+
+    IF NOT boardGameByName('Алиас') THEN NEW alias = BoardGame { name(alias) <- 'Алиас'; };
+    description(boardGameByName('Алиас')) <- 'Объясняйте слова партнёру, пока не истечёт время — классика для компании.';
+    genre(boardGameByName('Алиас')) <- genreByName('Вечеринка');
+    minPlayers(boardGameByName('Алиас')) <- 4;
+    maxPlayers(boardGameByName('Алиас')) <- 12;
+    durationMinutes(boardGameByName('Алиас')) <- 30;
+    minAge(boardGameByName('Алиас')) <- 10;
+    publisher(boardGameByName('Алиас')) <- publisherByName('Cosmodrome Games');
+    owner(boardGameByName('Алиас')) <- ownerByName('Анна Петрова');
+    available(boardGameByName('Алиас')) <- TRUE;
+    hasMechanic(boardGameByName('Алиас'), mechanicByName('Слова и объяснения')) <- TRUE;
+
+    IF NOT boardGameByName('Диксит') THEN NEW dixit = BoardGame { name(dixit) <- 'Диксит'; };
+    description(boardGameByName('Диксит')) <- 'Сказочные карты и догадки: подберите образ, который угадают, но не всем сразу.';
+    genre(boardGameByName('Диксит')) <- genreByName('Семейная');
+    minPlayers(boardGameByName('Диксит')) <- 3;
+    maxPlayers(boardGameByName('Диксит')) <- 8;
+    durationMinutes(boardGameByName('Диксит')) <- 30;
+    minAge(boardGameByName('Диксит')) <- 8;
+    publisher(boardGameByName('Диксит')) <- publisherByName('Libellud');
+    owner(boardGameByName('Диксит')) <- ownerByName('Клуб Настолка');
+    available(boardGameByName('Диксит')) <- TRUE;
+    hasMechanic(boardGameByName('Диксит'), mechanicByName('Ассоциации')) <- TRUE;
+
+    IF NOT boardGameByName('Кодовые имена') THEN NEW codenames = BoardGame { name(codenames) <- 'Кодовые имена'; };
+    description(boardGameByName('Кодовые имена')) <- 'Две команды, шпионы и подсказки из одного слова: сообразительность и командный дух.';
+    genre(boardGameByName('Кодовые имена')) <- genreByName('Социальная');
+    minPlayers(boardGameByName('Кодовые имена')) <- 2;
+    maxPlayers(boardGameByName('Кодовые имена')) <- 8;
+    durationMinutes(boardGameByName('Кодовые имена')) <- 15;
+    minAge(boardGameByName('Кодовые имена')) <- 14;
+    publisher(boardGameByName('Кодовые имена')) <- publisherByName('Cosmodrome Games');
+    owner(boardGameByName('Кодовые имена')) <- ownerByName('Иван Смирнов');
+    available(boardGameByName('Кодовые имена')) <- TRUE;
+    hasMechanic(boardGameByName('Кодовые имена'), mechanicByName('Слова и объяснения')) <- TRUE;
+
+    IF NOT boardGameByName('7 Чудес') THEN NEW sevenWonders = BoardGame { name(sevenWonders) <- '7 Чудес'; };
+    description(boardGameByName('7 Чудес')) <- 'Карточный евро-хит: развитие цивилизации за три эпохи с драфтом карт.';
+    genre(boardGameByName('7 Чудес')) <- genreByName('Евро');
+    minPlayers(boardGameByName('7 Чудес')) <- 2;
+    maxPlayers(boardGameByName('7 Чудес')) <- 7;
+    durationMinutes(boardGameByName('7 Чудес')) <- 30;
+    minAge(boardGameByName('7 Чудес')) <- 10;
+    publisher(boardGameByName('7 Чудес')) <- publisherByName('Repos Production');
+    owner(boardGameByName('7 Чудес')) <- ownerByName('Клуб Настолка');
+    available(boardGameByName('7 Чудес')) <- TRUE;
+
+    IF NOT boardGameByName('Ticket to Ride') THEN NEW ttr = BoardGame { name(ttr) <- 'Ticket to Ride'; };
+    description(boardGameByName('Ticket to Ride')) <- 'Собирайте маршруты по картам мира и набирайте очки за железные дороги.';
+    genre(boardGameByName('Ticket to Ride')) <- genreByName('Семейная');
+    minPlayers(boardGameByName('Ticket to Ride')) <- 2;
+    maxPlayers(boardGameByName('Ticket to Ride')) <- 5;
+    durationMinutes(boardGameByName('Ticket to Ride')) <- 45;
+    minAge(boardGameByName('Ticket to Ride')) <- 8;
+    publisher(boardGameByName('Ticket to Ride')) <- publisherByName('Days of Wonder');
+    owner(boardGameByName('Ticket to Ride')) <- ownerByName('Анна Петрова');
+    available(boardGameByName('Ticket to Ride')) <- TRUE;
+    hasMechanic(boardGameByName('Ticket to Ride'), mechanicByName('Маршруты')) <- TRUE;
+
+    IF NOT boardGameByName('Azul') THEN NEW azul = BoardGame { name(azul) <- 'Azul'; };
+    description(boardGameByName('Azul')) <- 'Элегантная абстрактная игра: набирайте плитки и выкладывайте узоры на стене дворца.';
+    genre(boardGameByName('Azul')) <- genreByName('Абстрактная');
+    minPlayers(boardGameByName('Azul')) <- 2;
+    maxPlayers(boardGameByName('Azul')) <- 4;
+    durationMinutes(boardGameByName('Azul')) <- 45;
+    minAge(boardGameByName('Azul')) <- 8;
+    publisher(boardGameByName('Azul')) <- publisherByName('Cosmodrome Games');
+    owner(boardGameByName('Azul')) <- ownerByName('Клуб Настолка');
+    available(boardGameByName('Azul')) <- TRUE;
+    hasMechanic(boardGameByName('Azul'), mechanicByName('Драфт плиток')) <- TRUE;
+
+    IF NOT boardGameByName('Монополия') THEN NEW monopoly = BoardGame { name(monopoly) <- 'Монополия'; };
+    description(boardGameByName('Монополия')) <- 'Классическая экономическая игра про сделки, недвижимость и тактику торгов.';
+    genre(boardGameByName('Монополия')) <- genreByName('Семейная');
+    minPlayers(boardGameByName('Монополия')) <- 2;
+    maxPlayers(boardGameByName('Монополия')) <- 8;
+    durationMinutes(boardGameByName('Монополия')) <- 90;
+    minAge(boardGameByName('Монополия')) <- 8;
+    publisher(boardGameByName('Монополия')) <- publisherByName('Hasbro');
+    owner(boardGameByName('Монополия')) <- ownerByName('Иван Смирнов');
+    available(boardGameByName('Монополия')) <- TRUE;
+
+    // Дополнительные ручные связи для демонстрации «рекомендовано клубом» и логичных цепочек.
+    manualSimilarTo(boardGameByName('Уно'), boardGameByName('Свинтус')) <- TRUE;
+    manualSimilarTo(boardGameByName('Уно'), boardGameByName('Лунаси')) <- TRUE;
+    manualSimilarTo(boardGameByName('Диксит'), boardGameByName('Имаджинариум')) <- TRUE;
+    manualSimilarTo(boardGameByName('Шпион'), boardGameByName('Кодовые имена')) <- TRUE;
+    manualSimilarTo(boardGameByName('Каркассон'), boardGameByName('Колонизаторы')) <- TRUE;
+
+    // Не подставляем boardGameCount() здесь: внутри того же действия агрегат по таблице может ещё не видеть новые строки.
+    printToLog('Демо-данные применены (каталог клуба обновлён идемпотентно).');
+}
+
+// Кнопка в админке: то же, что applyExampleData, плюс понятное сообщение пользователю.
+loadExampleData 'Загрузить или обновить демо-данные' () {
+    applyExampleData();
+    MESSAGE 'Демо-данные обновлены: проверены обязательные игры, расширенный клубный каталог и справочники.';
 }
 
 autoLoadExampleData() {
-    // Автозагрузка только если обязательный набор ещё не сформирован.
-    IF hasRequiredDemoGames() < 3 THEN {
-        printToLog('Автозагрузка демо-данных: отсутствуют обязательные игры.');
-        loadExampleData();
+    // Автозагрузка, если нет ТЗ-игр или не дозаполнен расширенный каталог (идемпотентно).
+    IF needsExampleDataBootstrap() THEN {
+        printToLog('Автозагрузка демо-данных: дозаполнение каталога или обязательных игр.');
+        applyExampleData();
     } ELSE {
-        printToLog(CONCAT ' ', 'Автозагрузка не требуется; игр в базе =', boardGameCount());
+        printToLog('Автозагрузка не требуется: полный клубный демо-каталог уже присутствует.');
     }
 }
 

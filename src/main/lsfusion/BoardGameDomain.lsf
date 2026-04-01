@@ -82,6 +82,9 @@ ownerByName (ISTRING[100] n) = GROUP LAST Owner o ORDER o WHERE name(o) = n;
 mechanicByName (ISTRING[50] n) = GROUP LAST Mechanic m ORDER m WHERE name(m) = n;
 boardGameByName (ISTRING[100] n) = GROUP LAST BoardGame b ORDER b WHERE name(b) = n;
 
+// Защита от ложного совпадения: при пустом результате WHERE GROUP LAST не должен считаться «нужной игрой».
+boardGameNamedExists (ISTRING[100] n) = boardGameByName(n) IS BoardGame AND name(boardGameByName(n)) = n;
+
 // Базовые проверки качества данных для карточки игры.
 CONSTRAINT SETCHANGED(minPlayers(BoardGame g)) AND minPlayers(g) < 1
     MESSAGE 'Минимальное количество игроков должно быть не меньше 1.';

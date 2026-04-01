@@ -118,8 +118,13 @@ onUserRegister(User user) + {
     }
 }
 
-// Событие входа в стандартном Authentication для расширения в этой версии платформы не используем —
-// повторная выдача admin по email при входе не требуется, если учётка уже синхронизирована при регистрации/смене email.
+// Синхронизация роли admin с boardgame.initialAdminEmail при открытии «Главной» (после любого способа входа,
+// в т.ч. если учётка появилась до настройки email на сервере). Идемпотентно, без сообщений.
+syncClubHomeOnOpen () {
+    IF currentUser() IS CustomUser THEN {
+        ensureInitialAdminRole(currentUser() AS CustomUser);
+    }
+}
 
 WHEN SETCHANGED(email(CustomUser cu)) DO {
     ensureInitialAdminRole(cu);

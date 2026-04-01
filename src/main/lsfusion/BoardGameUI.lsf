@@ -36,7 +36,7 @@ hubHintLibrary ' ' () =
 
 // Текст виден только администратору (SHOWIF canEdit() на панели формы «Главная»).
 hubAdminLead ' ' () =
-    'Чтобы ввести название и поля карточки, нажмите «Добавить новую игру» — откроется форма с полями. Кнопка «Каталог игр» открывает список (там же можно Add). Экран «Связи для рекомендаций» не для создания игр.' CHARWIDTH 92;
+    'Для администратора клуба: чтобы ввести название и поля карточки, нажмите «Добавить новую игру» — откроется форма с полями. Кнопка «Каталог игр» открывает список (там же можно создать запись кнопкой «+» / «Создать»). Экран «Связи для рекомендаций» не для создания игр.' CHARWIDTH 92;
 
 // Пошаговый сценарий «понравилась игра → похожие» без лишней терминологии.
 similarFinderStep1 ' ' () =
@@ -72,7 +72,8 @@ FORM welcomeLanding 'Клуб настольных игр'
 ;
 
 DESIGN welcomeLanding {
-    NEW welcomeCopy FIRST {
+    // Один корень с FIRST: иначе во веб-клиенте второй блок (кнопки) может не попасть в область контента.
+    NEW welcomeRoot FIRST {
         horizontal = FALSE;
         fill = 1;
         MOVE PROPERTY(welcomeHeadline());
@@ -80,12 +81,11 @@ DESIGN welcomeLanding {
         MOVE PROPERTY(welcomeExample());
         MOVE PROPERTY(welcomeLibraryHint());
         MOVE PROPERTY(welcomeLoginHint());
-    }
-    NEW welcomeButtons {
-        horizontal = TRUE;
-        // Действия формы в DESIGN задаются без «()» (имя свойства формы, не вызов).
-        MOVE PROPERTY(welcomeLogin);
-        MOVE PROPERTY(welcomeRegister);
+        NEW welcomeButtons {
+            horizontal = TRUE;
+            MOVE PROPERTY(welcomeLogin);
+            MOVE PROPERTY(welcomeRegister);
+        }
     }
 }
 
@@ -318,7 +318,7 @@ DESIGN gamesLibrary {
 // --- Тексты административного контура (только UX, без бизнес-логики) ---
 
 adminGamesCatalogLead ' ' () =
-    'Самый простой способ: кнопка «Создать игру — форма с полями» ниже — сразу откроется карточка (название, описание, жанр, игроки и т.д.). Альтернатива: кнопка создания записи над таблицей («Add» / «+» / «Создать»). Сохранение — «Ок» или «Save» / «Сохранить».' CHARWIDTH 98;
+    'Самый простой способ: кнопка «Создать игру — форма с полями» ниже — сразу откроется карточка (название, описание, жанр, игроки и т.д.). Альтернатива: кнопка создания записи над таблицей («+» или «Создать»). Сохранение — «Ок» или «Сохранить».' CHARWIDTH 98;
 
 adminGamesCatalogSubLead ' ' () =
     'После сохранения можно открыть «Теги механики для игры» (действие над таблицей для строки). Изменить или удалить: выберите строку → «Изменить» / «Удалить». Связи «похожие» для алгоритма — в «Администрирование» → «Связи для рекомендаций» (не для ввода новой игры). Жанры — «Справочники».' CHARWIDTH 98;
@@ -434,34 +434,42 @@ FORM userHomeHub 'Главная'
 ;
 
 DESIGN userHomeHub {
-    NEW hubIntro FIRST {
+    // Один корень: два соседних блока с FIRST у первого давали пустой экран после входа (кнопки вне видимой области).
+    NEW hubRoot FIRST {
         horizontal = FALSE;
         fill = 1;
         MOVE PROPERTY(hubTitle());
         MOVE PROPERTY(hubSubtitle());
-    }
-    NEW hubActions {
-        horizontal = TRUE;
-        NEW hubColSimilar {
-            horizontal = FALSE;
-            MOVE PROPERTY(hubOpenSimilar);
-            MOVE PROPERTY(hubHintSimilar());
-        }
-        NEW hubColLibrary {
-            horizontal = FALSE;
-            MOVE PROPERTY(hubOpenLibrary);
-            MOVE PROPERTY(hubHintLibrary());
-        }
-        NEW hubColAdmin {
-            horizontal = FALSE;
+        NEW hubRowMain {
+            horizontal = TRUE;
             fill = 1;
-            caption = 'Администратору';
-            MOVE PROPERTY(hubAdminLead());
-            MOVE PROPERTY(hubOpenNewGame);
-            MOVE PROPERTY(hubOpenGamesAdmin);
+            NEW hubColSimilar {
+                horizontal = FALSE;
+                MOVE PROPERTY(hubOpenSimilar);
+                MOVE PROPERTY(hubHintSimilar());
+            }
+            NEW hubColLibrary {
+                horizontal = FALSE;
+                MOVE PROPERTY(hubOpenLibrary);
+                MOVE PROPERTY(hubHintLibrary());
+            }
+            // Без caption у контейнера: иначе у не-админа оставалась пустая колонка с заголовком «Администратору».
+            NEW hubColAdmin {
+                horizontal = FALSE;
+                fill = 1;
+                MOVE PROPERTY(hubAdminLead());
+                MOVE PROPERTY(hubOpenNewGame);
+                MOVE PROPERTY(hubOpenGamesAdmin);
+            }
         }
     }
 }
+
+// После входа открывается «Главная» — здесь же подтягиваем роль admin по email из настройки сервера.
+EXTEND FORM userHomeHub
+    EVENTS
+        ON INIT syncClubHomeOnOpen()
+;
 
 FORM manualSimilarAdmin 'Связи «похожие» для рекомендаций'
     PROPERTIES()
@@ -475,9 +483,7 @@ FORM manualSimilarAdmin 'Связи «похожие» для рекоменда
     FILTERS NOT (src = cand)
     LIST BoardGame OBJECT src
     ORDERS name(src)
-    ORDERS name(cand)
-    // Для cand не задаём USERFILTERS: при двух объектах BoardGame платформа ругалась «property name is not found».
-    USERFILTERS name(src)
+    // ORDERS name(cand) на парной форме (src, cand) даёт ошибку инициализации «property name is not found».
     EDIT BoardGame OBJECT src
 ;
 
@@ -572,7 +578,8 @@ FORM mechanicsAdmin 'Теги механик (справочник)'
 // welcomeLanding не остаётся стартовой формы и экран остаётся пустым.
 
 NAVIGATOR {
-    NEW userHomeHub FIRST SHOWIF NOT isClubGuest() AND (currentUser() IS CustomUser);
+    // Достаточно NOT isClubGuest(): это эквивалентно «вошёл как CustomUser» для нашей модели.
+    NEW userHomeHub FIRST SHOWIF NOT isClubGuest();
     NEW welcomeLanding FIRST SHOWIF isClubGuest();
     NEW FOLDER administration 'Администрирование' SHOWIF isAdmin() {
         // Каталог и ручные связи разнесены: иначе открывали второй пункт и ждали полей ввода новой игры.
